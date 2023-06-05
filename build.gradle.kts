@@ -1,3 +1,8 @@
+import io.ktor.plugin.features.DockerImageRegistry
+import io.ktor.plugin.features.DockerPortMapping
+import io.ktor.plugin.features.DockerPortMappingProtocol
+import io.ktor.plugin.features.JreVersion
+
 val ktorVersion: String by project
 val kotlinVersion: String by project
 val logbackVersion: String by project
@@ -24,6 +29,27 @@ application {
 
 kotlin {
     jvmToolchain(17)
+}
+
+ktor {
+    docker {
+        jreVersion.set(JreVersion.JRE_17)
+        localImageName.set("filamagenta-backend")
+        imageTag.set(version.toString())
+        portMappings.set(
+            listOf(
+                DockerPortMapping(80, 8080, DockerPortMappingProtocol.TCP)
+            )
+        )
+
+        externalRegistry.set(
+            DockerImageRegistry.dockerHub(
+                appName = provider { "filamagenta" },
+                username = providers.environmentVariable("DOCKER_HUB_USERNAME"),
+                password = providers.environmentVariable("DOCKER_HUB_PASSWORD")
+            )
+        )
+    }
 }
 
 repositories {
