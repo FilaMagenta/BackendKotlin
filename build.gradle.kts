@@ -66,6 +66,8 @@ dependencies {
     implementation("io.ktor:ktor-serialization-kotlinx-json-jvm:$ktorVersion")
     implementation("io.ktor:ktor-server-config-yaml:$ktorVersion")
     implementation("io.ktor:ktor-server-status-pages:$ktorVersion")
+    implementation("io.ktor:ktor-server-double-receive:$ktorVersion")
+
     implementation("org.jetbrains.exposed:exposed-core:$exposedVersion")
     implementation("org.jetbrains.exposed:exposed-dao:$exposedVersion")
     implementation("org.jetbrains.exposed:exposed-jdbc:$exposedVersion")
@@ -75,6 +77,7 @@ dependencies {
     implementation("org.json:json:$jsonVersion")
     implementation("io.ktor:ktor-server-host-common-jvm:2.3.1")
     implementation("io.ktor:ktor-server-status-pages-jvm:2.3.1")
+    implementation("io.ktor:ktor-server-double-receive-jvm:2.3.1")
 
     testImplementation("io.ktor:ktor-server-tests-jvm:$ktorVersion")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit:$kotlinVersion")

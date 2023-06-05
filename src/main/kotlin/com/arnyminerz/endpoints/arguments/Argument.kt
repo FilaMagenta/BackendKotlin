@@ -2,6 +2,7 @@ package com.arnyminerz.endpoints.arguments
 
 import com.arnyminerz.errors.Error
 import com.arnyminerz.utils.getStringOrNull
+import com.arnyminerz.utils.receiveJson
 import com.arnyminerz.utils.respondFailure
 import io.ktor.server.application.ApplicationCall
 import io.ktor.server.application.call
@@ -16,24 +17,24 @@ import org.json.JSONObject
  * @param error The error to respond if [name] is not present.
  */
 class Argument(
-    name: String,
+    val name: String,
     val error: Error
-): ArgumentProto(name)
+)
 
 class CalledArgument(
     private val argument: Argument,
-    private val call: ApplicationCall
+    private val call: ApplicationCall,
+    private val body: JSONObject
 ) {
     operator fun getValue(thisRef: Any?, property: KProperty<*>): String {
-        if (thisRef !is JSONObject) throw IllegalArgumentException("this must be PipelineContext")
-        return thisRef.getStringOrNull(argument.name, true) ?: runBlocking {
+        return body.getStringOrNull(argument.name, true) ?: runBlocking {
             call.respondFailure(argument.error)
             throw MissingArgumentException(argument)
         }
     }
 }
 
-@Suppress("RedundantSuspendModifier")
 suspend fun PipelineContext<*, ApplicationCall>.called(block: () -> Argument): CalledArgument {
-    return CalledArgument(block(), call)
+    val body = call.receiveJson()
+    return CalledArgument(block(), call, body)
 }

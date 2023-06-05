@@ -4,6 +4,7 @@ import com.arnyminerz.endpoints.BaseEndpoint
 import com.arnyminerz.endpoints.auth.LoginEndpoint
 import com.arnyminerz.endpoints.auth.RegisterEndpoint
 import com.arnyminerz.endpoints.events.GetEventsEndpoint
+import com.arnyminerz.endpoints.events.NewEventEndpoint
 import com.arnyminerz.endpoints.get
 import com.arnyminerz.endpoints.post
 import com.arnyminerz.endpoints.profile.GetProfileEndpoint
@@ -22,6 +23,7 @@ fun Application.configureRouting() {
         authenticate("auth-jwt") {
             get("/v1/profile", GetProfileEndpoint)
             get("/v1/events", GetEventsEndpoint)
+            post("/v1/events", NewEventEndpoint)
         }
     }
 }
