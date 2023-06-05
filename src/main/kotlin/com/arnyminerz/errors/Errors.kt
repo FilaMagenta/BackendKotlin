@@ -23,4 +23,6 @@ object Errors {
     val Unauthorized = Error(40, "Token is not valid or has expired.", HttpStatusCode.Unauthorized)
     val NifNotFound = Error(41, "The given NIF was not found in the database.", HttpStatusCode.NotFound)
     val WrongPassword = Error(42, "Wrong NIF or password.", HttpStatusCode.BadRequest)
+
+    val AssistanceAlreadyConfirmed = Error(50, "Assistance already confirmed.", HttpStatusCode.BadRequest)
 }

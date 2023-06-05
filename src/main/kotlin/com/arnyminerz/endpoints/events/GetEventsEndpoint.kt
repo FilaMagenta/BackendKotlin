@@ -2,6 +2,7 @@ package com.arnyminerz.endpoints.events
 
 import com.arnyminerz.database.ServerDatabase
 import com.arnyminerz.endpoints.protos.AuthenticatedEndpoint
+import com.arnyminerz.utils.jsonOf
 import com.arnyminerz.utils.respondSuccess
 import io.ktor.server.application.ApplicationCall
 import io.ktor.server.application.call
@@ -15,9 +16,21 @@ object GetEventsEndpoint : AuthenticatedEndpoint {
         val eventsList = JSONArray()
         ServerDatabase.instance.eventsInterface.getAll { events ->
             for (event in events) {
-                val assistance = event.assistants.find { it.user.id == user?.id }
-                val json = event.toJSON()
-                json.put("assists", assistance != null)
+                val json = event.toJSON().apply {
+                    val assistance = event.assistants.find { it.user.id == user?.id }
+                    put("assists", assistance != null)
+
+                    val tables = event.tables
+                    put("tables", JSONArray().apply {
+                        for (table in tables)
+                            put(
+                                jsonOf(
+                                    "id" to table.id.value.toString(),
+                                    "responsible_id" to table.responsible.id.toString()
+                                )
+                            )
+                    })
+                }
                 eventsList.put(json)
             }
         }

@@ -1,5 +1,6 @@
 package com.arnyminerz.database.entity
 
+import com.arnyminerz.database.dsl.EventTables
 import com.arnyminerz.database.dsl.Events
 import com.arnyminerz.database.dsl.UserAssistances
 import com.arnyminerz.database.types.EventType
@@ -18,6 +19,8 @@ class Event(id: EntityID<Int>): DataEntity<EventType>(id) {
     var reservations by Events.reservations
 
     val assistants by UserAssistance referrersOn UserAssistances.event
+
+    val tables by EventTable referrersOn EventTables.event
 
     /**
      * Gets the event start date.
