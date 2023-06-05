@@ -6,7 +6,6 @@ import com.arnyminerz.endpoints.arguments.Arguments
 import com.arnyminerz.endpoints.arguments.called
 import com.arnyminerz.endpoints.arguments.calledOptional
 import com.arnyminerz.endpoints.protos.AuthenticatedEndpoint
-import com.arnyminerz.utils.receiveJson
 import com.arnyminerz.utils.respondSuccess
 import io.ktor.http.HttpStatusCode
 import io.ktor.server.application.ApplicationCall

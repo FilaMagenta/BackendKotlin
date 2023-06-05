@@ -29,7 +29,6 @@ class ApplicationTestEventNew: ApplicationTestProto() {
     fun test_events_create() = testLoggedIn { token ->
         client.post("/v1/events") {
             header("Authorization", "Bearer $token")
-            println("New event: $eventSampleData")
             setBody(eventSampleData.toString())
         }.apply {
             println("Headers: " + call.request.headers.entries().joinToString { (k, v) -> "$k = $v" })
