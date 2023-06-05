@@ -34,7 +34,7 @@ kotlin {
 ktor {
     docker {
         jreVersion.set(JreVersion.JRE_17)
-        localImageName.set("filamagenta-backend")
+        localImageName.set("filamagenta")
         imageTag.set(version.toString())
         portMappings.set(
             listOf(
