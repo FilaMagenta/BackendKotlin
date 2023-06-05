@@ -4,6 +4,7 @@ import com.arnyminerz.endpoints.protos.AuthenticatedEndpoint
 import com.arnyminerz.endpoints.requireAuthentication
 import io.ktor.server.application.ApplicationCall
 import io.ktor.server.routing.Route
+import io.ktor.server.routing.delete
 import io.ktor.server.routing.get
 import io.ktor.server.routing.post
 import io.ktor.server.routing.put
@@ -28,4 +29,8 @@ fun Route.post(path: String, endpoint: AuthenticatedEndpoint) = queryAuthenticat
 
 fun Route.put(path: String, endpoint: AuthenticatedEndpoint) = queryAuthenticatedEndpoint(endpoint) {
     put(path, it)
+}
+
+fun Route.delete(path: String, endpoint: AuthenticatedEndpoint) = queryAuthenticatedEndpoint(endpoint) {
+    delete(path, it)
 }

@@ -3,10 +3,12 @@ package com.arnyminerz.plugins
 import com.arnyminerz.endpoints.BaseEndpoint
 import com.arnyminerz.endpoints.auth.LoginEndpoint
 import com.arnyminerz.endpoints.auth.RegisterEndpoint
+import com.arnyminerz.endpoints.events.CancelAssistanceEndpoint
 import com.arnyminerz.endpoints.events.ConfirmAssistanceEndpoint
 import com.arnyminerz.endpoints.events.GetEventsEndpoint
 import com.arnyminerz.endpoints.events.NewEventEndpoint
 import com.arnyminerz.endpoints.profile.GetProfileEndpoint
+import com.arnyminerz.endpoints.routing.delete
 import com.arnyminerz.endpoints.routing.get
 import com.arnyminerz.endpoints.routing.post
 import com.arnyminerz.endpoints.routing.put
@@ -27,6 +29,7 @@ fun Application.configureRouting() {
             get("/v1/events", GetEventsEndpoint)
             post("/v1/events", NewEventEndpoint)
             put("/v1/events/{eventId}/assistance", ConfirmAssistanceEndpoint)
+            delete("/v1/events/{eventId}/assistance", CancelAssistanceEndpoint)
         }
     }
 }

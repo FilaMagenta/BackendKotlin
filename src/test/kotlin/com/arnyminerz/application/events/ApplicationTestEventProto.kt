@@ -13,6 +13,7 @@ import java.time.ZoneOffset
 import java.time.ZonedDateTime
 import kotlin.test.assertNotNull
 import org.json.JSONArray
+import org.json.JSONObject
 
 abstract class ApplicationTestEventProto: ApplicationTestProto() {
     protected val eventSampleData = EventType(
@@ -44,6 +45,12 @@ abstract class ApplicationTestEventProto: ApplicationTestProto() {
                 val events = data.getJSONArray("events")
                 assertion(events)
             }
+        }
+    }
+
+    protected suspend fun ApplicationTestBuilder.getFirstEvent(token: String, assertion: suspend (event: JSONObject) -> Unit = {}) {
+        getAllEvents(token) {
+            assertion(it.getJSONObject(0))
         }
     }
 }
