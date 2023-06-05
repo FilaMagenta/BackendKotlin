@@ -22,6 +22,14 @@ abstract class ApplicationTestProto: DatabaseTestProto() {
         block()
     }
 
+    protected fun testLoggedIn(assertion: suspend ApplicationTestBuilder.(token: String) -> Unit) = test {
+        provideSampleUser {
+            loginWithSampleUser {
+                assertion(this@test, it)
+            }
+        }
+    }
+
     protected val registerSampleData = mapOf(
         "nif" to "12345678Z",
         "name" to "Testing",
