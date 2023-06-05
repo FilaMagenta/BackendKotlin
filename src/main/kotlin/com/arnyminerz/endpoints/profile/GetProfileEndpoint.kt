@@ -10,7 +10,7 @@ import io.ktor.server.application.call
 import io.ktor.util.pipeline.PipelineContext
 
 suspend fun PipelineContext<*, ApplicationCall>.getProfileEndpoint() = requireAuthentication { nif ->
-    val user = ServerDatabase.instance.getUserWithNif(nif) { it }
+    val user = ServerDatabase.instance.usersInterface.findWithNif(nif) { it }
         ?: return@requireAuthentication call.respondFailure(Errors.NifNotFound)
     call.respondSuccess(user)
 }

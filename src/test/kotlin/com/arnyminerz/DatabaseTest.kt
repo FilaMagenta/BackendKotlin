@@ -1,6 +1,7 @@
 package com.arnyminerz
 
 import com.arnyminerz.database.ServerDatabase
+import com.arnyminerz.database.types.UserType
 import com.arnyminerz.security.Passwords
 import java.util.Base64
 import kotlin.test.assertEquals
@@ -10,16 +11,19 @@ import kotlinx.coroutines.runBlocking
 import org.junit.Before
 import org.junit.Test
 
-class DatabaseTest: DatabaseTestProto() {
+class DatabaseTest : DatabaseTestProto() {
     @Test
     fun test_users() = runBlocking {
-        ServerDatabase.instance.getAllUsers {
+        ServerDatabase.instance.usersInterface.getAll {
             assertTrue(it.empty())
         }
 
-        ServerDatabase.instance.newUser("12345678Z", "Testing", "User", "example@mail.com", "password")
+        ServerDatabase.instance.usersInterface.new(
+            UserType("12345678Z", "Testing", "User", "example@mail.com"),
+            "password" to "password"
+        )
 
-        ServerDatabase.instance.getAllUsers {
+        ServerDatabase.instance.usersInterface.getAll {
             assertEquals(1, it.count())
             val user = it.first()
             assertEquals("12345678Z", user.nif)

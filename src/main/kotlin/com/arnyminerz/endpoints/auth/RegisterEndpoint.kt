@@ -1,8 +1,7 @@
 package com.arnyminerz.endpoints.auth
 
 import com.arnyminerz.database.ServerDatabase
-import com.arnyminerz.database.dao.User
-import com.arnyminerz.database.dsl.Users
+import com.arnyminerz.database.types.UserType
 import com.arnyminerz.errors.Errors.EmailInvalid
 import com.arnyminerz.errors.Errors.MissingEmailBody
 import com.arnyminerz.errors.Errors.MissingNameBody
@@ -36,13 +35,13 @@ suspend fun PipelineContext<*, ApplicationCall>.registerEndpoint() {
     // TODO: Check password security
 
     // Check if user already exists
-    val userExists: Boolean = ServerDatabase.instance.getAllUsers { users ->
+    val userExists: Boolean = ServerDatabase.instance.usersInterface.getAll { users ->
         if (users.empty()) false
         else users.find { it.nif == nif } != null
     }
     if (userExists) return call.respondFailure(NifAlreadyRegistered)
 
-    ServerDatabase.instance.newUser(nif, name, surname, email, password)
+    ServerDatabase.instance.usersInterface.new(UserType(nif, name, surname, email, null), "password" to password)
 
     call.respondSuccess()
 }

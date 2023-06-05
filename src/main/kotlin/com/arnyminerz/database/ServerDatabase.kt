@@ -1,12 +1,12 @@
 package com.arnyminerz.database
 
-import com.arnyminerz.database.dao.User
 import com.arnyminerz.database.dsl.Users
-import com.arnyminerz.security.Passwords
-import java.io.File
+import com.arnyminerz.database.entity.DataEntity
+import com.arnyminerz.database.`interface`.UsersInterface
+import com.arnyminerz.database.types.DataType
 import java.sql.DriverManager
-import java.util.Base64
 import kotlinx.coroutines.runBlocking
+import org.jetbrains.exposed.dao.IntEntityClass
 import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.SchemaUtils
 import org.jetbrains.exposed.sql.SizedIterable
@@ -66,31 +66,30 @@ abstract class ServerDatabase(
         }
     }
 
-    private suspend fun <Result> transaction(statement: suspend Transaction.() -> Result): Result = transaction(database) {
+    suspend fun <Result> transaction(statement: suspend Transaction.() -> Result): Result = transaction(database) {
         runBlocking { statement() }
     }
 
     open fun dispose() { }
 
-    suspend fun <Result> getAllUsers(block: (users: SizedIterable<User>) -> Result) = transaction {
-        User.all().let(block)
-    }
+    val usersInterface = UsersInterface(this)
 
-    suspend fun <Result> getUserWithNif(nif: String, block: suspend (user: User?) -> Result) = transaction {
-        val user = User.find { Users.nif eq nif }.singleOrNull()
-        block(user)
-    }
 
-    suspend fun newUser(nif: String, name: String, surname: String, email: String, password: String) = transaction {
-        User.new {
-            this.nif = nif
-            this.name = name
-            this.surname = surname
-            this.email = email
+    abstract class DataObjectInterface <T: DataType, E: DataEntity<T>, EClass: IntEntityClass<E>> (
+        protected val database: ServerDatabase,
+        private val entityClass: EClass
+    ) {
+        suspend fun <Result> getAll(block: (users: SizedIterable<E>) -> Result) = database.transaction {
+            entityClass.all().let(block)
+        }
 
-            val salt = Passwords.generateSalt()
-            this.passwordSalt = Base64.getMimeEncoder().encodeToString(salt)
-            this.passwordHash = Base64.getMimeEncoder().encodeToString(Passwords.hash(password, salt))
+        protected abstract fun E.processExtras(extras: Map<String, String>)
+
+        suspend fun new(type: T, vararg extras: Pair<String, String>) = database.transaction {
+            entityClass.new {
+                fill(type)
+                processExtras(extras.toMap())
+            }
         }
     }
 }

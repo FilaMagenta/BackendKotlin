@@ -10,5 +10,5 @@ object Users: IntIdTable() {
     val passwordHash: Column<String> = varchar("password_hash", 4056)
     val passwordSalt: Column<String> = varchar("password_salt", 2048)
     val email: Column<String?> = varchar("email", 256).nullable()
-    val birthday: Column<Long?> = long("birthday").nullable()
+    val birthday: Column<String?> = varchar("birthday", 12).nullable()
 }

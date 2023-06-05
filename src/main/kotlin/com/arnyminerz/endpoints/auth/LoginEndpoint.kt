@@ -19,11 +19,11 @@ suspend fun PipelineContext<*, ApplicationCall>.loginEndpoint() {
     val nif = body.getStringOrNull("nif", true) ?: return call.respondFailure(Errors.MissingNifBody)
     val password = body.getStringOrNull("password", true) ?: return call.respondFailure(Errors.MissingPasswordBody)
 
-    ServerDatabase.instance.getUserWithNif(nif) { user ->
-        if (user == null) return@getUserWithNif call.respondFailure(Errors.NifNotFound)
+    ServerDatabase.instance.usersInterface.findWithNif(nif) { user ->
+        if (user == null) return@findWithNif call.respondFailure(Errors.NifNotFound)
 
         if (!Passwords.isExpectedPassword(password, user.passwordSalt(), user.passwordHash()))
-            return@getUserWithNif call.respondFailure(Errors.WrongPassword)
+            return@findWithNif call.respondFailure(Errors.WrongPassword)
     }
 
     val token = Authentication.newToken(nif, ZonedDateTime.now().plusDays(15))

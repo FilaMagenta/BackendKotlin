@@ -57,7 +57,7 @@ class ApplicationTestRegistration: ApplicationTestProto() {
         register(registerSampleData) { assertSuccess() }
 
         // Make sure the user is now registered
-        ServerDatabase.instance<TestingDatabase>().getAllUsers { users ->
+        ServerDatabase.instance.usersInterface.getAll { users ->
             assertEquals(1, users.count())
 
             val user = users.first()
