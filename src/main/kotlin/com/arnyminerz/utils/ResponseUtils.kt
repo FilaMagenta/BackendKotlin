@@ -11,19 +11,19 @@ import io.ktor.server.response.respondText
 import io.ktor.util.pipeline.PipelineContext
 import org.json.JSONObject
 
-suspend fun ApplicationCall.respondSuccess(data: JSONObject? = null) {
+suspend fun ApplicationCall.respondSuccess(data: JSONObject? = null, status: HttpStatusCode = HttpStatusCode.OK) {
     val response = JSONObject()
     response.put("success", true)
     data?.let { response.put("data", it) }
-    respondJson(response)
+    respondJson(response, status)
 }
 
-suspend fun <Data: JsonSerializable> ApplicationCall.respondSuccess(data: Data? = null) {
-    respondSuccess(data?.toJSON())
+suspend fun <Data: JsonSerializable> ApplicationCall.respondSuccess(data: Data? = null, status: HttpStatusCode = HttpStatusCode.OK) {
+    respondSuccess(data?.toJSON(), status)
 }
 
 
-suspend fun ApplicationCall.respondSuccess() = respondSuccess(null)
+suspend fun ApplicationCall.respondSuccess(status: HttpStatusCode = HttpStatusCode.OK) = respondSuccess(null, status)
 
 suspend fun <Extra: JsonSerializable> ApplicationCall.respondFailure(
     code: Int,

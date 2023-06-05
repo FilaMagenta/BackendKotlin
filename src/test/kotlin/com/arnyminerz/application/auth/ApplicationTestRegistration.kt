@@ -1,6 +1,5 @@
 package com.arnyminerz.application.auth
 
-import com.arnyminerz.TestingDatabase
 import com.arnyminerz.application.ApplicationTestProto
 import com.arnyminerz.database.ServerDatabase
 import com.arnyminerz.errors.Errors
@@ -8,12 +7,8 @@ import com.arnyminerz.utils.assertFailure
 import com.arnyminerz.utils.assertSuccess
 import com.arnyminerz.utils.change
 import com.arnyminerz.utils.extract
-import io.ktor.client.request.post
-import io.ktor.client.request.setBody
-import io.ktor.client.statement.HttpResponse
-import io.ktor.server.testing.ApplicationTestBuilder
+import io.ktor.http.HttpStatusCode
 import kotlin.test.assertEquals
-import org.json.JSONObject
 import org.junit.Test
 
 class ApplicationTestRegistration: ApplicationTestProto() {
@@ -54,7 +49,7 @@ class ApplicationTestRegistration: ApplicationTestProto() {
 
     @Test
     fun test_register_correct() = test {
-        register(registerSampleData) { assertSuccess() }
+        register(registerSampleData) { assertSuccess(HttpStatusCode.Created) }
 
         // Make sure the user is now registered
         ServerDatabase.instance.usersInterface.getAll { users ->

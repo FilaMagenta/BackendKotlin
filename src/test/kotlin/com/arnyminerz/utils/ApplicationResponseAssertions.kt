@@ -10,9 +10,9 @@ import kotlin.test.assertTrue
 import org.json.JSONObject
 import org.junit.Assert.assertEquals
 
-suspend fun HttpResponse.assertSuccess(assertData: suspend (data: JSONObject?) -> Unit = {}) {
+suspend fun HttpResponse.assertSuccess(statusCode: HttpStatusCode = HttpStatusCode.OK, assertData: suspend (data: JSONObject?) -> Unit = {}) {
     assertEquals(
-        HttpStatusCode.OK,
+        statusCode,
         status,
         bodyAsJson().let { body ->
             "Response was not successful. HTTP#${status.value}: ${status.description}.\n" +

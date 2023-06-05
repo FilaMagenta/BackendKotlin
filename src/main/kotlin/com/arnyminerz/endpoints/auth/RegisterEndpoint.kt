@@ -18,6 +18,7 @@ import com.arnyminerz.utils.receiveJson
 import com.arnyminerz.utils.respondFailure
 import com.arnyminerz.utils.respondSuccess
 import com.arnyminerz.utils.validation.isValidEmail
+import io.ktor.http.HttpStatusCode
 import io.ktor.server.application.ApplicationCall
 import io.ktor.server.application.call
 import io.ktor.util.pipeline.PipelineContext
@@ -45,6 +46,6 @@ object RegisterEndpoint: Endpoint {
 
         ServerDatabase.instance.usersInterface.new(UserType(nif, name, surname, email, null), "password" to password)
 
-        call.respondSuccess()
+        call.respondSuccess(HttpStatusCode.Created)
     }
 }
