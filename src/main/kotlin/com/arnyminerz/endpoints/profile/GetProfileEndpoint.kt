@@ -12,7 +12,7 @@ import io.ktor.server.application.call
 import io.ktor.util.pipeline.PipelineContext
 
 object GetProfileEndpoint: AuthenticatedEndpoint {
-    override suspend fun PipelineContext<*, ApplicationCall>.call(nif: String) {
+    override suspend fun PipelineContext<*, ApplicationCall>.endpoint(nif: String) {
         val user = ServerDatabase.instance.usersInterface.findWithNif(nif) { it }
             ?: return call.respondFailure(Errors.NifNotFound)
         call.respondSuccess(user)

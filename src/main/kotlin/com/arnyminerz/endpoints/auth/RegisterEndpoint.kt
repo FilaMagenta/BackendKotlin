@@ -24,7 +24,7 @@ import io.ktor.server.application.call
 import io.ktor.util.pipeline.PipelineContext
 
 object RegisterEndpoint: Endpoint {
-    override suspend fun PipelineContext<*, ApplicationCall>.call() {
+    override suspend fun PipelineContext<*, ApplicationCall>.endpoint() {
         val body = call.receiveJson()
         val nif = body.getStringOrNull("nif", true) ?: return call.respondFailure(MissingNifBody)
         val name = body.getStringOrNull("name", true) ?: return call.respondFailure(MissingNameBody)

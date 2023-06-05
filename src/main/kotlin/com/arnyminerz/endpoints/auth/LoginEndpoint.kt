@@ -16,7 +16,7 @@ import io.ktor.util.pipeline.PipelineContext
 import java.time.ZonedDateTime
 
 object LoginEndpoint: Endpoint {
-    override suspend fun PipelineContext<*, ApplicationCall>.call() {
+    override suspend fun PipelineContext<*, ApplicationCall>.endpoint() {
         val body = call.receiveJson()
         val nif = body.getStringOrNull("nif", true) ?: return call.respondFailure(Errors.MissingNifBody)
         val password = body.getStringOrNull("password", true) ?: return call.respondFailure(Errors.MissingPasswordBody)
