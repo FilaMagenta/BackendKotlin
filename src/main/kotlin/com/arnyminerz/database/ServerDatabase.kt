@@ -1,5 +1,6 @@
 package com.arnyminerz.database
 
+import com.arnyminerz.database.dsl.Events
 import com.arnyminerz.database.dsl.Users
 import com.arnyminerz.database.entity.DataEntity
 import com.arnyminerz.database.`interface`.EventsInterface
@@ -70,8 +71,8 @@ abstract class ServerDatabase(
             println("Adding logger...")
             addLogger(StdOutSqlLogger)
 
-            println("Creating Users schema...")
-            SchemaUtils.create(Users)
+            println("Creating required schema...")
+            SchemaUtils.create(Users, Events)
         }
     }
 

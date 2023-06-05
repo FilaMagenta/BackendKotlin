@@ -1,6 +1,9 @@
 package com.arnyminerz.endpoints.auth
 
 import com.arnyminerz.database.ServerDatabase
+import com.arnyminerz.endpoints.arguments.Argument
+import com.arnyminerz.endpoints.arguments.Arguments
+import com.arnyminerz.endpoints.arguments.called
 import com.arnyminerz.endpoints.protos.Endpoint
 import com.arnyminerz.errors.Errors
 import com.arnyminerz.security.Authentication
@@ -17,9 +20,8 @@ import java.time.ZonedDateTime
 
 object LoginEndpoint: Endpoint {
     override suspend fun PipelineContext<*, ApplicationCall>.endpoint() {
-        val body = call.receiveJson()
-        val nif = body.getStringOrNull("nif", true) ?: return call.respondFailure(Errors.MissingNifBody)
-        val password = body.getStringOrNull("password", true) ?: return call.respondFailure(Errors.MissingPasswordBody)
+        val nif by called { Arguments.Nif }
+        val password by called { Arguments.Password }
 
         ServerDatabase.instance.usersInterface.findWithNif(nif) { user ->
             if (user == null) return@findWithNif call.respondFailure(Errors.NifNotFound)

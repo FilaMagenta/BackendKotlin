@@ -2,6 +2,8 @@ package com.arnyminerz.endpoints.auth
 
 import com.arnyminerz.database.ServerDatabase
 import com.arnyminerz.database.types.UserType
+import com.arnyminerz.endpoints.arguments.Arguments
+import com.arnyminerz.endpoints.arguments.called
 import com.arnyminerz.endpoints.protos.Endpoint
 import com.arnyminerz.errors.Errors.EmailInvalid
 import com.arnyminerz.errors.Errors.MissingEmailBody
@@ -25,12 +27,11 @@ import io.ktor.util.pipeline.PipelineContext
 
 object RegisterEndpoint: Endpoint {
     override suspend fun PipelineContext<*, ApplicationCall>.endpoint() {
-        val body = call.receiveJson()
-        val nif = body.getStringOrNull("nif", true) ?: return call.respondFailure(MissingNifBody)
-        val name = body.getStringOrNull("name", true) ?: return call.respondFailure(MissingNameBody)
-        val surname = body.getStringOrNull("surname", true) ?: return call.respondFailure(MissingSurnameBody)
-        val email = body.getStringOrNull("email", true) ?: return call.respondFailure(MissingEmailBody)
-        val password = body.getStringOrNull("password", true) ?: return call.respondFailure(MissingPasswordBody)
+        val nif by called { Arguments.Nif }
+        val name by called { Arguments.Name }
+        val surname by called { Arguments.Surname }
+        val email by called { Arguments.Email }
+        val password by called { Arguments.Password }
 
         if (!nif.isValidDni && !nif.isValidNie) return call.respondFailure(NifInvalid)
         if (!email.isValidEmail) return call.respondFailure(EmailInvalid)
