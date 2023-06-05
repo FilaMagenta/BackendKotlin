@@ -9,6 +9,7 @@ import com.arnyminerz.utils.respondSuccess
 import com.arnyminerz.utils.serialization.JsonSerializable
 import io.ktor.server.routing.*
 import io.ktor.server.application.*
+import io.ktor.server.auth.authenticate
 
 fun Application.configureRouting() {
     routing {
@@ -17,6 +18,9 @@ fun Application.configureRouting() {
         }
         post("/v1/auth/register") { registerEndpoint() }
         post("/v1/auth/login") { loginEndpoint() }
-        get("/v1/profile") { getProfileEndpoint() }
+
+        authenticate("auth-jwt") {
+            get("/v1/profile") { getProfileEndpoint() }
+        }
     }
 }

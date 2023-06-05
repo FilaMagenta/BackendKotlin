@@ -2,6 +2,8 @@ package com.arnyminerz.application
 
 import com.arnyminerz.DatabaseTestProto
 import com.arnyminerz.installModules
+import com.arnyminerz.utils.assertSuccess
+import com.arnyminerz.utils.getStringOrNull
 import com.arnyminerz.utils.jsonOf
 import io.ktor.client.request.post
 import io.ktor.client.request.setBody
@@ -9,6 +11,7 @@ import io.ktor.client.statement.HttpResponse
 import io.ktor.server.testing.ApplicationTestBuilder
 import io.ktor.server.testing.testApplication
 import io.ktor.server.util.url
+import kotlin.test.assertNotNull
 import org.json.JSONObject
 
 abstract class ApplicationTestProto: DatabaseTestProto() {
@@ -40,7 +43,7 @@ abstract class ApplicationTestProto: DatabaseTestProto() {
     protected suspend fun ApplicationTestBuilder.login(
         nif: String,
         password: String,
-        assertion: suspend HttpResponse.() -> Unit
+        block: suspend HttpResponse.(token: String) -> Unit
     ) {
         val bodyData = jsonOf(
             "nif" to nif,
@@ -48,14 +51,20 @@ abstract class ApplicationTestProto: DatabaseTestProto() {
         )
         client.post("/v1/auth/login") {
             setBody(bodyData.toString())
-        }.apply { assertion(this) }
+        }.apply {
+            assertSuccess { data ->
+                assertNotNull(data)
+                assertNotNull(data.getStringOrNull("token"))
+                block(data.getString("token"))
+            }
+        }
     }
 
     protected suspend fun ApplicationTestBuilder.provideSampleUser(assertion: suspend HttpResponse.() -> Unit) {
         register(registerSampleData, assertion)
     }
 
-    protected suspend fun ApplicationTestBuilder.loginWithSampleUser(assertion: suspend HttpResponse.() -> Unit) {
+    protected suspend fun ApplicationTestBuilder.loginWithSampleUser(assertion: suspend HttpResponse.(token: String) -> Unit) {
         login(registerSampleData.getValue("nif"), registerSampleData.getValue("password"), assertion)
     }
 }
