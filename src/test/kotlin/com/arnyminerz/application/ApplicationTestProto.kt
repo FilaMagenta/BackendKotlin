@@ -10,7 +10,6 @@ import io.ktor.client.request.setBody
 import io.ktor.client.statement.HttpResponse
 import io.ktor.server.testing.ApplicationTestBuilder
 import io.ktor.server.testing.testApplication
-import io.ktor.server.util.url
 import kotlin.test.assertNotNull
 import org.json.JSONObject
 
@@ -30,11 +29,33 @@ abstract class ApplicationTestProto: DatabaseTestProto() {
         }
     }
 
+    protected fun testDoubleLoggedIn(
+        assertion: suspend ApplicationTestBuilder.(token1: String, token2: String) -> Unit
+    ) = test {
+        provideSampleUser {
+            provideSampleUser(registerSampleData2) {
+                loginWithSampleUser { token1 ->
+                    loginWithSampleUser(registerSampleData2) { token2 ->
+                        assertion(this@test, token1, token2)
+                    }
+                }
+            }
+        }
+    }
+
     protected val registerSampleData = mapOf(
         "nif" to "12345678Z",
         "name" to "Testing",
         "surname" to "User",
         "email" to "example@mail.com",
+        "password" to "password123"
+    ).toMutableMap()
+
+    protected val registerSampleData2 = mapOf(
+        "nif" to "87654321X",
+        "name" to "Another",
+        "surname" to "User",
+        "email" to "example2@mail.com",
         "password" to "password123"
     ).toMutableMap()
 
@@ -68,11 +89,17 @@ abstract class ApplicationTestProto: DatabaseTestProto() {
         }
     }
 
-    protected suspend fun ApplicationTestBuilder.provideSampleUser(assertion: suspend HttpResponse.() -> Unit) {
-        register(registerSampleData, assertion)
+    private suspend fun ApplicationTestBuilder.provideSampleUser(
+        data: Map<String, String> = registerSampleData,
+        assertion: suspend HttpResponse.() -> Unit
+    ) {
+        register(data, assertion)
     }
 
-    protected suspend fun ApplicationTestBuilder.loginWithSampleUser(assertion: suspend HttpResponse.(token: String) -> Unit) {
-        login(registerSampleData.getValue("nif"), registerSampleData.getValue("password"), assertion)
+    private suspend fun ApplicationTestBuilder.loginWithSampleUser(
+        data: Map<String, String> = registerSampleData,
+        assertion: suspend HttpResponse.(token: String) -> Unit
+    ) {
+        login(data.getValue("nif"), data.getValue("password"), assertion)
     }
 }

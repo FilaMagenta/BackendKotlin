@@ -6,6 +6,7 @@ import com.arnyminerz.endpoints.auth.RegisterEndpoint
 import com.arnyminerz.endpoints.events.CancelAssistanceEndpoint
 import com.arnyminerz.endpoints.events.ConfirmAssistanceEndpoint
 import com.arnyminerz.endpoints.events.GetEventsEndpoint
+import com.arnyminerz.endpoints.events.JoinTableEndpoint
 import com.arnyminerz.endpoints.events.NewEventEndpoint
 import com.arnyminerz.endpoints.events.NewTableEndpoint
 import com.arnyminerz.endpoints.profile.GetProfileEndpoint
@@ -32,6 +33,7 @@ fun Application.configureRouting() {
             put("/v1/events/{eventId}/assistance", ConfirmAssistanceEndpoint)
             delete("/v1/events/{eventId}/assistance", CancelAssistanceEndpoint)
             post("/v1/events/{eventId}/table", NewTableEndpoint)
+            put("/v1/events/{eventId}/table/{tableId}", JoinTableEndpoint)
         }
     }
 }

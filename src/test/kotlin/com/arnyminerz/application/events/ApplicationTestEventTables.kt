@@ -5,6 +5,7 @@ import com.arnyminerz.utils.assertFailure
 import com.arnyminerz.utils.assertSuccess
 import io.ktor.client.request.header
 import io.ktor.client.request.post
+import io.ktor.client.request.put
 import io.ktor.http.HttpStatusCode
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
@@ -69,6 +70,48 @@ class ApplicationTestEventTables: ApplicationTestEventProto() {
             }.apply {
                 assertFailure(Errors.UserAlreadyInTable)
             }
+        }
+    }
+
+    @Test
+    fun `events table joining`() = testDoubleLoggedIn { token1, token2 ->
+        provideSampleEvent(token1)
+
+        getFirstEvent(token1) { event ->
+            val tables = event.getJSONArray("tables")
+            assertTrue(tables.isEmpty)
+        }
+
+        // Create a new table as the user for responsible
+        getFirstEvent(token1) { event ->
+            client.post("/v1/events/${event.getInt("id")}/table") {
+                header("Authorization", "Bearer $token1")
+            }.apply {
+                assertSuccess(HttpStatusCode.Created)
+            }
+        }
+
+        // Join the created table
+        getFirstEvent(token2) { event ->
+            val tables = event.getJSONArray("tables")
+            val table = tables.getJSONObject(0)
+
+            client.put("/v1/events/${event.getInt("id")}/table/${table.getInt("id")}") {
+                header("Authorization", "Bearer $token2")
+            }.apply {
+                assertSuccess(HttpStatusCode.Accepted)
+            }
+        }
+
+        // Check that the new member can be fetched
+        getFirstEvent(token1) { event ->
+            val secondUser = usersInterface.findWithNif(registerSampleData2.getValue("nif")) { it!! }
+
+            val tables = event.getJSONArray("tables")
+            val table = tables.getJSONObject(0)
+            val members = table.getJSONArray("members")
+            assertEquals(1, members.count())
+            assertEquals(secondUser.id.value, members.getInt(0))
         }
     }
 }
