@@ -35,6 +35,7 @@ class Event(id: EntityID<Int>): DataEntity<EventType>(id) {
     fun getReservationsEndDate(): ZonedDateTime? = reservations?.let { ZonedDateTime.parse(it) }
 
     override fun toJSON(): JSONObject = JSONObject().apply {
+        put("id", id.value)
         put("name", name)
         put("description", description)
         put("date", date)

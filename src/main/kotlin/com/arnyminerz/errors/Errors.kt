@@ -5,6 +5,7 @@ import io.ktor.http.HttpStatusCode
 object Errors {
     val EndpointNotFound = Error(1, "Endpoint not found", HttpStatusCode.NotFound)
     val Internal = Error(2, "Internal server exception", HttpStatusCode.InternalServerError)
+    val EventNotFound = Error(3, "Could not find event.", HttpStatusCode.NotFound)
 
     val MissingNifBody = Error(10, "Request doesn't contain the required 'nif' argument.", HttpStatusCode.BadRequest)
     val MissingNameBody = Error(11, "Request doesn't contain the required 'name' argument.", HttpStatusCode.BadRequest)
