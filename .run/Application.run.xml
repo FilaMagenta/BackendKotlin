@@ -1,0 +1,16 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Application" type="JetRunConfigurationType">
+    <envs>
+      <env name="JWT_AUDIENCE" value="http://0.0.0.0:8080/hello" />
+      <env name="JWT_ISSUER" value="http://localhost/" />
+      <env name="JWT_SECRET" value="secret" />
+      <env name="JWT_REALM" value="Access" />
+    </envs>
+    <option name="MAIN_CLASS_NAME" value="com.arnyminerz.ApplicationKt" />
+    <module name="ktor-sample.main" />
+    <shortenClasspath name="NONE" />
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>
