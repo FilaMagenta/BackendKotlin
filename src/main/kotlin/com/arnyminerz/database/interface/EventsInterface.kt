@@ -23,6 +23,18 @@ class EventsInterface(database: ServerDatabase) :
         }.singleOrNull().let(block)
     }
 
+    suspend fun <Result> getMemberTable(memberId: Int, block: suspend (table: TableMember?) -> Result) = database.transaction {
+        TableMember.find {
+            TableMembers.user eq memberId
+        }.singleOrNull().let { block(it) }
+    }
+
+    suspend fun <Result> getResponsibleTable(responsibleId: Int, eventId: Int, block: suspend (table: EventTable?) -> Result) = database.transaction {
+        EventTable.find {
+            (EventTables.responsible eq responsibleId) and (EventTables.event eq eventId)
+        }.singleOrNull().let { block(it) }
+    }
+
     private fun Transaction.findAssistance(user: User, event: Event) = UserAssistance.find {
         (UserAssistances.event eq event.id) and (UserAssistances.user eq user.id)
     }.singleOrNull()
@@ -71,5 +83,33 @@ class EventsInterface(database: ServerDatabase) :
             }
             true
         }
+    }
+
+    suspend fun deleteTable(user: User, table: EventTable) = database.transaction {
+        println("Deleting table...")
+
+        val alreadyInTable = EventTable.find {
+            (EventTables.id eq table.id) and (EventTables.responsible eq user.id)
+        }.singleOrNull()
+        if (alreadyInTable != null) {
+            // Delete all associated members
+            TableMember.find { TableMembers.table eq table.id }
+                .forEach { it.delete() }
+
+            alreadyInTable.delete()
+            true
+        } else
+            false
+    }
+
+    suspend fun leaveTable(user: User, table: TableMember) = database.transaction {
+        val alreadyInTable = TableMember.find {
+            (TableMembers.table eq table.id) and (TableMembers.user eq user.id)
+        }.singleOrNull()
+        if (alreadyInTable != null) {
+            alreadyInTable.delete()
+            true
+        } else
+            false
     }
 }
