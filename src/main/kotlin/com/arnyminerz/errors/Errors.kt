@@ -25,4 +25,5 @@ object Errors {
     val WrongPassword = Error(42, "Wrong NIF or password.", HttpStatusCode.BadRequest)
 
     val AssistanceAlreadyConfirmed = Error(50, "Assistance already confirmed.", HttpStatusCode.BadRequest)
+    val UserAlreadyInTable = Error(51, "You are already in a table.", HttpStatusCode.BadRequest)
 }

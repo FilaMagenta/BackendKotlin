@@ -1,8 +1,10 @@
 package com.arnyminerz.database.`interface`
 
 import com.arnyminerz.database.ServerDatabase
+import com.arnyminerz.database.dsl.EventTables
 import com.arnyminerz.database.dsl.UserAssistances
 import com.arnyminerz.database.entity.Event
+import com.arnyminerz.database.entity.EventTable
 import com.arnyminerz.database.entity.User
 import com.arnyminerz.database.entity.UserAssistance
 import com.arnyminerz.database.types.EventType
@@ -31,5 +33,20 @@ class EventsInterface(database: ServerDatabase) :
     suspend fun cancelAssistance(user: User, event: Event) = database.transaction {
         val assistance = findAssistance(user, event)
         assistance?.delete()
+    }
+
+    suspend fun createTable(responsible: User, event: Event) = database.transaction {
+        val existingTable = EventTable.find {
+            (EventTables.event eq event.id) and (EventTables.responsible eq responsible.id)
+        }.singleOrNull()
+        if (existingTable != null)
+            false
+        else {
+            EventTable.new {
+                this.responsible = responsible
+                this.event = event
+            }
+            true
+        }
     }
 }

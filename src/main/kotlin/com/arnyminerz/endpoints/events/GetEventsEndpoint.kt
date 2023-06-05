@@ -25,8 +25,9 @@ object GetEventsEndpoint : AuthenticatedEndpoint {
                         for (table in tables)
                             put(
                                 jsonOf(
-                                    "id" to table.id.value.toString(),
-                                    "responsible_id" to table.responsible.id.toString()
+                                    "id" to table.id.value,
+                                    "responsible_id" to table.responsible.id,
+                                    "members" to table.members.map { it.user.id.value }
                                 )
                             )
                     })

@@ -1,6 +1,8 @@
 package com.arnyminerz
 
 import com.arnyminerz.database.ServerDatabase
+import com.arnyminerz.database.`interface`.EventsInterface
+import com.arnyminerz.database.`interface`.UsersInterface
 import kotlinx.coroutines.runBlocking
 import org.junit.After
 import org.junit.Before
@@ -16,4 +18,10 @@ abstract class DatabaseTestProto {
     fun dispose() {
         ServerDatabase.instance.dispose()
     }
+
+    protected val usersInterface: UsersInterface
+        get() = ServerDatabase.instance.usersInterface
+
+    protected val eventsInterface: EventsInterface
+        get() = ServerDatabase.instance.eventsInterface
 }

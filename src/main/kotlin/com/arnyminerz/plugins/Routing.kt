@@ -7,6 +7,7 @@ import com.arnyminerz.endpoints.events.CancelAssistanceEndpoint
 import com.arnyminerz.endpoints.events.ConfirmAssistanceEndpoint
 import com.arnyminerz.endpoints.events.GetEventsEndpoint
 import com.arnyminerz.endpoints.events.NewEventEndpoint
+import com.arnyminerz.endpoints.events.NewTableEndpoint
 import com.arnyminerz.endpoints.profile.GetProfileEndpoint
 import com.arnyminerz.endpoints.routing.delete
 import com.arnyminerz.endpoints.routing.get
@@ -30,6 +31,7 @@ fun Application.configureRouting() {
             post("/v1/events", NewEventEndpoint)
             put("/v1/events/{eventId}/assistance", ConfirmAssistanceEndpoint)
             delete("/v1/events/{eventId}/assistance", CancelAssistanceEndpoint)
+            post("/v1/events/{eventId}/table", NewTableEndpoint)
         }
     }
 }

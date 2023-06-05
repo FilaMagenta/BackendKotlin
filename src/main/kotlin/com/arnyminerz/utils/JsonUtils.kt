@@ -37,7 +37,7 @@ fun JSONObject.getJSONObjectOrNull(key: String): JSONObject? = try {
     null
 }
 
-fun jsonOf(vararg pairs: Pair<String, String>) =
+fun jsonOf(vararg pairs: Pair<String, Any>) =
     JSONObject().apply {
         for ((key, value) in pairs)
             put(key, value)
