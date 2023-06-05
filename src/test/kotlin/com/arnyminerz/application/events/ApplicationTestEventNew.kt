@@ -9,11 +9,14 @@ import io.ktor.client.request.header
 import io.ktor.client.request.post
 import io.ktor.client.request.setBody
 import io.ktor.http.HttpStatusCode
+import io.ktor.server.testing.ApplicationTestBuilder
 import java.time.ZoneOffset
 import java.time.ZonedDateTime
 import kotlin.test.assertEquals
+import kotlin.test.assertFalse
 import kotlin.test.assertNotNull
 import kotlin.test.assertNull
+import org.json.JSONArray
 import org.junit.Test
 
 class ApplicationTestEventNew: ApplicationTestProto() {
@@ -25,8 +28,7 @@ class ApplicationTestEventNew: ApplicationTestProto() {
         null
     )
 
-    @Test
-    fun test_events_create() = testLoggedIn { token ->
+    private suspend fun ApplicationTestBuilder.provideSampleEvent(token: String) {
         client.post("/v1/events") {
             header("Authorization", "Bearer $token")
             setBody(eventSampleData.toString())
@@ -34,6 +36,9 @@ class ApplicationTestEventNew: ApplicationTestProto() {
             println("Headers: " + call.request.headers.entries().joinToString { (k, v) -> "$k = $v" })
             assertSuccess(HttpStatusCode.Created)
         }
+    }
+
+    private suspend fun ApplicationTestBuilder.getAllEvents(token: String, assertion: suspend (events: JSONArray) -> Unit = {}) {
         client.get("/v1/events") {
             header("Authorization", "Bearer $token")
         }.apply {
@@ -42,15 +47,37 @@ class ApplicationTestEventNew: ApplicationTestProto() {
                 assertNotNull(data["events"])
 
                 val events = data.getJSONArray("events")
-                assertEquals(1, events.length())
-
-                val event = events.getJSONObject(0)
-                assertEquals(eventSampleData.name, event.getString("name"))
-                assertEquals(eventSampleData.description, event.getString("description"))
-                assertEquals(eventSampleData.date.toString(), event.getString("date"))
-                assertNull(event.getStringOrNull("until"))
-                assertNull(event.getStringOrNull("reservations"))
+                assertion(events)
             }
+        }
+    }
+
+    @Test
+    fun test_events_create() = testLoggedIn { token ->
+        provideSampleEvent(token)
+
+        getAllEvents(token) { events ->
+            assertEquals(1, events.length())
+
+            val event = events.getJSONObject(0)
+            assertEquals(eventSampleData.name, event.getString("name"))
+            assertEquals(eventSampleData.description, event.getString("description"))
+            assertEquals(eventSampleData.date.toString(), event.getString("date"))
+            assertNull(event.getStringOrNull("until"))
+            assertNull(event.getStringOrNull("reservations"))
+        }
+    }
+
+    @Test
+    fun test_events_assistance() = testLoggedIn { token ->
+        provideSampleEvent(token)
+
+        // At first, assistance is not confirmed
+        getAllEvents(token) { events ->
+            assertEquals(1, events.length())
+
+            val event = events.getJSONObject(0)
+            assertFalse(event.getBoolean("assists"))
         }
     }
 }

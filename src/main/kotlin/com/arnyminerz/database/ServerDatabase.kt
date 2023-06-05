@@ -1,17 +1,14 @@
 package com.arnyminerz.database
 
 import com.arnyminerz.database.dsl.Events
+import com.arnyminerz.database.dsl.UserAssistances
 import com.arnyminerz.database.dsl.Users
-import com.arnyminerz.database.entity.DataEntity
 import com.arnyminerz.database.`interface`.EventsInterface
 import com.arnyminerz.database.`interface`.UsersInterface
-import com.arnyminerz.database.types.DataType
 import java.sql.DriverManager
 import kotlinx.coroutines.runBlocking
-import org.jetbrains.exposed.dao.IntEntityClass
 import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.SchemaUtils
-import org.jetbrains.exposed.sql.SizedIterable
 import org.jetbrains.exposed.sql.StdOutSqlLogger
 import org.jetbrains.exposed.sql.Transaction
 import org.jetbrains.exposed.sql.addLogger
@@ -72,7 +69,7 @@ abstract class ServerDatabase(
             addLogger(StdOutSqlLogger)
 
             println("Creating required schema...")
-            SchemaUtils.create(Users, Events)
+            SchemaUtils.create(Users, Events, UserAssistances)
         }
     }
 

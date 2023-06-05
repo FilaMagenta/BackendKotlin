@@ -1,9 +1,9 @@
 package com.arnyminerz.database.entity
 
 import com.arnyminerz.database.dsl.Events
+import com.arnyminerz.database.dsl.UserAssistances
 import com.arnyminerz.database.types.EventType
 import java.time.ZonedDateTime
-import org.jetbrains.exposed.dao.IntEntity
 import org.jetbrains.exposed.dao.IntEntityClass
 import org.jetbrains.exposed.dao.id.EntityID
 import org.json.JSONObject
@@ -16,6 +16,8 @@ class Event(id: EntityID<Int>): DataEntity<EventType>(id) {
     var date by Events.date
     var until by Events.until
     var reservations by Events.reservations
+
+    val assistants by UserAssistance referrersOn UserAssistances.event
 
     /**
      * Gets the event start date.
