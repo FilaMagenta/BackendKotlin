@@ -35,5 +35,6 @@ out/
 ### VS Code ###
 .vscode/
 
-### Testing database ###
+### Testing databases ###
 testing.db
+database.db
