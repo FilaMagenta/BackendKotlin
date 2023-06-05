@@ -9,7 +9,7 @@ data class EventType(
     val date: ZonedDateTime,
     val until: ZonedDateTime?,
     val reservations: ZonedDateTime?
-): DataType() {
+): DataType {
     constructor(name: String, description: String, date: String, until: String?, reservations: String?): this(
         name,
         description,
@@ -17,6 +17,8 @@ data class EventType(
         until?.let { ZonedDateTime.parse(it) },
         reservations?.let { ZonedDateTime.parse(it) }
     )
+
+    override fun toString(): String = toJSON().toString()
 
     override fun toJSON(): JSONObject = JSONObject().apply {
         put("name", name)
