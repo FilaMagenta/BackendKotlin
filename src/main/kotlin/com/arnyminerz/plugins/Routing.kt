@@ -21,8 +21,8 @@ import io.ktor.server.routing.routing
 
 fun Application.configureRouting() {
     routing {
-        get("/v1", BaseEndpoint)
-        post("/v1", BaseEndpoint)
+        get("/v1/", BaseEndpoint)
+        post("/v1/", BaseEndpoint)
 
         post("/v1/auth/register", RegisterEndpoint)
         post("/v1/auth/login", LoginEndpoint)

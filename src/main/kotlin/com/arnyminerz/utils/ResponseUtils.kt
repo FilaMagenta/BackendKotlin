@@ -4,11 +4,10 @@ import com.arnyminerz.errors.Error
 import com.arnyminerz.utils.serialization.JsonSerializable
 import io.ktor.client.statement.HttpResponse
 import io.ktor.client.statement.bodyAsText
+import io.ktor.http.ContentType
 import io.ktor.http.HttpStatusCode
 import io.ktor.server.application.ApplicationCall
-import io.ktor.server.application.call
 import io.ktor.server.response.respondText
-import io.ktor.util.pipeline.PipelineContext
 import org.json.JSONObject
 
 suspend fun ApplicationCall.respondSuccess(data: JSONObject? = null, status: HttpStatusCode = HttpStatusCode.OK) {
@@ -59,7 +58,7 @@ suspend fun ApplicationCall.respondFailure(error: Error) {
 }
 
 suspend fun ApplicationCall.respondJson(json: JSONObject, status: HttpStatusCode = HttpStatusCode.OK) {
-    respondText(json.toString(), status = status)
+    respondText(json.toString(), contentType = ContentType.parse("application/json"), status = status)
 }
 
 suspend fun HttpResponse.bodyAsJson(): JSONObject = JSONObject(bodyAsText())

@@ -5,8 +5,8 @@ import io.ktor.http.HttpStatusCode
 object Errors {
     val EndpointNotFound = Error(1, "Endpoint not found", HttpStatusCode.NotFound)
     val Internal = Error(2, "Internal server exception", HttpStatusCode.InternalServerError)
-    val EventNotFound = Error(3, "Could not find event.", HttpStatusCode.NotFound)
-    val TableNotFound = Error(4, "Could not find table.", HttpStatusCode.NotFound)
+    val EventNotFound = Error(3, "Could not find event.", HttpStatusCode.BadRequest)
+    val TableNotFound = Error(4, "Could not find table.", HttpStatusCode.BadRequest)
 
     val MissingNifBody = Error(10, "Request doesn't contain the required 'nif' argument.", HttpStatusCode.BadRequest)
     val MissingNameBody = Error(11, "Request doesn't contain the required 'name' argument.", HttpStatusCode.BadRequest)
@@ -22,7 +22,7 @@ object Errors {
     val NifAlreadyRegistered = Error(30, "The given NIF is already registered in the database.", HttpStatusCode.BadRequest)
 
     val Unauthorized = Error(40, "Token is not valid or has expired.", HttpStatusCode.Unauthorized)
-    val NifNotFound = Error(41, "The given NIF was not found in the database.", HttpStatusCode.NotFound)
+    val NifNotFound = Error(41, "The given NIF was not found in the database.", HttpStatusCode.BadRequest)
     val WrongPassword = Error(42, "Wrong NIF or password.", HttpStatusCode.BadRequest)
 
     val AssistanceAlreadyConfirmed = Error(50, "Assistance already confirmed.", HttpStatusCode.BadRequest)
