@@ -4,6 +4,7 @@ import com.arnyminerz.errors.Errors
 import com.arnyminerz.utils.assertFailure
 import com.arnyminerz.utils.assertSuccess
 import io.ktor.client.request.get
+import io.ktor.client.request.post
 import io.ktor.client.statement.bodyAsText
 import io.ktor.http.HttpStatusCode
 import kotlin.test.assertEquals
@@ -19,9 +20,10 @@ class ApplicationTestBase: ApplicationTestProto() {
 
     @Test
     fun test_apiRoot() = test {
-        client.get("/v1").apply {
-            assertSuccess()
-        }
+        client.get("/v1").apply { assertSuccess() }
+        client.post("/v1").apply { assertSuccess() }
+        client.get("/v1/").apply { assertSuccess() }
+        client.post("/v1/").apply { assertSuccess() }
     }
 
     @Test

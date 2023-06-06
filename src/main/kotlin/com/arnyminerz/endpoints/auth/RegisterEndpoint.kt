@@ -6,20 +6,13 @@ import com.arnyminerz.endpoints.arguments.Arguments
 import com.arnyminerz.endpoints.arguments.called
 import com.arnyminerz.endpoints.protos.Endpoint
 import com.arnyminerz.errors.Errors.EmailInvalid
-import com.arnyminerz.errors.Errors.MissingEmailBody
-import com.arnyminerz.errors.Errors.MissingNameBody
-import com.arnyminerz.errors.Errors.MissingNifBody
-import com.arnyminerz.errors.Errors.MissingPasswordBody
-import com.arnyminerz.errors.Errors.MissingSurnameBody
 import com.arnyminerz.errors.Errors.NifAlreadyRegistered
 import com.arnyminerz.errors.Errors.NifInvalid
-import com.arnyminerz.utils.getStringOrNull
-import com.arnyminerz.utils.validation.isValidDni
-import com.arnyminerz.utils.validation.isValidNie
-import com.arnyminerz.utils.receiveJson
 import com.arnyminerz.utils.respondFailure
 import com.arnyminerz.utils.respondSuccess
+import com.arnyminerz.utils.validation.isValidDni
 import com.arnyminerz.utils.validation.isValidEmail
+import com.arnyminerz.utils.validation.isValidNie
 import io.ktor.http.HttpStatusCode
 import io.ktor.server.application.ApplicationCall
 import io.ktor.server.application.call
@@ -45,7 +38,7 @@ object RegisterEndpoint: Endpoint {
         }
         if (userExists) return call.respondFailure(NifAlreadyRegistered)
 
-        ServerDatabase.instance.usersInterface.new(UserType(nif, name, surname, email, null), "password" to password)
+        ServerDatabase.instance.usersInterface.new(UserType(nif, UserType.Role.DEFAULT, name, surname, email, null), "password" to password)
 
         call.respondSuccess(HttpStatusCode.Created)
     }

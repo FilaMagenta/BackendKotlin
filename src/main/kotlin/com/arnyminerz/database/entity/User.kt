@@ -11,6 +11,7 @@ class User(id: EntityID<Int>): DataEntity<UserType>(id) {
     companion object: IntEntityClass<User>(Users)
 
     var nif by Users.nif
+    var role by Users.role
     var name by Users.name
     var surname by Users.surname
     var passwordHash by Users.passwordHash
@@ -24,6 +25,7 @@ class User(id: EntityID<Int>): DataEntity<UserType>(id) {
 
     override fun fill(type: UserType) {
         this.nif = type.nif
+        this.role = type.role.code
         this.name = type.name
         this.surname = type.surname
         this.email = type.email
@@ -32,6 +34,7 @@ class User(id: EntityID<Int>): DataEntity<UserType>(id) {
 
     override fun toJSON(): JSONObject = JSONObject().apply {
         put("nif", nif)
+        put("role", role)
         put("name", name)
         put("surname", surname)
         put("email", email)

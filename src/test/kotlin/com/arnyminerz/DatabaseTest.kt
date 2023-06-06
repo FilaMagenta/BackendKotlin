@@ -1,6 +1,5 @@
 package com.arnyminerz
 
-import com.arnyminerz.database.ServerDatabase
 import com.arnyminerz.database.types.EventType
 import com.arnyminerz.database.types.UserType
 import com.arnyminerz.security.Passwords
@@ -8,26 +7,25 @@ import java.time.ZoneOffset
 import java.time.ZonedDateTime
 import java.util.Base64
 import kotlin.test.assertEquals
-import kotlin.test.assertTrue
 import kotlin.test.assertFalse
 import kotlin.test.assertNull
+import kotlin.test.assertTrue
 import kotlinx.coroutines.runBlocking
-import org.junit.Before
 import org.junit.Test
 
 class DatabaseTest : DatabaseTestProto() {
     @Test
     fun test_users() = runBlocking {
-        ServerDatabase.instance.usersInterface.getAll {
+        usersInterface.getAll {
             assertTrue(it.empty())
         }
 
-        ServerDatabase.instance.usersInterface.new(
-            UserType("12345678Z", "Testing", "User", "example@mail.com"),
+        usersInterface.new(
+            UserType("12345678Z",  UserType.Role.DEFAULT,"Testing", "User", "example@mail.com"),
             "password" to "password"
         )
 
-        ServerDatabase.instance.usersInterface.getAll {
+        usersInterface.getAll {
             assertEquals(1, it.count())
             val user = it.first()
             assertEquals("12345678Z", user.nif)
@@ -44,7 +42,7 @@ class DatabaseTest : DatabaseTestProto() {
 
     @Test
     fun test_events() = runBlocking {
-        ServerDatabase.instance.eventsInterface.getAll {
+        eventsInterface.getAll {
             assertTrue(it.empty())
         }
 
@@ -56,9 +54,9 @@ class DatabaseTest : DatabaseTestProto() {
             null
         )
 
-        ServerDatabase.instance.eventsInterface.new(create)
+        eventsInterface.new(create)
 
-        ServerDatabase.instance.eventsInterface.getAll {
+        eventsInterface.getAll {
             assertEquals(1, it.count())
             val item = it.first()
             assertEquals(create.name, item.name)
