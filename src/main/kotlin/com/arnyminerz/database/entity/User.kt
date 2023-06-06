@@ -25,7 +25,7 @@ class User(id: EntityID<Int>): DataEntity<UserType>(id) {
 
     override fun fill(type: UserType) {
         this.nif = type.nif
-        this.role = type.role.code
+        this.role = type.role.name
         this.name = type.name
         this.surname = type.surname
         this.email = type.email
@@ -34,7 +34,7 @@ class User(id: EntityID<Int>): DataEntity<UserType>(id) {
 
     override fun toJSON(): JSONObject = JSONObject().apply {
         put("nif", nif)
-        put("role", role)
+        put("role", UserType.Role.valueOf(role).name)
         put("name", name)
         put("surname", surname)
         put("email", email)

@@ -1,11 +1,12 @@
 package com.arnyminerz.database.dsl
 
+import com.arnyminerz.database.types.UserType
 import org.jetbrains.exposed.dao.id.IntIdTable
 import org.jetbrains.exposed.sql.Column
 
 object Users: IntIdTable() {
     val nif: Column<String> = varchar("nif", 16).uniqueIndex()
-    val role: Column<Int> = integer("role").default(0)
+    val role: Column<String> = varchar("role", 10).default(UserType.Role.DEFAULT.name)
     val name: Column<String> = varchar("name", 128)
     val surname: Column<String> = varchar("surname", 256)
     val passwordHash: Column<String> = varchar("password_hash", 4056)

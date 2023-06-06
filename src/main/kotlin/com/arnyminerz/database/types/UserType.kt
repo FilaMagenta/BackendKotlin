@@ -10,13 +10,14 @@ data class UserType(
     val email: String,
     val birthday: String? = null
 ): DataType {
-    enum class Role(val code: Int) {
-        DEFAULT(0)
+    enum class Role {
+        // IMPORTANT! MAX LENGTH: 10
+        DEFAULT;
     }
 
     override fun toJSON(): JSONObject = JSONObject().apply {
         put("nif", nif)
-        put("role", role.code)
+        put("role", role.name)
         put("name", name)
         put("surname", surname)
         put("email", email)
