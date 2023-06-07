@@ -16,6 +16,7 @@ object Errors {
     val MissingDescriptionBody = Error(15, "Request doesn't contain the required 'description' argument.", HttpStatusCode.BadRequest)
     val MissingDateBody = Error(16, "Request doesn't contain the required 'date' argument.", HttpStatusCode.BadRequest)
     val MissingPriceBody = Error(17, "Request doesn't contain the required 'price' argument.", HttpStatusCode.BadRequest)
+    val MissingAmountBody = Error(18, "Request doesn't contain the required 'amount' argument.", HttpStatusCode.BadRequest)
 
     val NifInvalid = Error(20, "The given NIF is not valid.", HttpStatusCode.BadRequest)
     val EmailInvalid = Error(21, "The given email is not valid.", HttpStatusCode.BadRequest)

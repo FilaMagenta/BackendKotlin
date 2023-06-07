@@ -13,4 +13,5 @@ class InventoryInterface(
     InventoryItem.Companion
 ) {
     override fun InventoryItem.processExtras(extras: Map<String, String>) { }
+
 }

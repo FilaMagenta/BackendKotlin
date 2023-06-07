@@ -17,6 +17,8 @@ import com.arnyminerz.endpoints.routing.delete
 import com.arnyminerz.endpoints.routing.get
 import com.arnyminerz.endpoints.routing.post
 import com.arnyminerz.endpoints.routing.put
+import com.arnyminerz.endpoints.transactions.GetTransactionsEndpoint
+import com.arnyminerz.endpoints.transactions.NewTransactionEndpoint
 import io.ktor.server.application.Application
 import io.ktor.server.auth.authenticate
 import io.ktor.server.routing.routing
@@ -44,6 +46,9 @@ fun Application.configureRouting() {
 
             get("/v1/inventory", GetInventoryItemsEndpoint)
             post("/v1/inventory", NewInventoryItemEndpoint)
+
+            get("/v1/transactions", GetTransactionsEndpoint)
+            post("/v1/transactions", NewTransactionEndpoint)
         }
     }
 }

@@ -27,6 +27,17 @@ fun JSONObject.getIntOrNull(key: String): Int? = try {
 }
 
 /**
+ * Get the float associated with a key.
+ * @param key A key string.
+ * @return A float which is the value, or null, if there isn't any stored value with the given key.
+ */
+fun JSONObject.getFloatOrNull(key: String): Float? = try {
+    if (has(key)) getFloat(key) else null
+} catch (e: JSONException) {
+    null
+}
+
+/**
  * Get the JSONObject associated with a key.
  * @param key A key string.
  * @return A JSONObject which is the value, or null, if there isn't any stored value with the given key.

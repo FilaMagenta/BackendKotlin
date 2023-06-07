@@ -16,25 +16,28 @@ import org.json.JSONObject
  * @param name The key of the property in the body.
  * @param error The error to respond if [name] is not present.
  */
-class Argument(
-    val name: String,
+class Argument<R: Any, Type: ArgumentType<R>>(
+    name: String,
+    type: Type,
     val error: Error
-)
+): ArgumentProto<R, Type>(name, type)
 
-class CalledArgument(
-    private val argument: Argument,
+class CalledArgument<R: Any, Type: ArgumentType<R>>(
+    private val argument: Argument<R, Type>,
     private val call: ApplicationCall,
     private val body: JSONObject
 ) {
-    operator fun getValue(thisRef: Any?, property: KProperty<*>): String {
-        return body.getStringOrNull(argument.name, true) ?: runBlocking {
+    operator fun getValue(thisRef: Any?, property: KProperty<*>): R {
+        return argument.type.fromJson(body, argument.name) ?: runBlocking {
             call.respondFailure(argument.error)
             throw MissingArgumentException(argument)
         }
     }
 }
 
-suspend fun PipelineContext<*, ApplicationCall>.called(block: () -> Argument): CalledArgument {
+suspend fun <R: Any, Type: ArgumentType<R>> PipelineContext<*, ApplicationCall>.called(
+    block: () -> Argument<R, Type>
+): CalledArgument<R, Type> {
     val body = call.receiveJson()
     return CalledArgument(block(), call, body)
 }
