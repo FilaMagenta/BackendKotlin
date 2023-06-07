@@ -1,5 +1,6 @@
 package com.arnyminerz.database.types
 
+import com.arnyminerz.security.permissions.Role
 import org.json.JSONObject
 
 data class UserType(
@@ -10,10 +11,6 @@ data class UserType(
     val email: String,
     val birthday: String? = null
 ): DataType {
-    enum class Role {
-        // IMPORTANT! MAX LENGTH: 10
-        DEFAULT;
-    }
 
     override fun toJSON(): JSONObject = JSONObject().apply {
         put("nif", nif)

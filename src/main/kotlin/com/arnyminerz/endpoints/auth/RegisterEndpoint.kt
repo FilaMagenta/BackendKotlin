@@ -8,6 +8,7 @@ import com.arnyminerz.endpoints.protos.Endpoint
 import com.arnyminerz.errors.Errors.EmailInvalid
 import com.arnyminerz.errors.Errors.NifAlreadyRegistered
 import com.arnyminerz.errors.Errors.NifInvalid
+import com.arnyminerz.security.permissions.Role
 import com.arnyminerz.utils.respondFailure
 import com.arnyminerz.utils.respondSuccess
 import com.arnyminerz.utils.validation.isValidDni
@@ -38,7 +39,7 @@ object RegisterEndpoint: Endpoint {
         }
         if (userExists) return call.respondFailure(NifAlreadyRegistered)
 
-        ServerDatabase.instance.usersInterface.new(UserType(nif, UserType.Role.DEFAULT, name, surname, email, null), "password" to password)
+        ServerDatabase.instance.usersInterface.new(UserType(nif, Role.DEFAULT, name, surname, email, null), "password" to password)
 
         call.respondSuccess(HttpStatusCode.Created)
     }

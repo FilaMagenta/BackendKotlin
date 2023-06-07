@@ -3,6 +3,7 @@ package com.arnyminerz
 import com.arnyminerz.database.types.EventType
 import com.arnyminerz.database.types.UserType
 import com.arnyminerz.security.Passwords
+import com.arnyminerz.security.permissions.Role
 import java.time.ZoneOffset
 import java.time.ZonedDateTime
 import java.util.Base64
@@ -21,7 +22,7 @@ class DatabaseTest : DatabaseTestProto() {
         }
 
         usersInterface.new(
-            UserType("12345678Z",  UserType.Role.DEFAULT,"Testing", "User", "example@mail.com"),
+            UserType("12345678Z",  Role.DEFAULT,"Testing", "User", "example@mail.com"),
             "password" to "password"
         )
 

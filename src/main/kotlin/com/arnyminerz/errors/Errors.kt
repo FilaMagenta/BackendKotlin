@@ -15,6 +15,7 @@ object Errors {
     val MissingPasswordBody = Error(14, "Request doesn't contain the required 'password' argument.", HttpStatusCode.BadRequest)
     val MissingDescriptionBody = Error(15, "Request doesn't contain the required 'description' argument.", HttpStatusCode.BadRequest)
     val MissingDateBody = Error(16, "Request doesn't contain the required 'date' argument.", HttpStatusCode.BadRequest)
+    val MissingPriceBody = Error(17, "Request doesn't contain the required 'price' argument.", HttpStatusCode.BadRequest)
 
     val NifInvalid = Error(20, "The given NIF is not valid.", HttpStatusCode.BadRequest)
     val EmailInvalid = Error(21, "The given email is not valid.", HttpStatusCode.BadRequest)
@@ -24,6 +25,7 @@ object Errors {
     val Unauthorized = Error(40, "Token is not valid or has expired.", HttpStatusCode.Unauthorized)
     val NifNotFound = Error(41, "The given NIF was not found in the database.", HttpStatusCode.BadRequest)
     val WrongPassword = Error(42, "Wrong NIF or password.", HttpStatusCode.BadRequest)
+    val MissingPermission = Error(43, "You are not authorized to perform this operation", HttpStatusCode.Forbidden)
 
     val AssistanceAlreadyConfirmed = Error(50, "Assistance already confirmed.", HttpStatusCode.BadRequest)
     val UserAlreadyInTable = Error(51, "You are already in a table.", HttpStatusCode.BadRequest)

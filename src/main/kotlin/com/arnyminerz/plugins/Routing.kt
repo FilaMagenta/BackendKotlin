@@ -10,6 +10,8 @@ import com.arnyminerz.endpoints.events.JoinTableEndpoint
 import com.arnyminerz.endpoints.events.LeaveTableEndpoint
 import com.arnyminerz.endpoints.events.NewEventEndpoint
 import com.arnyminerz.endpoints.events.NewTableEndpoint
+import com.arnyminerz.endpoints.inventory.GetInventoryItemsEndpoint
+import com.arnyminerz.endpoints.inventory.NewInventoryItemEndpoint
 import com.arnyminerz.endpoints.profile.GetProfileEndpoint
 import com.arnyminerz.endpoints.routing.delete
 import com.arnyminerz.endpoints.routing.get
@@ -31,6 +33,7 @@ fun Application.configureRouting() {
 
         authenticate("auth-jwt") {
             get("/v1/profile", GetProfileEndpoint)
+
             get("/v1/events", GetEventsEndpoint)
             post("/v1/events", NewEventEndpoint)
             put("/v1/events/{eventId}/assistance", ConfirmAssistanceEndpoint)
@@ -38,6 +41,9 @@ fun Application.configureRouting() {
             post("/v1/events/{eventId}/table", NewTableEndpoint)
             put("/v1/events/{eventId}/table/{tableId}", JoinTableEndpoint)
             delete("/v1/events/{eventId}/table", LeaveTableEndpoint)
+
+            get("/v1/inventory", GetInventoryItemsEndpoint)
+            post("/v1/inventory", NewInventoryItemEndpoint)
         }
     }
 }

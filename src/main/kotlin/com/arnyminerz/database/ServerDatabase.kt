@@ -1,14 +1,13 @@
 package com.arnyminerz.database
 
-import com.arnyminerz.database.dsl.EventTables
-import com.arnyminerz.database.dsl.Events
-import com.arnyminerz.database.dsl.TableMembers
-import com.arnyminerz.database.dsl.UserAssistances
-import com.arnyminerz.database.dsl.Users
+import com.arnyminerz.database.dsl.*
 import com.arnyminerz.database.`interface`.EventsInterface
+import com.arnyminerz.database.`interface`.InventoryInterface
+import com.arnyminerz.database.`interface`.TransactionsInterface
 import com.arnyminerz.database.`interface`.UsersInterface
 import java.sql.DriverManager
 import kotlinx.coroutines.runBlocking
+import org.jetbrains.exposed.dao.flushCache
 import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.SchemaUtils
 import org.jetbrains.exposed.sql.StdOutSqlLogger
@@ -56,6 +55,10 @@ abstract class ServerDatabase(
 
     lateinit var eventsInterface: EventsInterface
 
+    lateinit var transactionsInterface: TransactionsInterface
+
+    lateinit var inventoryInterface: InventoryInterface
+
     init {
         runBlocking { init() }
     }
@@ -64,6 +67,8 @@ abstract class ServerDatabase(
         println("Initializing interfaces...")
         usersInterface = UsersInterface(this)
         eventsInterface = EventsInterface(this)
+        transactionsInterface = TransactionsInterface(this)
+        inventoryInterface = InventoryInterface(this)
 
         println("Initializing database ($databaseUrl)...")
         transaction {
@@ -71,12 +76,16 @@ abstract class ServerDatabase(
             addLogger(StdOutSqlLogger)
 
             println("Creating required schema...")
-            SchemaUtils.create(Users, Events, UserAssistances, EventTables, TableMembers)
+            SchemaUtils.create(Users, Events, UserAssistances, EventTables, TableMembers, InventoryItems, Transactions)
         }
     }
 
     suspend fun <Result> transaction(statement: suspend Transaction.() -> Result): Result = transaction(database) {
         runBlocking { statement() }
+    }
+
+    suspend fun flushCache() = transaction {
+        flushCache()
     }
 
     open fun dispose() { }

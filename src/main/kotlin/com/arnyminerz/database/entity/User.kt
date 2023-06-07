@@ -2,6 +2,7 @@ package com.arnyminerz.database.entity
 
 import com.arnyminerz.database.dsl.Users
 import com.arnyminerz.database.types.UserType
+import com.arnyminerz.security.permissions.Role
 import java.util.Base64
 import org.jetbrains.exposed.dao.IntEntityClass
 import org.jetbrains.exposed.dao.id.EntityID
@@ -19,6 +20,9 @@ class User(id: EntityID<Int>): DataEntity<UserType>(id) {
     var email by Users.email
     var birthday by Users.birthday
 
+    val userRole: Role
+        get() = Role.valueOf(role)
+
     fun passwordHash(): ByteArray = Base64.getMimeDecoder().decode(passwordHash)
 
     fun passwordSalt(): ByteArray = Base64.getMimeDecoder().decode(passwordSalt)
@@ -34,7 +38,7 @@ class User(id: EntityID<Int>): DataEntity<UserType>(id) {
 
     override fun toJSON(): JSONObject = JSONObject().apply {
         put("nif", nif)
-        put("role", UserType.Role.valueOf(role).name)
+        put("role", userRole.name)
         put("name", name)
         put("surname", surname)
         put("email", email)

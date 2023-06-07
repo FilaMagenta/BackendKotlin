@@ -1,7 +1,9 @@
 package com.arnyminerz.application
 
 import com.arnyminerz.DatabaseTestProto
+import com.arnyminerz.database.ServerDatabase
 import com.arnyminerz.installModules
+import com.arnyminerz.security.permissions.Role
 import com.arnyminerz.utils.assertSuccess
 import com.arnyminerz.utils.getStringOrNull
 import com.arnyminerz.utils.jsonOf
@@ -24,6 +26,14 @@ abstract class ApplicationTestProto: DatabaseTestProto() {
     protected fun testLoggedIn(assertion: suspend ApplicationTestBuilder.(token: String) -> Unit) = test {
         provideSampleUser {
             loginWithSampleUser {
+                assertion(this@test, it)
+            }
+        }
+    }
+
+    protected fun testLoggedInAdmin(assertion: suspend ApplicationTestBuilder.(token: String) -> Unit) = test {
+        provideSampleUser {
+            loginWithAdminUser {
                 assertion(this@test, it)
             }
         }
@@ -101,5 +111,20 @@ abstract class ApplicationTestProto: DatabaseTestProto() {
         assertion: suspend HttpResponse.(token: String) -> Unit
     ) {
         login(data.getValue("nif"), data.getValue("password"), assertion)
+    }
+
+    private suspend fun ApplicationTestBuilder.loginWithAdminUser(
+        data: Map<String, String> = registerSampleData,
+        assertion: suspend HttpResponse.(token: String) -> Unit
+    ) {
+        login(data.getValue("nif"), data.getValue("password")) {
+            usersInterface.findWithNif(data.getValue("nif")) { user ->
+                user!!.role = Role.ADMIN.name
+            }
+            ServerDatabase.instance.flushCache()
+
+            // TODO: Set admin role
+            assertion(it)
+        }
     }
 }

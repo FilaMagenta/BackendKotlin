@@ -12,4 +12,5 @@ object Arguments {
     val Date = Argument("date", Errors.MissingDateBody)
     val Until = OptionalArgument("until")
     val Reservations = OptionalArgument("reservations")
+    val Price = Argument("price", Errors.MissingPriceBody)
 }
