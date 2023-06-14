@@ -13,6 +13,7 @@ object Events: IntIdTable(), JsonSerializer<Event?> {
     val date: Column<String> = varchar("date", 64)
     val until: Column<String?> = varchar("until", 64).nullable()
     val reservations: Column<String?> = varchar("reservations", 64).nullable()
+    val maxGuests: Column<Int?> = integer("max_guests").nullable().default(-1)
 
     override suspend fun fromJson(json: JSONObject): Event? =
         ServerDatabase.instance.eventsInterface.get(json.getInt("id")) { it }

@@ -16,4 +16,5 @@ object Arguments {
     val Item = OptionalArgument("item", ArgumentTypes.INTEGER)
     val Amount = Argument("amount", ArgumentTypes.INTEGER, Errors.MissingAmountBody)
     val User = Argument("user_id", ArgumentTypes.INTEGER, Errors.MissingUserIdBody)
+    val MaxGuests = OptionalArgument("max_guests", ArgumentTypes.INTEGER)
 }

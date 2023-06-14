@@ -1,15 +1,15 @@
 package com.arnyminerz.endpoints.arguments
 
 import com.arnyminerz.utils.receiveJson
-import io.ktor.server.application.ApplicationCall
-import io.ktor.server.application.call
-import io.ktor.util.pipeline.PipelineContext
-import kotlin.reflect.KProperty
+import io.ktor.server.application.*
+import io.ktor.util.pipeline.*
 import org.json.JSONObject
+import kotlin.reflect.KProperty
 
 class OptionalArgument<R: Any, Type: ArgumentType<R>>(
     name: String,
     type: Type,
+    val default: R? = null
 ): ArgumentProto<R, Type>(name, type)
 
 class CalledOptionalArgument<R: Any, Type: ArgumentType<R>>(
@@ -17,7 +17,7 @@ class CalledOptionalArgument<R: Any, Type: ArgumentType<R>>(
     private val body: JSONObject
 ) {
     operator fun getValue(thisRef: Any?, property: KProperty<*>): R? {
-        return argument.type.fromJson(body, argument.name)
+        return argument.type.fromJson(body, argument.name) ?: argument.default
     }
 }
 

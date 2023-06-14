@@ -4,10 +4,10 @@ import com.arnyminerz.database.dsl.EventTables
 import com.arnyminerz.database.dsl.Events
 import com.arnyminerz.database.dsl.UserAssistances
 import com.arnyminerz.database.types.EventType
-import java.time.ZonedDateTime
 import org.jetbrains.exposed.dao.IntEntityClass
 import org.jetbrains.exposed.dao.id.EntityID
 import org.json.JSONObject
+import java.time.ZonedDateTime
 
 class Event(id: EntityID<Int>): DataEntity<EventType>(id) {
     companion object: IntEntityClass<Event>(Events)
@@ -17,6 +17,7 @@ class Event(id: EntityID<Int>): DataEntity<EventType>(id) {
     var date by Events.date
     var until by Events.until
     var reservations by Events.reservations
+    var maxGuests by Events.maxGuests
 
     val assistants by UserAssistance referrersOn UserAssistances.event
 
@@ -44,6 +45,7 @@ class Event(id: EntityID<Int>): DataEntity<EventType>(id) {
         put("date", date)
         put("until", until)
         put("reservations", reservations)
+        put("max_guests", maxGuests)
     }
 
     override fun fill(type: EventType) {
@@ -52,5 +54,6 @@ class Event(id: EntityID<Int>): DataEntity<EventType>(id) {
         date = type.date.toString()
         until = type.until?.toString()
         reservations = type.reservations?.toString()
+        maxGuests = type.maxGuests
     }
 }

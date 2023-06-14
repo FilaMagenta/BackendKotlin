@@ -9,10 +9,9 @@ import com.arnyminerz.endpoints.arguments.calledOptional
 import com.arnyminerz.endpoints.protos.AuthenticatedEndpoint
 import com.arnyminerz.security.permissions.Permissions
 import com.arnyminerz.utils.respondSuccess
-import io.ktor.http.HttpStatusCode
-import io.ktor.server.application.ApplicationCall
-import io.ktor.server.application.call
-import io.ktor.util.pipeline.PipelineContext
+import io.ktor.http.*
+import io.ktor.server.application.*
+import io.ktor.util.pipeline.*
 
 object NewEventEndpoint: AuthenticatedEndpoint(Permissions.Events.Create) {
     override suspend fun PipelineContext<*, ApplicationCall>.endpoint(user: User) {
@@ -21,8 +20,9 @@ object NewEventEndpoint: AuthenticatedEndpoint(Permissions.Events.Create) {
         val date by called { Arguments.Date }
         val until by calledOptional { Arguments.Until }
         val reservations by calledOptional { Arguments.Reservations }
+        val maxGuests by calledOptional { Arguments.MaxGuests }
 
-        val event = EventType(name, description, date, until, reservations)
+        val event = EventType(name, description, date, until, reservations, maxGuests)
 
         ServerDatabase.instance.eventsInterface.new(event)
 
