@@ -1,12 +1,13 @@
 package com.arnyminerz.errors
 
-import io.ktor.http.HttpStatusCode
+import io.ktor.http.*
 
 object Errors {
     val EndpointNotFound = Error(1, "Endpoint not found", HttpStatusCode.NotFound)
     val Internal = Error(2, "Internal server exception", HttpStatusCode.InternalServerError)
     val EventNotFound = Error(3, "Could not find event.", HttpStatusCode.BadRequest)
     val TableNotFound = Error(4, "Could not find table.", HttpStatusCode.BadRequest)
+    val UserNotFound = Error(5, "Could not find user.", HttpStatusCode.BadRequest)
 
     val MissingNifBody = Error(10, "Request doesn't contain the required 'nif' argument.", HttpStatusCode.BadRequest)
     val MissingNameBody = Error(11, "Request doesn't contain the required 'name' argument.", HttpStatusCode.BadRequest)
@@ -17,6 +18,7 @@ object Errors {
     val MissingDateBody = Error(16, "Request doesn't contain the required 'date' argument.", HttpStatusCode.BadRequest)
     val MissingPriceBody = Error(17, "Request doesn't contain the required 'price' argument.", HttpStatusCode.BadRequest)
     val MissingAmountBody = Error(18, "Request doesn't contain the required 'amount' argument.", HttpStatusCode.BadRequest)
+    val MissingUserIdBody = Error(19, "Request doesn't contain the required 'user_id' argument.", HttpStatusCode.BadRequest)
 
     val NifInvalid = Error(20, "The given NIF is not valid.", HttpStatusCode.BadRequest)
     val EmailInvalid = Error(21, "The given email is not valid.", HttpStatusCode.BadRequest)

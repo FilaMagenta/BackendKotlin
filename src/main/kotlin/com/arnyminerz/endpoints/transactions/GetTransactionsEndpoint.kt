@@ -2,12 +2,9 @@ package com.arnyminerz.endpoints.transactions
 
 import com.arnyminerz.database.entity.User
 import com.arnyminerz.endpoints.protos.AuthenticatedEndpoint
-import com.arnyminerz.errors.Errors
-import com.arnyminerz.utils.respondFailure
 import com.arnyminerz.utils.respondSuccess
-import io.ktor.server.application.ApplicationCall
-import io.ktor.server.application.call
-import io.ktor.util.pipeline.PipelineContext
+import io.ktor.server.application.*
+import io.ktor.util.pipeline.*
 import org.json.JSONArray
 import org.json.JSONObject
 

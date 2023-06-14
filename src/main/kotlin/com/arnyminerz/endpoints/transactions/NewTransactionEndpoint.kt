@@ -10,10 +10,9 @@ import com.arnyminerz.errors.Errors
 import com.arnyminerz.security.permissions.Permissions
 import com.arnyminerz.utils.respondFailure
 import com.arnyminerz.utils.respondSuccess
-import io.ktor.http.HttpStatusCode
-import io.ktor.server.application.ApplicationCall
-import io.ktor.server.application.call
-import io.ktor.util.pipeline.PipelineContext
+import io.ktor.http.*
+import io.ktor.server.application.*
+import io.ktor.util.pipeline.*
 
 object NewTransactionEndpoint: AuthenticatedEndpoint(Permissions.Transactions.Create) {
     override suspend fun PipelineContext<*, ApplicationCall>.endpoint(user: User) {
@@ -22,12 +21,15 @@ object NewTransactionEndpoint: AuthenticatedEndpoint(Permissions.Transactions.Cr
         val description by called { Arguments.Description }
         val date by called { Arguments.Date }
         val itemId by calledOptional { Arguments.Item }
+        val userId by called { Arguments.User }
+
+        val transactionUser = usersInterface.get(userId) { it } ?: return call.respondFailure(Errors.UserNotFound)
 
         val item = itemId?.let { id ->
             inventoryInterface.get(id) { it }
         }
 
-        val transaction = TransactionType(date, amount, pricePerUnit, description, user, item)
+        val transaction = TransactionType(date, amount, pricePerUnit, description, transactionUser, item)
         transactionsInterface.new(transaction)
 
         call.respondSuccess(HttpStatusCode.Created)
