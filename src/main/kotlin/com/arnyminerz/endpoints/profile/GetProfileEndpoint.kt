@@ -1,20 +1,13 @@
 package com.arnyminerz.endpoints.profile
 
-import com.arnyminerz.database.ServerDatabase
+import com.arnyminerz.database.entity.User
 import com.arnyminerz.endpoints.protos.AuthenticatedEndpoint
-import com.arnyminerz.endpoints.protos.Endpoint
-import com.arnyminerz.endpoints.requireAuthentication
-import com.arnyminerz.errors.Errors
-import com.arnyminerz.utils.respondFailure
 import com.arnyminerz.utils.respondSuccess
-import io.ktor.server.application.ApplicationCall
-import io.ktor.server.application.call
-import io.ktor.util.pipeline.PipelineContext
+import io.ktor.server.application.*
+import io.ktor.util.pipeline.*
 
-object GetProfileEndpoint: AuthenticatedEndpoint {
-    override suspend fun PipelineContext<*, ApplicationCall>.endpoint(nif: String) {
-        val user = ServerDatabase.instance.usersInterface.findWithNif(nif) { it }
-            ?: return call.respondFailure(Errors.NifNotFound)
+object GetProfileEndpoint: AuthenticatedEndpoint() {
+    override suspend fun PipelineContext<*, ApplicationCall>.endpoint(user: User) {
         call.respondSuccess(user)
     }
 }

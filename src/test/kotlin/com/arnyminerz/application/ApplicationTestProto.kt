@@ -53,6 +53,20 @@ abstract class ApplicationTestProto: DatabaseTestProto() {
         }
     }
 
+    protected fun testDoubleLoggedInAdmin(
+        assertion: suspend ApplicationTestBuilder.(token: String, tokenAdmin: String) -> Unit
+    ) = test {
+        provideSampleUser {
+            provideSampleUser(registerSampleData2) {
+                loginWithSampleUser { token ->
+                    loginWithAdminUser(registerSampleData2) { tokenAdmin ->
+                        assertion(this@test, token, tokenAdmin)
+                    }
+                }
+            }
+        }
+    }
+
     protected val registerSampleData = mapOf(
         "nif" to "12345678Z",
         "name" to "Testing",

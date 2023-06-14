@@ -1,5 +1,6 @@
 package com.arnyminerz.endpoints.transactions
 
+import com.arnyminerz.database.entity.User
 import com.arnyminerz.endpoints.protos.AuthenticatedEndpoint
 import com.arnyminerz.errors.Errors
 import com.arnyminerz.utils.respondFailure
@@ -10,11 +11,8 @@ import io.ktor.util.pipeline.PipelineContext
 import org.json.JSONArray
 import org.json.JSONObject
 
-object GetTransactionsEndpoint: AuthenticatedEndpoint {
-    override suspend fun PipelineContext<*, ApplicationCall>.endpoint(nif: String) {
-        val user = usersInterface.findWithNif(nif) { it }
-            ?: return call.respondFailure(Errors.NifNotFound)
-
+object GetTransactionsEndpoint: AuthenticatedEndpoint() {
+    override suspend fun PipelineContext<*, ApplicationCall>.endpoint(user: User) {
         val transactions = JSONArray()
         transactionsInterface.findForUser(user) { list ->
             for (item in list)

@@ -1,6 +1,8 @@
 package com.arnyminerz.application.transactions
 
 import com.arnyminerz.application.ApplicationTestProto
+import com.arnyminerz.errors.Errors
+import com.arnyminerz.utils.assertFailure
 import com.arnyminerz.utils.assertSuccess
 import io.ktor.client.request.get
 import io.ktor.client.request.header
@@ -18,7 +20,7 @@ import org.junit.Test
 
 class ApplicationTestTransactionsNew: ApplicationTestProto() {
     @Test
-    fun `test getting transactions list`() = testLoggedIn {  token ->
+    fun `test creating transaction - admin`() = testLoggedInAdmin {  token ->
         client.post("/v1/transactions") {
             header(HttpHeaders.Authorization, "Bearer $token")
             setBody(
@@ -41,6 +43,23 @@ class ApplicationTestTransactionsNew: ApplicationTestProto() {
                 val transactions = data.getJSONArray("transactions")
                 assertEquals(1, transactions.count())
             }
+        }
+    }
+
+    @Test
+    fun `test creating transaction - no permission`() = testLoggedIn {  token ->
+        client.post("/v1/transactions") {
+            header(HttpHeaders.Authorization, "Bearer $token")
+            setBody(
+                JSONObject().apply {
+                    put("amount", 1)
+                    put("price", 10)
+                    put("description", "Testing transaction")
+                    put("date", ZonedDateTime.of(2023, 3, 12, 12, 0, 0, 0, ZoneOffset.UTC).toString())
+                }.toString()
+            )
+        }.apply {
+            assertFailure(Errors.MissingPermission)
         }
     }
 }

@@ -1,20 +1,32 @@
 package com.arnyminerz.endpoints.protos
 
 import com.arnyminerz.database.ServerDatabase
+import com.arnyminerz.database.entity.User
 import com.arnyminerz.database.`interface`.EventsInterface
 import com.arnyminerz.database.`interface`.InventoryInterface
 import com.arnyminerz.database.`interface`.TransactionsInterface
 import com.arnyminerz.database.`interface`.UsersInterface
 import com.arnyminerz.endpoints.arguments.MissingArgumentException
-import io.ktor.server.application.ApplicationCall
+import com.arnyminerz.errors.Errors
+import com.arnyminerz.security.permissions.Permission
+import com.arnyminerz.utils.respondFailure
+import io.ktor.server.application.*
 import io.ktor.util.pipeline.PipelineContext
 
-fun interface AuthenticatedEndpoint {
+/**
+ * Defines an endpoint that requires that the user has logged in.
+ */
+abstract class AuthenticatedEndpoint(
+    /**
+     * A list of the permissions that the user requires to use the endpoint.
+     */
+    private vararg val requiredPermissions: Permission
+) {
     /**
      * Runs all the logic associated with the endpoint.
      * @throws MissingArgumentException When an argument of the body was not present but was required.
      */
-    suspend fun PipelineContext<*, ApplicationCall>.endpoint(nif: String)
+    abstract suspend fun PipelineContext<*, ApplicationCall>.endpoint(user: User)
 
     val usersInterface: UsersInterface
         get() = ServerDatabase.instance.usersInterface
@@ -30,7 +42,16 @@ fun interface AuthenticatedEndpoint {
 
     suspend fun run(context: PipelineContext<*, ApplicationCall>, nif: String) {
         try {
-            context.endpoint(nif)
+            val user = usersInterface.findWithNif(nif) { it }
+                ?: return context.call.respondFailure(Errors.NifNotFound)
+
+            println("Endpoint required permissions (${requiredPermissions.size}): ${requiredPermissions.joinToString { it.toString() }}")
+            if (requiredPermissions.isNotEmpty())
+                for (permission in requiredPermissions)
+                    if (!user.userRole.hasPermission(permission))
+                        return context.call.respondFailure(Errors.MissingPermission)
+
+            context.endpoint(user)
         } catch (ignored: MissingArgumentException) {
         }
     }

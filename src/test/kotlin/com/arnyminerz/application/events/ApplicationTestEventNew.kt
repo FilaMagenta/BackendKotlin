@@ -1,6 +1,11 @@
 package com.arnyminerz.application.events
 
+import com.arnyminerz.errors.Errors
+import com.arnyminerz.utils.assertFailure
+import com.arnyminerz.utils.assertSuccess
 import com.arnyminerz.utils.getStringOrNull
+import io.ktor.client.request.*
+import io.ktor.http.*
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertNull
@@ -9,7 +14,7 @@ import org.junit.Test
 class ApplicationTestEventNew: ApplicationTestEventProto() {
 
     @Test
-    fun test_events_create() = testLoggedIn { token ->
+    fun `test creating event - admin`() = testLoggedInAdmin { token ->
         provideSampleEvent(token)
 
         getAllEvents(token) { events ->
@@ -24,6 +29,16 @@ class ApplicationTestEventNew: ApplicationTestEventProto() {
 
             // At first, assistance is not confirmed
             assertFalse(event.getBoolean("assists"))
+        }
+    }
+
+    @Test
+    fun `test creating event - no permission`() = testLoggedIn { token ->
+        client.post("/v1/events") {
+            header("Authorization", "Bearer $token")
+            setBody(eventSampleData.toString())
+        }.apply {
+            assertFailure(Errors.MissingPermission)
         }
     }
 }

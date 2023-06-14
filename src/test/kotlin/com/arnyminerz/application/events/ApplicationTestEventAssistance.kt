@@ -24,8 +24,8 @@ class ApplicationTestEventAssistance : ApplicationTestEventProto() {
     }.apply { assertion() }
 
     @Test
-    fun test_event_confirmAssistance() = testLoggedIn { token ->
-        provideSampleEvent(token)
+    fun test_event_confirmAssistance() = testDoubleLoggedInAdmin { token, tokenAdmin ->
+        provideSampleEvent(tokenAdmin)
 
         // Check that the user is not assisting
         getFirstEvent(token) { assertFalse(it.getBoolean("assists")) }
@@ -41,8 +41,8 @@ class ApplicationTestEventAssistance : ApplicationTestEventProto() {
     }
 
     @Test
-    fun test_event_confirmAssistance_double() = testLoggedIn { token ->
-        provideSampleEvent(token)
+    fun test_event_confirmAssistance_double() = testDoubleLoggedInAdmin { token, tokenAdmin ->
+        provideSampleEvent(tokenAdmin)
 
         // Confirm assistance once
         getFirstEvent(token) { eventJson ->
@@ -62,8 +62,8 @@ class ApplicationTestEventAssistance : ApplicationTestEventProto() {
     }
 
     @Test
-    fun test_event_rejectAssistance() = testLoggedIn { token ->
-        provideSampleEvent(token)
+    fun test_event_rejectAssistance() = testDoubleLoggedInAdmin { token, tokenAdmin ->
+        provideSampleEvent(tokenAdmin)
 
         // Check that the user is not assisting
         getFirstEvent(token) { assertFalse(it.getBoolean("assists")) }
@@ -94,8 +94,8 @@ class ApplicationTestEventAssistance : ApplicationTestEventProto() {
     }
 
     @Test
-    fun test_event_rejectAssistance_notConfirmed() = testLoggedIn { token ->
-        provideSampleEvent(token)
+    fun test_event_rejectAssistance_notConfirmed() = testDoubleLoggedInAdmin { token, tokenAdmin ->
+        provideSampleEvent(tokenAdmin)
 
         // Check that the user is not assisting
         getFirstEvent(token) { assertFalse(it.getBoolean("assists")) }

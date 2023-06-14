@@ -15,8 +15,8 @@ import org.junit.Test
 
 class ApplicationTestEventTables: ApplicationTestEventProto() {
     @Test
-    fun `events table creation`() = testLoggedIn { token ->
-        provideSampleEvent(token)
+    fun `events table creation`() = testDoubleLoggedInAdmin { token, tokenAdmin ->
+        provideSampleEvent(tokenAdmin)
 
         getFirstEvent(token) { event ->
             val tables = event.getJSONArray("tables")
@@ -47,8 +47,8 @@ class ApplicationTestEventTables: ApplicationTestEventProto() {
     }
 
     @Test
-    fun `events double table creation`() = testLoggedIn { token ->
-        provideSampleEvent(token)
+    fun `events double table creation`() = testDoubleLoggedInAdmin { token, tokenAdmin ->
+        provideSampleEvent(tokenAdmin)
 
         getFirstEvent(token) { event ->
             val tables = event.getJSONArray("tables")
@@ -75,37 +75,37 @@ class ApplicationTestEventTables: ApplicationTestEventProto() {
     }
 
     @Test
-    fun `events table joining`() = testDoubleLoggedIn { token1, token2 ->
-        provideSampleEvent(token1)
+    fun `events table joining`() = testDoubleLoggedInAdmin { token, tokenAdmin ->
+        provideSampleEvent(tokenAdmin)
 
-        getFirstEvent(token1) { event ->
+        getFirstEvent(token) { event ->
             val tables = event.getJSONArray("tables")
             assertTrue(tables.isEmpty)
         }
 
         // Create a new table as the user for responsible
-        getFirstEvent(token1) { event ->
+        getFirstEvent(token) { event ->
             client.post("/v1/events/${event.getInt("id")}/table") {
-                header("Authorization", "Bearer $token1")
+                header("Authorization", "Bearer $token")
             }.apply {
                 assertSuccess(HttpStatusCode.Created)
             }
         }
 
         // Join the created table
-        getFirstEvent(token2) { event ->
+        getFirstEvent(tokenAdmin) { event ->
             val tables = event.getJSONArray("tables")
             val table = tables.getJSONObject(0)
 
             client.put("/v1/events/${event.getInt("id")}/table/${table.getInt("id")}") {
-                header("Authorization", "Bearer $token2")
+                header("Authorization", "Bearer $tokenAdmin")
             }.apply {
                 assertSuccess(HttpStatusCode.Accepted)
             }
         }
 
         // Check that the new member can be fetched
-        getFirstEvent(token1) { event ->
+        getFirstEvent(token) { event ->
             val secondUser = usersInterface.findWithNif(registerSampleData2.getValue("nif")) { it!! }
 
             val tables = event.getJSONArray("tables")
@@ -117,46 +117,46 @@ class ApplicationTestEventTables: ApplicationTestEventProto() {
     }
 
     @Test
-    fun `events table leaving - member`() = testDoubleLoggedIn { token1, token2 ->
-        provideSampleEvent(token1)
+    fun `events table leaving - member`() = testDoubleLoggedInAdmin { token, tokenAdmin ->
+        provideSampleEvent(tokenAdmin)
 
-        getFirstEvent(token1) { event ->
+        getFirstEvent(token) { event ->
             val tables = event.getJSONArray("tables")
             assertTrue(tables.isEmpty)
         }
 
         // Create a new table as the user for responsible
-        getFirstEvent(token1) { event ->
+        getFirstEvent(token) { event ->
             client.post("/v1/events/${event.getInt("id")}/table") {
-                header("Authorization", "Bearer $token1")
+                header("Authorization", "Bearer $token")
             }.apply {
                 assertSuccess(HttpStatusCode.Created)
             }
         }
 
         // Join the created table
-        getFirstEvent(token2) { event ->
+        getFirstEvent(tokenAdmin) { event ->
             val tables = event.getJSONArray("tables")
             val table = tables.getJSONObject(0)
 
             client.put("/v1/events/${event.getInt("id")}/table/${table.getInt("id")}") {
-                header("Authorization", "Bearer $token2")
+                header("Authorization", "Bearer $tokenAdmin")
             }.apply {
                 assertSuccess(HttpStatusCode.Accepted)
             }
         }
 
         // Leave the table as member
-        getFirstEvent(token2) { event ->
+        getFirstEvent(tokenAdmin) { event ->
             client.delete("/v1/events/${event.getInt("id")}/table") {
-                header("Authorization", "Bearer $token2")
+                header("Authorization", "Bearer $tokenAdmin")
             }.apply {
                 assertSuccess(HttpStatusCode.Accepted)
             }
         }
 
         // Check that the table now has no members
-        getFirstEvent(token1) { event ->
+        getFirstEvent(token) { event ->
             val tables = event.getJSONArray("tables")
             val table = tables.getJSONObject(0)
             val members = table.getJSONArray("members")
@@ -165,46 +165,46 @@ class ApplicationTestEventTables: ApplicationTestEventProto() {
     }
 
     @Test
-    fun `events table leaving - responsible`() = testDoubleLoggedIn { token1, token2 ->
-        provideSampleEvent(token1)
+    fun `events table leaving - responsible`() = testDoubleLoggedInAdmin { token, tokenAdmin ->
+        provideSampleEvent(tokenAdmin)
 
-        getFirstEvent(token1) { event ->
+        getFirstEvent(token) { event ->
             val tables = event.getJSONArray("tables")
             assertTrue(tables.isEmpty)
         }
 
         // Create a new table as the user for responsible
-        getFirstEvent(token1) { event ->
+        getFirstEvent(token) { event ->
             client.post("/v1/events/${event.getInt("id")}/table") {
-                header("Authorization", "Bearer $token1")
+                header("Authorization", "Bearer $token")
             }.apply {
                 assertSuccess(HttpStatusCode.Created)
             }
         }
 
         // Join the created table
-        getFirstEvent(token2) { event ->
+        getFirstEvent(tokenAdmin) { event ->
             val tables = event.getJSONArray("tables")
             val table = tables.getJSONObject(0)
 
             client.put("/v1/events/${event.getInt("id")}/table/${table.getInt("id")}") {
-                header("Authorization", "Bearer $token2")
+                header("Authorization", "Bearer $tokenAdmin")
             }.apply {
                 assertSuccess(HttpStatusCode.Accepted)
             }
         }
 
         // Leave the table as responsible
-        getFirstEvent(token1) { event ->
+        getFirstEvent(token) { event ->
             client.delete("/v1/events/${event.getInt("id")}/table") {
-                header("Authorization", "Bearer $token1")
+                header("Authorization", "Bearer $token")
             }.apply {
                 assertSuccess(HttpStatusCode.Accepted)
             }
         }
 
         // Check that now there are no tables
-        getFirstEvent(token1) { event ->
+        getFirstEvent(token) { event ->
             val tables = event.getJSONArray("tables")
             assertTrue(tables.isEmpty, "Tables is not empty: $tables")
         }
