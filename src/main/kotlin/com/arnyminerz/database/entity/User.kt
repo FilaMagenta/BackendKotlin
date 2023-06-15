@@ -3,6 +3,7 @@ package com.arnyminerz.database.entity
 import com.arnyminerz.database.dsl.Users
 import com.arnyminerz.database.types.UserType
 import com.arnyminerz.security.permissions.Role
+import com.arnyminerz.utils.jsonOf
 import java.util.Base64
 import org.jetbrains.exposed.dao.IntEntityClass
 import org.jetbrains.exposed.dao.id.EntityID
@@ -36,12 +37,12 @@ class User(id: EntityID<Int>) : DataEntity<UserType>(id) {
         this.birthday = type.birthday
     }
 
-    override fun toJSON(): JSONObject = JSONObject().apply {
-        put("nif", nif)
-        put("role", userRole.name)
-        put("name", name)
-        put("surname", surname)
-        put("email", email)
-        put("birthday", birthday)
-    }
+    override fun toJSON(): JSONObject = jsonOf(
+        "nif" to nif,
+        "role" to role,
+        "name" to name,
+        "surname" to surname,
+        "email" to email,
+        "birthday" to birthday,
+    )
 }

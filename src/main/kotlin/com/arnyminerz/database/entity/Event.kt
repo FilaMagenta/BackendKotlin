@@ -5,6 +5,7 @@ import com.arnyminerz.database.dsl.Events
 import com.arnyminerz.database.dsl.UserAssistances
 import com.arnyminerz.database.types.EventType
 import com.arnyminerz.security.RSAKeyPairGenerator
+import com.arnyminerz.utils.jsonOf
 import com.arnyminerz.utils.toJSON
 import com.arnyminerz.utils.toRSAPrivateKey
 import com.arnyminerz.utils.toRSAPublicKey
@@ -66,15 +67,15 @@ class Event(id: EntityID<Int>) : DataEntity<EventType>(id) {
      */
     fun getReservationsEndDate(): ZonedDateTime? = reservations?.let { ZonedDateTime.parse(it) }
 
-    override fun toJSON(): JSONObject = JSONObject().apply {
-        put("id", id.value)
-        put("name", name)
-        put("description", description)
-        put("date", date)
-        put("until", until)
-        put("reservations", reservations)
-        put("max_guests", maxGuests)
-    }
+    override fun toJSON(): JSONObject = jsonOf(
+        "id" to id.value,
+        "name" to name,
+        "description" to description,
+        "date" to date,
+        "until" to until,
+        "reservations" to reservations,
+        "max_guests" to maxGuests
+    )
 
     override fun fill(type: EventType) {
         name = type.name
