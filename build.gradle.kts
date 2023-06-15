@@ -22,7 +22,7 @@ plugins {
 }
 
 group = "com.arnyminerz.filamagenta"
-version = "0.0.1"
+version = "0.1.0"
 
 application {
     mainClass.set("com.arnyminerz.ApplicationKt")
