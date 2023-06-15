@@ -7,6 +7,12 @@ permissions:
   pull-requests: write
 
 jobs:
+  run_detekt:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Run Detekt
+        uses: natiginfo/action-detekt-all@1.23.0
   build_and_test:
     runs-on: ubuntu-latest
     steps:
