@@ -40,6 +40,17 @@ fun JSONObject.getFloatOrNull(key: String): Float? = try {
 }
 
 /**
+ * Get the boolean associated with a key.
+ * @param key A key string.
+ * @return A boolean which is the value, or null, if there isn't any stored value with the given key.
+ */
+fun JSONObject.getBooleanOrNull(key: String): Boolean? = try {
+    if (has(key)) getBoolean(key) else null
+} catch (_: JSONException) {
+    null
+}
+
+/**
  * Get the JSONObject associated with a key.
  * @param key A key string.
  * @return A JSONObject which is the value, or null, if there isn't any stored value with the given key.

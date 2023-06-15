@@ -14,6 +14,7 @@ import com.arnyminerz.endpoints.events.NewTableEndpoint
 import com.arnyminerz.endpoints.inventory.GetInventoryItemsEndpoint
 import com.arnyminerz.endpoints.inventory.NewInventoryItemEndpoint
 import com.arnyminerz.endpoints.profile.GetProfileEndpoint
+import com.arnyminerz.endpoints.profile.UpdateCategoryDataEndpoint
 import com.arnyminerz.endpoints.profile.UpdateUserCategoryEndpoint
 import com.arnyminerz.endpoints.routing.delete
 import com.arnyminerz.endpoints.routing.get
@@ -38,6 +39,7 @@ fun Application.configureRouting() {
         authenticate("auth-jwt") {
             get("/v1/profile", GetProfileEndpoint)
             post("/v1/profile/{userId}/category", UpdateUserCategoryEndpoint)
+            post("/v1/profile/category/{categoryName}", UpdateCategoryDataEndpoint)
 
             get("/v1/events", GetEventsEndpoint)
             post("/v1/events", NewEventEndpoint)

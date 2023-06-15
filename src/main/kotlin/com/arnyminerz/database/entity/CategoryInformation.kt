@@ -1,11 +1,14 @@
 package com.arnyminerz.database.entity
 
 import com.arnyminerz.database.dsl.CategoryInformations
+import com.arnyminerz.utils.jsonOf
+import com.arnyminerz.utils.serialization.JsonSerializable
 import org.jetbrains.exposed.dao.EntityClass
 import org.jetbrains.exposed.dao.IntEntity
 import org.jetbrains.exposed.dao.id.EntityID
+import org.json.JSONObject
 
-class CategoryInformation(id: EntityID<Int>) : IntEntity(id) {
+class CategoryInformation(id: EntityID<Int>) : IntEntity(id), JsonSerializable {
     companion object : EntityClass<Int, CategoryInformation>(CategoryInformations)
 
     var timestamp by CategoryInformations.timestamp
@@ -36,4 +39,27 @@ class CategoryInformation(id: EntityID<Int>) : IntEntity(id) {
     var paysDinarSantJordi by CategoryInformations.paysDinarSantJordi
     var paysSoparSantJordi by CategoryInformations.paysSoparSantJordi
     var paysDinarTrons by CategoryInformations.paysDinarTrons
+
+    override fun toJSON(): JSONObject = jsonOf(
+        "price" to price,
+        "age_min" to ageMin,
+        "age_max" to ageMax,
+        "votes" to votesMeeting,
+        "diana" to diana,
+        "diana_2" to diana2,
+        "esquadra" to esquadra,
+        "entrada" to entrada,
+        "processo" to processo,
+        "alardo" to alardo,
+        "pays_dina" to paysDina,
+        "pays_mig_any_and_musics" to paysMigAnyAndMusics,
+        "pays_assaig" to paysAssaig,
+        "pays_entradeta" to paysEntradetaOficial,
+        "pays_esmorzar_gloria" to paysEsmorzarGloria,
+        "pays_esmorzar_festes" to paysEsmorzarFestes,
+        "pays_dinar_entrada" to paysDinarEntrada,
+        "pays_dinar_sant_jordi" to paysDinarSantJordi,
+        "pays_sopar_sant_jordi" to paysSoparSantJordi,
+        "pays_dinar_trons" to paysDinarTrons
+    )
 }

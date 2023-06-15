@@ -4,7 +4,6 @@ import com.arnyminerz.errors.Error
 import io.ktor.client.statement.HttpResponse
 import io.ktor.http.HttpStatusCode
 import kotlin.test.assertEquals
-import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 import org.json.JSONObject
 import org.junit.Assert.assertEquals
@@ -44,9 +43,17 @@ suspend fun HttpResponse.assertSuccess(
 }
 
 suspend fun HttpResponse.assertFailure(error: Error) {
-    assertEquals(error.httpStatusCode, status)
     val body = bodyAsJson()
-    assertFalse(body.getBoolean("success"))
-    assertEquals(error.code, body.getInt("code"))
-    assertEquals(error.message, body.getString("message"))
+    val success = body.getBooleanOrNull("success")
+    val code = body.getIntOrNull("code")
+    val message = body.getStringOrNull("message")
+
+    assertEquals(
+        error.httpStatusCode,
+        status,
+        "Error #$code: $message.\t"
+    )
+    assertEquals(false, success, "Response was successful. Expected unsuccessful")
+    assertEquals(error.code, code)
+    assertEquals(error.message, message)
 }

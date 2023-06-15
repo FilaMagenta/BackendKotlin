@@ -31,6 +31,29 @@ object CategoryInformations : IntIdTable() {
     /** It's a different menu, usually kids menu. */
     const val PAYS_SPECIAL: Short = 4
 
+    data class RightsData(
+        val votesMeeting: Boolean,
+        val diana: Boolean,
+        val diana2: Boolean,
+        val esquadra: Boolean,
+        val entrada: Boolean,
+        val processo: Boolean,
+        val alardo: Boolean
+    )
+
+    data class PaysData(
+        val paysDina: Short,
+        val paysMigAnyAndMusics: Short,
+        val paysAssaig: Short,
+        val paysEntradetaOficial: Short,
+        val paysEsmorzarGloria: Short,
+        val paysEsmorzarFestes: Short,
+        val paysDinarEntrada: Short,
+        val paysDinarSantJordi: Short,
+        val paysSoparSantJordi: Short,
+        val paysDinarTrons: Short
+    )
+
     val timestamp: Column<Long> = long("timestamp")
 
     val category: Column<String> = varchar("category", Category.NAME_MAX_LENGTH)

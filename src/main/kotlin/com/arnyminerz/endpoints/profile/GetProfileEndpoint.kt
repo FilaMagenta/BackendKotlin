@@ -13,6 +13,8 @@ object GetProfileEndpoint : AuthenticatedEndpoint() {
 
         val category = usersInterface.getCategory(user)
         json.put("category", category.name)
+        val categoryInformation = usersInterface.getCategoryInformation(category)
+        json.put("category_information", categoryInformation?.toJSON())
 
         call.respondSuccess(json)
     }
