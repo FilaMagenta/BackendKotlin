@@ -1,5 +1,6 @@
 package com.arnyminerz.endpoints.arguments
 
+import com.arnyminerz.utils.getBooleanOrNull
 import com.arnyminerz.utils.getFloatOrNull
 import com.arnyminerz.utils.getIntOrNull
 import com.arnyminerz.utils.getStringOrNull
@@ -23,6 +24,14 @@ object ArgumentTypes {
         override fun fromJson(json: JSONObject, key: String): Int? = json.getIntOrNull(key)
     }
 
+    object SHORT : ArgumentType<Short>() {
+        override fun fromString(value: String): Short = value.toShort()
+
+        override fun toString(value: Short): String = value.toString()
+
+        override fun fromJson(json: JSONObject, key: String): Short? = json.getIntOrNull(key)?.toShort()
+    }
+
     object FLOAT : ArgumentType<Float>() {
         override fun fromString(value: String): Float = value.toFloat()
 
@@ -38,5 +47,13 @@ object ArgumentTypes {
 
         override fun fromJson(json: JSONObject, key: String): ZonedDateTime? =
             json.getStringOrNull(key)?.let { ZonedDateTime.parse(it) }
+    }
+
+    object BOOLEAN : ArgumentType<Boolean>() {
+        override fun fromString(value: String): Boolean = value.toBoolean()
+
+        override fun toString(value: Boolean): String = value.toString()
+
+        override fun fromJson(json: JSONObject, key: String): Boolean? = json.getBooleanOrNull(key)
     }
 }

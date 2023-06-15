@@ -6,6 +6,22 @@ import kotlin.test.assertTrue
 import org.json.JSONArray
 import org.json.JSONObject
 
+/**
+ * Converts types for making it easier to compare. For example, String<"1"> is not the same as Integer<1>, but they
+ * should be considered as so.
+ */
+private fun fixTypes(expectedValue: Any, actualValue: Any) = if (expectedValue is Short) {
+    expectedValue.toInt()
+} else if (expectedValue is String && actualValue is Number) {
+    when (actualValue) {
+        is Int -> expectedValue.toInt()
+        is Float -> expectedValue.toFloat()
+        else -> expectedValue
+    }
+} else {
+    expectedValue
+}
+
 fun assertEqualsJson(expected: JSONArray, actual: JSONArray) {
     for (i in 0 until expected.length()) {
         val expectedValue = expected.get(i)
@@ -28,8 +44,10 @@ fun assertEqualsJson(expected: JSONArray, actual: JSONArray) {
 
             assertEqualsJson(expectedValue, actualValue)
         } else {
+            val expectConverted = fixTypes(expectedValue, actualValue)
+
             assertEquals(
-                expectedValue,
+                expectConverted,
                 actualValue,
                 "Expected \"%s\" at position %d but got \"%s\""
                     .format(expectedValue.toString(), i, actualValue.toString())
@@ -38,9 +56,16 @@ fun assertEqualsJson(expected: JSONArray, actual: JSONArray) {
     }
 }
 
-fun assertEqualsJson(expected: JSONObject, actual: JSONObject) {
+fun assertEqualsJson(expected: JSONObject, actual: JSONObject, ignoreMissing: Boolean = false) {
     for (key in actual.keys()) {
-        assertTrue(expected.has(key))
+        val has = expected.has(key)
+        if (!has) {
+            if (ignoreMissing) {
+                continue
+            } else {
+                assertTrue(false, "Expected that the object contained %s, but it didn't.".format(key))
+            }
+        }
 
         val actualValue = actual.get(key)
         val expectedValue = expected.get(key)
@@ -62,11 +87,13 @@ fun assertEqualsJson(expected: JSONObject, actual: JSONObject) {
 
             assertEqualsJson(expectedValue, actualValue)
         } else {
+            val expectConverted = fixTypes(expectedValue, actualValue)
+
             assertEquals(
-                expectedValue,
+                expectConverted,
                 actualValue,
                 "Expected \"%s\" at %s but got \"%s\""
-                    .format(expectedValue.toString(), key, actualValue.toString())
+                    .format(expectConverted.toString(), key, actualValue.toString())
             )
         }
     }

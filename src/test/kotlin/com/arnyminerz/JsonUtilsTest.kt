@@ -1,5 +1,7 @@
 package com.arnyminerz
 
+import com.arnyminerz.utils.getBooleanOrNull
+import com.arnyminerz.utils.getFloatOrNull
 import com.arnyminerz.utils.getIntOrNull
 import com.arnyminerz.utils.getJSONObjectOrNull
 import com.arnyminerz.utils.getStringOrNull
@@ -36,6 +38,24 @@ class JsonUtilsTest {
         }
         assertNull(json.getIntOrNull("not-found"))
         assertEquals(1, json.getIntOrNull("key"))
+    }
+
+    @Test
+    fun test_getFloatOrNull() {
+        val json = JSONObject().apply {
+            put("key", 1.5f)
+        }
+        assertNull(json.getFloatOrNull("not-found"))
+        assertEquals(1.5f, json.getFloatOrNull("key"))
+    }
+
+    @Test
+    fun test_getBooleanOrNull() {
+        val json = JSONObject().apply {
+            put("key", true)
+        }
+        assertNull(json.getBooleanOrNull("not-found"))
+        assertEquals(true, json.getBooleanOrNull("key"))
     }
 
     @Test

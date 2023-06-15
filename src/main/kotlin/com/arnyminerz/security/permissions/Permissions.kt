@@ -12,4 +12,10 @@ object Permissions : PermissionsList() {
     object Transactions : PermissionsList() {
         object Create : Permission()
     }
+
+    object Users : PermissionsList() {
+        object ChangeCategory : Permission()
+
+        object UpdateCategoryInfo : Permission()
+    }
 }

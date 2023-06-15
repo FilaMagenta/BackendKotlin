@@ -92,7 +92,7 @@ class ApplicationTestEventData : ApplicationTestEventProto() {
                 val userJson = json.getJSONObject("user")
 
                 assertEqualsJson(event.toJSON(), eventJson)
-                assertEqualsJson(userJson, user.toJSON())
+                assertEqualsJson(userJson, user.toJSON(), true)
             }
         }
     }

@@ -9,6 +9,13 @@ import io.ktor.util.pipeline.PipelineContext
 
 object GetProfileEndpoint : AuthenticatedEndpoint() {
     override suspend fun PipelineContext<*, ApplicationCall>.endpoint(user: User) {
-        call.respondSuccess(user)
+        val json = user.toJSON()
+
+        val category = usersInterface.getCategory(user)
+        json.put("category", category.name)
+        val categoryInformation = usersInterface.getCategoryInformation(category)
+        json.put("category_information", categoryInformation?.toJSON())
+
+        call.respondSuccess(json)
     }
 }

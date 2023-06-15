@@ -6,6 +6,7 @@ import com.arnyminerz.endpoints.arguments.calledOptional
 import com.arnyminerz.endpoints.protos.AuthenticatedEndpoint
 import com.arnyminerz.errors.Errors
 import com.arnyminerz.security.Encryption
+import com.arnyminerz.utils.jsonOf
 import com.arnyminerz.utils.respondFailure
 import io.github.g0dkar.qrcode.QRCode
 import io.ktor.http.ContentType
@@ -17,7 +18,6 @@ import io.ktor.server.util.getValue
 import io.ktor.util.pipeline.PipelineContext
 import java.io.ByteArrayOutputStream
 import java.util.Base64
-import org.json.JSONObject
 
 object GetEventQREndpoint : AuthenticatedEndpoint() {
     const val HEADER_QR_SIZE = "QR-Size"
@@ -39,11 +39,16 @@ object GetEventQREndpoint : AuthenticatedEndpoint() {
 
         val publicKey = event.decodePublicKey()
         val eventJson = event.toJSON()
-        val dataJson = JSONObject()
-            .apply {
-                put("event", eventJson)
-                put("user", user.toJSON())
-            }
+        val dataJson = jsonOf(
+            "event" to eventJson,
+            // User information is simplified
+            "user" to jsonOf(
+                "id" to user.id,
+                "name" to user.name,
+                "surname" to user.surname,
+                "email" to user.email
+            )
+        )
             .toString()
             .toByteArray(Charsets.UTF_8)
 
