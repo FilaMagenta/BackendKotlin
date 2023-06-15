@@ -17,6 +17,8 @@ class Serialization : DatabaseTestProto() {
                 name = "testing name"
                 description = "testing description"
                 date = ZonedDateTime.of(2023, 10, 10, 12, 35, 0, 0, ZoneOffset.UTC).toString()
+
+                provideRandomKey()
             }
             val json = event.toJSON()
             val serializedEvent = Events.fromJson(json)

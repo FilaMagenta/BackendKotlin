@@ -5,6 +5,7 @@ import com.arnyminerz.endpoints.arguments.Arguments
 import com.arnyminerz.endpoints.arguments.calledOptional
 import com.arnyminerz.endpoints.protos.AuthenticatedEndpoint
 import com.arnyminerz.errors.Errors
+import com.arnyminerz.security.Encryption
 import com.arnyminerz.utils.respondFailure
 import io.github.g0dkar.qrcode.QRCode
 import io.ktor.http.ContentType
@@ -15,6 +16,7 @@ import io.ktor.server.response.respondBytes
 import io.ktor.server.util.getValue
 import io.ktor.util.pipeline.PipelineContext
 import java.io.ByteArrayOutputStream
+import java.util.Base64
 
 object GetEventQREndpoint : AuthenticatedEndpoint() {
     const val HEADER_QR_SIZE = "QR-Size"
@@ -34,8 +36,13 @@ object GetEventQREndpoint : AuthenticatedEndpoint() {
             return call.respondFailure(Errors.UserNotAssistingEvent)
         }
 
+        val publicKey = event.decodePublicKey()
+        val eventJson = event.toJSON()
+        val eventJsonData = eventJson.toString().toByteArray(Charsets.UTF_8)
+        val encryptedEvent = Encryption.encrypt(publicKey, eventJsonData)
+
         // If the user is assisting to the event, generate the QR code
-        val data = "testing data"
+        val data = Base64.getMimeEncoder().encodeToString(encryptedEvent)
         val qrCodeRenderer = QRCode(data).render(cellSize = size ?: QR_CELL_SIZE_DEFAULT)
         val qrBytes = ByteArrayOutputStream()
             .also { qrCodeRenderer.writeImage(it) }

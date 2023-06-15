@@ -1,6 +1,5 @@
-package com.arnyminerz
+package com.arnyminerz.security
 
-import com.arnyminerz.security.RSAKeyPairGenerator
 import com.arnyminerz.utils.getRSAPrivateKey
 import com.arnyminerz.utils.getRSAPublicKey
 import com.arnyminerz.utils.toJSON

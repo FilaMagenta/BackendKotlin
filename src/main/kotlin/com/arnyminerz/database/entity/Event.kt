@@ -4,6 +4,12 @@ import com.arnyminerz.database.dsl.EventTables
 import com.arnyminerz.database.dsl.Events
 import com.arnyminerz.database.dsl.UserAssistances
 import com.arnyminerz.database.types.EventType
+import com.arnyminerz.security.RSAKeyPairGenerator
+import com.arnyminerz.utils.toJSON
+import com.arnyminerz.utils.toRSAPrivateKey
+import com.arnyminerz.utils.toRSAPublicKey
+import java.security.PrivateKey
+import java.security.PublicKey
 import java.time.ZonedDateTime
 import org.jetbrains.exposed.dao.IntEntityClass
 import org.jetbrains.exposed.dao.id.EntityID
@@ -19,9 +25,31 @@ class Event(id: EntityID<Int>) : DataEntity<EventType>(id) {
     var reservations by Events.reservations
     var maxGuests by Events.maxGuests
 
+    var publicKey by Events.publicKey
+    var privateKey by Events.privateKey
+
     val assistants by UserAssistance referrersOn UserAssistances.event
 
     val tables by EventTable referrersOn EventTables.event
+
+    /**
+     * Generates a random key pair and assigns it to [publicKey] and [privateKey].
+     */
+    fun provideRandomKey() {
+        val keyPair = RSAKeyPairGenerator.newKey()
+        publicKey = keyPair.public.toJSON().toString()
+        privateKey = keyPair.private.toJSON().toString()
+    }
+
+    /**
+     * Decodes the stored [publicKey] into a [PublicKey] to use for encryption.
+     */
+    fun decodePublicKey(): PublicKey = JSONObject(publicKey).toRSAPublicKey()
+
+    /**
+     * Decodes the stored [privateKey] into a [PrivateKey] to use for decryption.
+     */
+    fun decodePrivateKey(): PrivateKey = JSONObject(privateKey).toRSAPrivateKey()
 
     /**
      * Gets the event start date.
@@ -55,5 +83,7 @@ class Event(id: EntityID<Int>) : DataEntity<EventType>(id) {
         until = type.until?.toString()
         reservations = type.reservations?.toString()
         maxGuests = type.maxGuests
+        publicKey = type.keyPair.public.toJSON().toString()
+        privateKey = type.keyPair.private.toJSON().toString()
     }
 }

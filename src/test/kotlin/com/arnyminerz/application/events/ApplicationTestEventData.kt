@@ -2,6 +2,7 @@ package com.arnyminerz.application.events
 
 import com.arnyminerz.endpoints.events.GetEventQREndpoint.HEADER_QR_SIZE
 import com.arnyminerz.errors.Errors
+import com.arnyminerz.security.Encryption
 import com.arnyminerz.utils.assertFailure
 import com.arnyminerz.utils.assertSuccess
 import com.google.zxing.BinaryBitmap
@@ -13,10 +14,12 @@ import io.ktor.client.request.header
 import io.ktor.client.request.put
 import io.ktor.client.statement.bodyAsChannel
 import io.ktor.http.HttpStatusCode
+import java.util.Base64
 import javax.imageio.ImageIO
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
 import kotlin.test.assertTrue
+import org.json.JSONObject
 import org.junit.Test
 
 class ApplicationTestEventData : ApplicationTestEventProto() {
@@ -28,8 +31,8 @@ class ApplicationTestEventData : ApplicationTestEventProto() {
         getAllEvents(token) { events ->
             assertEquals(1, events.length())
 
-            val event = events.getJSONObject(0)
-            val eventId = event.getInt("id")
+            val eventJson = events.getJSONObject(0)
+            val eventId = eventJson.getInt("id")
 
             // At first the user is not assisting, so an error is thrown
             client.get("/v1/events/$eventId/qrcode") {
@@ -44,6 +47,8 @@ class ApplicationTestEventData : ApplicationTestEventProto() {
             }.apply {
                 assertSuccess(HttpStatusCode.Accepted)
             }
+
+            val event = eventsInterface.get(eventId) { it }!!
 
             // Now the event can be fetched
             client.get("/v1/events/$eventId/qrcode") {
@@ -70,7 +75,11 @@ class ApplicationTestEventData : ApplicationTestEventProto() {
                 )
                 val result = MultiFormatReader().decode(binaryBitmap)
                 val text = result.text
-                assertEquals("testing data", text)
+                val bytes = Base64.getMimeDecoder().decode(text)
+                val decodedEventJsonStr = Encryption.decrypt(event.decodePrivateKey(), bytes).toString(Charsets.UTF_8)
+                val decodedEventJson = JSONObject(decodedEventJsonStr)
+
+                assertEquals(event.toJSON().toString(), decodedEventJson.toString())
             }
         }
     }
