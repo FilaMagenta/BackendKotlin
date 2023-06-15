@@ -5,7 +5,7 @@ import java.security.PublicKey
 import javax.crypto.Cipher
 
 object Encryption {
-    private const val CIPHER_TRANSFORMATION = "RSA/ECB/PKCS1Padding"
+    private const val CIPHER_TRANSFORMATION = "RSA/ECB/OAEPWithSHA-1AndMGF1Padding"
 
     /**
      * Encrypts the given data using the passed public key.
