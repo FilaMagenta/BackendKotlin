@@ -58,7 +58,7 @@ abstract class AuthenticatedEndpoint(
                 .takeIf { it.isNotEmpty() }
                 // Check that all permissions are granted
                 ?.all(user.userRole::hasPermission)
-            if (allPermissionsGranted != true) {
+            if (allPermissionsGranted == false) {
                 return context.call.respondFailure(Errors.MissingPermission)
             }
 
