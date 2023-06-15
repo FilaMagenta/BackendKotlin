@@ -14,7 +14,7 @@ import io.ktor.server.application.call
 import io.ktor.server.util.getValue
 import io.ktor.util.pipeline.PipelineContext
 
-object UpdateUserCategoryEndpoint : AuthenticatedEndpoint(Permissions.Users.UpdateCategory) {
+object UpdateUserCategoryEndpoint : AuthenticatedEndpoint(Permissions.Users.ChangeCategory) {
     override suspend fun PipelineContext<*, ApplicationCall>.endpoint(user: User) {
         val userId: Int by call.parameters
 
