@@ -4,6 +4,7 @@ import com.arnyminerz.database.connector.EventsInterface
 import com.arnyminerz.database.connector.InventoryInterface
 import com.arnyminerz.database.connector.TransactionsInterface
 import com.arnyminerz.database.connector.UsersInterface
+import com.arnyminerz.database.dsl.CategoryInformations
 import com.arnyminerz.database.dsl.EventTables
 import com.arnyminerz.database.dsl.Events
 import com.arnyminerz.database.dsl.InventoryItems
@@ -11,6 +12,7 @@ import com.arnyminerz.database.dsl.TableGuests
 import com.arnyminerz.database.dsl.TableMembers
 import com.arnyminerz.database.dsl.Transactions
 import com.arnyminerz.database.dsl.UserAssistances
+import com.arnyminerz.database.dsl.UserCategories
 import com.arnyminerz.database.dsl.Users
 import java.sql.DriverManager
 import kotlinx.coroutines.runBlocking
@@ -30,14 +32,16 @@ abstract class ServerDatabase(
 ) {
     companion object {
         private val entityClasses = arrayOf(
-            Users,
+            CategoryInformations,
             Events,
-            UserAssistances,
             EventTables,
-            TableMembers,
-            TableGuests,
             InventoryItems,
-            Transactions
+            TableGuests,
+            TableMembers,
+            Transactions,
+            UserAssistances,
+            UserCategories,
+            Users
         )
 
         lateinit var instance: ServerDatabase

@@ -20,9 +20,7 @@ object Errors {
     val MissingPriceBody = Error(17, "Request doesn't contain the required 'price' argument.", HttpStatusCode.BadRequest)
     val MissingAmountBody = Error(18, "Request doesn't contain the required 'amount' argument.", HttpStatusCode.BadRequest)
     val MissingUserIdBody = Error(19, "Request doesn't contain the required 'user_id' argument.", HttpStatusCode.BadRequest)
-
-    val NifInvalid = Error(20, "The given NIF is not valid.", HttpStatusCode.BadRequest)
-    val EmailInvalid = Error(21, "The given email is not valid.", HttpStatusCode.BadRequest)
+    val MissingCategoryBody = Error(20, "Request doesn't contain the required 'category' argument.", HttpStatusCode.BadRequest)
 
     val NifAlreadyRegistered = Error(30, "The given NIF is already registered in the database.", HttpStatusCode.BadRequest)
 
@@ -35,4 +33,8 @@ object Errors {
     val UserAlreadyInTable = Error(51, "You are already in a table.", HttpStatusCode.BadRequest)
     val UserNotInTable = Error(52, "The user is not in the table.", HttpStatusCode.BadRequest)
     val UserNotAssistingEvent = Error(53, "The user has still not confirmed assistance to event.", HttpStatusCode.BadRequest)
+
+    val NifInvalid = Error(60, "The given NIF is not valid.", HttpStatusCode.BadRequest)
+    val EmailInvalid = Error(61, "The given email is not valid.", HttpStatusCode.BadRequest)
+    val CategoryInvalid = Error(62, "The given category is not valid.", HttpStatusCode.BadRequest)
 }

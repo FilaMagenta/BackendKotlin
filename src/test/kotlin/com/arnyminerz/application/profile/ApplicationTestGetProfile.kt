@@ -1,6 +1,7 @@
 package com.arnyminerz.application.profile
 
 import com.arnyminerz.application.ApplicationTestProto
+import com.arnyminerz.data.Category
 import com.arnyminerz.security.permissions.Role
 import com.arnyminerz.utils.assertSuccess
 import com.arnyminerz.utils.getStringOrNull
@@ -25,6 +26,7 @@ class ApplicationTestGetProfile : ApplicationTestProto() {
                 assertEquals(registerSampleData["surname"], it.getStringOrNull("surname"))
                 assertEquals(registerSampleData["email"], it.getStringOrNull("email"))
                 assertEquals(registerSampleData["birthday"], it.getStringOrNull("birthday"))
+                assertEquals(Category.UNKNOWN.name, it.getStringOrNull("category"))
             }
         }
     }

@@ -38,6 +38,7 @@ class User(id: EntityID<Int>) : DataEntity<UserType>(id) {
     }
 
     override fun toJSON(): JSONObject = jsonOf(
+        "id" to id.value,
         "nif" to nif,
         "role" to role,
         "name" to name,

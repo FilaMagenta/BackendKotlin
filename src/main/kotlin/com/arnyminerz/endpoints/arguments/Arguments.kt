@@ -18,4 +18,5 @@ object Arguments {
     val User = Argument("user_id", ArgumentTypes.INTEGER, Errors.MissingUserIdBody)
     val MaxGuests = OptionalArgument("max_guests", ArgumentTypes.INTEGER)
     val Size = OptionalArgument("size", ArgumentTypes.INTEGER)
+    val Category = Argument("category", ArgumentTypes.STRING, Errors.MissingCategoryBody)
 }
