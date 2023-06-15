@@ -101,4 +101,43 @@ class ApplicationTestUpdateProfile : ApplicationTestProto() {
             assertFailure(Errors.MissingPermission)
         }
     }
+
+    @Test
+    fun `test changing to an invalid category`() = testLoggedInAdmin { token ->
+        var targetUserId = 0
+        client.get("/v1/profile") {
+            header("Authorization", "Bearer $token")
+        }.apply {
+            assertSuccess { data ->
+                assertNotNull(data)
+                targetUserId = data.getInt("id")
+            }
+        }
+        assertTrue(targetUserId > 0)
+
+        client.post("/v1/profile/$targetUserId/category") {
+            header("Authorization", "Bearer $token")
+            setBody(
+                jsonOf(
+                    "category" to "invalid-category"
+                ).toString()
+            )
+        }.apply {
+            assertFailure(Errors.CategoryInvalid)
+        }
+    }
+
+    @Test
+    fun `test changing category of unknown user`() = testLoggedInAdmin { token ->
+        client.post("/v1/profile/1000/category") {
+            header("Authorization", "Bearer $token")
+            setBody(
+                jsonOf(
+                    "category" to "invalid-category"
+                ).toString()
+            )
+        }.apply {
+            assertFailure(Errors.UserNotFound)
+        }
+    }
 }
