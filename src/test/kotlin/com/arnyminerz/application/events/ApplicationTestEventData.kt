@@ -3,6 +3,7 @@ package com.arnyminerz.application.events
 import com.arnyminerz.endpoints.events.GetEventQREndpoint.HEADER_QR_SIZE
 import com.arnyminerz.errors.Errors
 import com.arnyminerz.security.Encryption
+import com.arnyminerz.utils.assertEqualsJson
 import com.arnyminerz.utils.assertFailure
 import com.arnyminerz.utils.assertSuccess
 import com.google.zxing.BinaryBitmap
@@ -29,11 +30,12 @@ class ApplicationTestEventData : ApplicationTestEventProto() {
     fun `test event data - qrcode`() = testLoggedInAdmin { token ->
         provideSampleEvent(token)
 
+        val user = usersInterface.findWithNif(registerSampleData.getValue("nif")) { it!! }
+
         getAllEvents(token) { events ->
             assertEquals(1, events.length())
 
-            val eventJson = events.getJSONObject(0)
-            val eventId = eventJson.getInt("id")
+            val eventId = events.getJSONObject(0).getInt("id")
 
             // At first the user is not assisting, so an error is thrown
             client.get("/v1/events/$eventId/qrcode") {
@@ -77,8 +79,8 @@ class ApplicationTestEventData : ApplicationTestEventProto() {
                 val result = MultiFormatReader().decode(binaryBitmap)
                 val text = result.text
                 val bytes = Base64.getMimeDecoder().decode(text)
-                val decodedEventJsonStr = Encryption.decrypt(event.decodePrivateKey(), bytes).toString(Charsets.UTF_8)
-                val decodedEventJson = JSONObject(decodedEventJsonStr)
+                val jsonStr = Encryption.decrypt(event.decodePrivateKey(), bytes).toString(Charsets.UTF_8)
+                val json = JSONObject(jsonStr)
 
                 val decodedImage = File.createTempFile("fmb", ".png")
                 decodedImage.outputStream().use {
@@ -86,7 +88,11 @@ class ApplicationTestEventData : ApplicationTestEventProto() {
                 }
                 println("Received QR code: ${decodedImage.absolutePath}")
 
-                assertEquals(event.toJSON().toString(), decodedEventJson.toString())
+                val eventJson = json.getJSONObject("event")
+                val userJson = json.getJSONObject("user")
+
+                assertEqualsJson(event.toJSON(), eventJson)
+                assertEqualsJson(userJson, user.toJSON())
             }
         }
     }

@@ -17,6 +17,7 @@ import io.ktor.server.util.getValue
 import io.ktor.util.pipeline.PipelineContext
 import java.io.ByteArrayOutputStream
 import java.util.Base64
+import org.json.JSONObject
 
 object GetEventQREndpoint : AuthenticatedEndpoint() {
     const val HEADER_QR_SIZE = "QR-Size"
@@ -38,11 +39,18 @@ object GetEventQREndpoint : AuthenticatedEndpoint() {
 
         val publicKey = event.decodePublicKey()
         val eventJson = event.toJSON()
-        val eventJsonData = eventJson.toString().toByteArray(Charsets.UTF_8)
-        val encryptedEvent = Encryption.encrypt(publicKey, eventJsonData)
+        val dataJson = JSONObject()
+            .apply {
+                put("event", eventJson)
+                put("user", user.toJSON())
+            }
+            .toString()
+            .toByteArray(Charsets.UTF_8)
+
+        val encryptedData = Encryption.encrypt(publicKey, dataJson)
 
         // If the user is assisting to the event, generate the QR code
-        val data = Base64.getMimeEncoder().encodeToString(encryptedEvent)
+        val data = Base64.getMimeEncoder().encodeToString(encryptedData)
         val qrCodeRenderer = QRCode(data).render(cellSize = size ?: QR_CELL_SIZE_DEFAULT)
         val qrBytes = ByteArrayOutputStream()
             .also { qrCodeRenderer.writeImage(it) }
