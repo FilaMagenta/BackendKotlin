@@ -11,6 +11,8 @@ val h2Version: String by project
 val jsonVersion: String by project
 val sqliteVersion: String by project
 val detektVersion: String by project
+val qrCodeKotlinVersion: String by project
+val zxingVersion: String by project
 
 plugins {
     kotlin("jvm") version "1.8.21"
@@ -87,10 +89,13 @@ dependencies {
     implementation("org.xerial:sqlite-jdbc:$sqliteVersion")
     implementation("ch.qos.logback:logback-classic:$logbackVersion")
     implementation("org.json:json:$jsonVersion")
+    implementation("io.github.g0dkar:qrcode-kotlin-jvm:$qrCodeKotlinVersion")
 
     detektPlugins("io.gitlab.arturbosch.detekt:detekt-formatting:$detektVersion")
 
     testImplementation("io.ktor:ktor-server-tests-jvm:$ktorVersion")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit:$kotlinVersion")
     testImplementation("com.h2database:h2:$h2Version")
+    testImplementation("com.google.zxing:core:$zxingVersion")
+    testImplementation("com.google.zxing:javase:$zxingVersion")
 }

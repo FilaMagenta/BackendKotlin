@@ -62,6 +62,10 @@ class EventsInterface(database: ServerDatabase) : DataObjectInterface<EventType,
         assistance?.delete()
     }
 
+    suspend fun userAssists(user: User, event: Event) = database.transaction {
+        findAssistance(user, event) != null
+    }
+
     suspend fun createTable(responsible: User, event: Event) = database.transaction {
         val existingTable = EventTable.find {
             (EventTables.event eq event.id) and (EventTables.responsible eq responsible.id)

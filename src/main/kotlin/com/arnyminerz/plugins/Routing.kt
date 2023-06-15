@@ -5,6 +5,7 @@ import com.arnyminerz.endpoints.auth.LoginEndpoint
 import com.arnyminerz.endpoints.auth.RegisterEndpoint
 import com.arnyminerz.endpoints.events.CancelAssistanceEndpoint
 import com.arnyminerz.endpoints.events.ConfirmAssistanceEndpoint
+import com.arnyminerz.endpoints.events.GetEventQREndpoint
 import com.arnyminerz.endpoints.events.GetEventsEndpoint
 import com.arnyminerz.endpoints.events.JoinTableEndpoint
 import com.arnyminerz.endpoints.events.LeaveTableEndpoint
@@ -38,6 +39,7 @@ fun Application.configureRouting() {
 
             get("/v1/events", GetEventsEndpoint)
             post("/v1/events", NewEventEndpoint)
+            get("/v1/events/{eventId}/qrcode", GetEventQREndpoint)
             put("/v1/events/{eventId}/assistance", ConfirmAssistanceEndpoint)
             delete("/v1/events/{eventId}/assistance", CancelAssistanceEndpoint)
             post("/v1/events/{eventId}/table", NewTableEndpoint)
