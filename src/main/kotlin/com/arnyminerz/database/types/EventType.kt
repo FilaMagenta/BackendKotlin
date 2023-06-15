@@ -9,8 +9,15 @@ data class EventType(
     val date: ZonedDateTime,
     val until: ZonedDateTime?,
     val reservations: ZonedDateTime?,
-    val maxGuests: Int?
+    val maxGuests: Int? = MAX_GUESTS_DEFAULT
 ): DataType {
+    companion object {
+        /**
+         * The default value for the maximum allowed amount of guests
+         */
+        val MAX_GUESTS_DEFAULT: Int? = null
+    }
+
     override fun toString(): String = toJSON().toString()
 
     override fun toJSON(): JSONObject = JSONObject().apply {
