@@ -1,8 +1,8 @@
 package com.arnyminerz
 
 import com.arnyminerz.database.ServerDatabase
-import com.arnyminerz.database.`interface`.EventsInterface
-import com.arnyminerz.database.`interface`.UsersInterface
+import com.arnyminerz.database.connector.EventsInterface
+import com.arnyminerz.database.connector.UsersInterface
 import kotlinx.coroutines.runBlocking
 import org.junit.After
 import org.junit.Before

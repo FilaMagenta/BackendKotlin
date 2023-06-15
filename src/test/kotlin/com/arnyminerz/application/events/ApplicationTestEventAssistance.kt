@@ -19,7 +19,7 @@ class ApplicationTestEventAssistance : ApplicationTestEventProto() {
         token: String,
         eventId: Int,
         assertion: suspend HttpResponse.() -> Unit = { assertSuccess(HttpStatusCode.Accepted) }
-    ) = client.put("/v1/events/${eventId}/assistance") {
+    ) = client.put("/v1/events/$eventId/assistance") {
         header("Authorization", "Bearer $token")
     }.apply { assertion() }
 

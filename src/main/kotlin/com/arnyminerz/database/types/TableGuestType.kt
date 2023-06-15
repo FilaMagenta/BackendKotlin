@@ -10,7 +10,7 @@ data class TableGuestType(
     val nif: String,
     val responsible: User,
     val table: EventTable
-): DataType {
+) : DataType {
     override fun toJSON(): JSONObject = JSONObject().apply {
         put("name", name)
         put("surname", surname)

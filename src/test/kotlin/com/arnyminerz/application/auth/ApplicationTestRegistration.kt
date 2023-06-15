@@ -11,7 +11,7 @@ import io.ktor.http.HttpStatusCode
 import kotlin.test.assertEquals
 import org.junit.Test
 
-class ApplicationTestRegistration: ApplicationTestProto() {
+class ApplicationTestRegistration : ApplicationTestProto() {
     @Test
     fun test_register_missingNif() = test {
         register(registerSampleData.extract("nif")) { assertFailure(Errors.MissingNifBody) }

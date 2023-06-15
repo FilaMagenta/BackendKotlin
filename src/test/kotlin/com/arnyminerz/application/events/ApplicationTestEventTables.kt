@@ -13,7 +13,7 @@ import kotlin.test.assertNotNull
 import kotlin.test.assertTrue
 import org.junit.Test
 
-class ApplicationTestEventTables: ApplicationTestEventProto() {
+class ApplicationTestEventTables : ApplicationTestEventProto() {
     @Test
     fun `events table creation`() = testDoubleLoggedInAdmin { token, tokenAdmin ->
         provideSampleEvent(tokenAdmin)

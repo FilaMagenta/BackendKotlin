@@ -4,7 +4,7 @@ import org.jetbrains.exposed.dao.Entity
 import org.jetbrains.exposed.dao.EntityClass
 import org.jetbrains.exposed.sql.SizedIterable
 
-abstract class DataObjectInterface <Id: Comparable<Id>, E: Entity<Id>, EClass: EntityClass<Id, E>> (
+abstract class DataObjectInterface<Id : Comparable<Id>, E : Entity<Id>, EClass : EntityClass<Id, E>>(
     private val database: ServerDatabase,
     private val entityClass: EClass
 ) {

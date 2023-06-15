@@ -10,7 +10,7 @@ data class UserType(
     val surname: String,
     val email: String,
     val birthday: String? = null
-): DataType {
+) : DataType {
 
     override fun toJSON(): JSONObject = JSONObject().apply {
         put("nif", nif)

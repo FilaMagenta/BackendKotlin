@@ -16,7 +16,7 @@ import kotlin.test.assertTrue
 import org.json.JSONObject
 import org.junit.Test
 
-class ApplicationTestInventoryList: ApplicationTestProto() {
+class ApplicationTestInventoryList : ApplicationTestProto() {
     @Test
     fun `test get inventory items`() = testLoggedIn { token ->
         client.get("/v1/inventory") {

@@ -19,7 +19,7 @@ import io.ktor.server.application.ApplicationCall
 import io.ktor.server.application.call
 import io.ktor.util.pipeline.PipelineContext
 
-object RegisterEndpoint: Endpoint {
+object RegisterEndpoint : Endpoint {
     override suspend fun PipelineContext<*, ApplicationCall>.endpoint() {
         val nif by called { Arguments.Nif }
         val name by called { Arguments.Name }
@@ -34,12 +34,20 @@ object RegisterEndpoint: Endpoint {
 
         // Check if user already exists
         val userExists: Boolean = ServerDatabase.instance.usersInterface.getAll { users ->
-            if (users.empty()) false
-            else users.find { it.nif == nif } != null
+            if (users.empty()) {
+                false
+            } else {
+                users.find { it.nif == nif } != null
+            }
         }
-        if (userExists) return call.respondFailure(NifAlreadyRegistered)
+        if (userExists) {
+            return call.respondFailure(NifAlreadyRegistered)
+        }
 
-        ServerDatabase.instance.usersInterface.new(UserType(nif, Role.DEFAULT, name, surname, email, null), "password" to password)
+        ServerDatabase.instance.usersInterface.new(
+            UserType(nif, Role.DEFAULT, name, surname, email, null),
+            "password" to password
+        )
 
         call.respondSuccess(HttpStatusCode.Created)
     }

@@ -1,7 +1,8 @@
 package com.arnyminerz.errors
 
-import io.ktor.http.*
+import io.ktor.http.HttpStatusCode
 
+@Suppress("PropertyWrapping", "MaximumLineLength", "ArgumentListWrapping", "MaxLineLength", "MagicNumber")
 object Errors {
     val EndpointNotFound = Error(1, "Endpoint not found", HttpStatusCode.NotFound)
     val Internal = Error(2, "Internal server exception", HttpStatusCode.InternalServerError)

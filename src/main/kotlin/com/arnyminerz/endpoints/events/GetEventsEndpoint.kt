@@ -6,8 +6,9 @@ import com.arnyminerz.endpoints.protos.AuthenticatedEndpoint
 import com.arnyminerz.utils.jsonOf
 import com.arnyminerz.utils.respondSuccess
 import com.arnyminerz.utils.toJSONArray
-import io.ktor.server.application.*
-import io.ktor.util.pipeline.*
+import io.ktor.server.application.ApplicationCall
+import io.ktor.server.application.call
+import io.ktor.util.pipeline.PipelineContext
 import org.json.JSONArray
 import org.json.JSONObject
 
@@ -21,17 +22,21 @@ object GetEventsEndpoint : AuthenticatedEndpoint() {
                     put("assists", assistance != null)
 
                     val tables = event.tables
-                    put("tables", JSONArray().apply {
-                        for (table in tables)
-                            put(
-                                jsonOf(
-                                    "id" to table.id.value,
-                                    "responsible_id" to table.responsible.id,
-                                    "members" to table.members.map { it.user.id.value },
-                                    "guests" to table.guests.toJSONArray()
+                    put(
+                        "tables",
+                        JSONArray().apply {
+                            for (table in tables) {
+                                put(
+                                    jsonOf(
+                                        "id" to table.id.value,
+                                        "responsible_id" to table.responsible.id,
+                                        "members" to table.members.map { it.user.id.value },
+                                        "guests" to table.guests.toJSONArray()
+                                    )
                                 )
-                            )
-                    })
+                            }
+                        }
+                    )
                 }
                 eventsList.put(json)
             }

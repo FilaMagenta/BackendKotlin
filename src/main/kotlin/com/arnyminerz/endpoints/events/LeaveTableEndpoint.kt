@@ -11,33 +11,41 @@ import io.ktor.server.application.call
 import io.ktor.server.util.getValue
 import io.ktor.util.pipeline.PipelineContext
 
-object LeaveTableEndpoint: AuthenticatedEndpoint() {
+object LeaveTableEndpoint : AuthenticatedEndpoint() {
     override suspend fun PipelineContext<*, ApplicationCall>.endpoint(user: User) {
         val eventId: Int by call.parameters
 
         var leftTable = false
 
         eventsInterface.getResponsibleTable(user.id.value, eventId) { table ->
-            if (table == null) return@getResponsibleTable
+            if (table == null) {
+                return@getResponsibleTable
+            }
 
-            if (!eventsInterface.deleteTable(user, table))
+            if (!eventsInterface.deleteTable(user, table)) {
                 return@getResponsibleTable call.respondFailure(Errors.UserNotInTable)
+            }
 
             leftTable = true
         }
 
-        if (!leftTable)
+        if (!leftTable) {
             eventsInterface.getMemberTable(user.id.value) { table ->
-                if (table == null) return@getMemberTable
+                if (table == null) {
+                    return@getMemberTable
+                }
 
-                if (!eventsInterface.leaveTable(user, table))
+                if (!eventsInterface.leaveTable(user, table)) {
                     return@getMemberTable call.respondFailure(Errors.UserNotInTable)
+                }
 
                 leftTable = true
             }
+        }
 
-        if (!leftTable)
+        if (!leftTable) {
             return call.respondFailure(Errors.UserNotInTable)
+        }
 
         call.respondSuccess(HttpStatusCode.Accepted)
     }

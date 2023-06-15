@@ -18,8 +18,9 @@ suspend fun PipelineContext<*, ApplicationCall>.requireAuthentication(
     val nif = principal.payload.getClaim("nif").asString()
     val expiresAt = principal.expiresAt?.toInstant() ?: return call.respondFailure(Errors.Unauthorized)
     val now = Instant.now()
-    if (expiresAt < now)
+    if (expiresAt < now) {
         call.respondFailure(Errors.Unauthorized)
-    else
+    } else {
         block(nif)
+    }
 }

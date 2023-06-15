@@ -18,8 +18,9 @@ object ConfirmAssistanceEndpoint : AuthenticatedEndpoint() {
         val event = eventsInterface.get(eventId) { it }
             ?: return call.respondFailure(Errors.EventNotFound)
 
-        if (!eventsInterface.confirmAssistance(user, event))
+        if (!eventsInterface.confirmAssistance(user, event)) {
             return call.respondFailure(Errors.AssistanceAlreadyConfirmed)
+        }
 
         call.respondSuccess(HttpStatusCode.Accepted)
     }

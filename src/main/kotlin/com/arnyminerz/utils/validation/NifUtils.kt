@@ -1,27 +1,29 @@
 package com.arnyminerz.utils.validation
 
+private const val DNI_LETTERS = "TRWAGMYFPDXBNJZSQVHLCKE"
+private const val NIE_LETTERS = "XYZAGMYFPDXBNJZSQVHLCKE"
 
-private const val dniLetters = "TRWAGMYFPDXBNJZSQVHLCKE"
-private const val nieLetters = "XYZAGMYFPDXBNJZSQVHLCKE"
+private const val DNI_LENGTH = 9
+private const val NIE_LENGTH = 8
 
 val String.dniLetter: Char
     get() {
         // 12345678A
-        val num = substring(0, 8).toIntOrNull() ?: return '\u0000'
-        val mod = num % 23
-        return dniLetters[mod]
+        val num = substring(0, DNI_LENGTH - 1).toIntOrNull() ?: return '\u0000'
+        val mod = num % DNI_LETTERS.length
+        return DNI_LETTERS[mod]
     }
 
 val String.nieLetter: Char
     get() {
         // 1234567Z
-        val num = substring(0, 7).toIntOrNull() ?: return '\u0000'
-        val mod = num % 23
-        return nieLetters[mod]
+        val num = substring(0, NIE_LENGTH - 1).toIntOrNull() ?: return '\u0000'
+        val mod = num % NIE_LETTERS.length
+        return NIE_LETTERS[mod]
     }
 
 val String.isValidDni: Boolean
-    get() = length == 9 && dniLetter == get(8)
+    get() = length == DNI_LENGTH && dniLetter == get(DNI_LENGTH - 1)
 
 val String.isValidNie: Boolean
-    get() = length == 8 && nieLetter == get(7)
+    get() = length == NIE_LENGTH && nieLetter == get(NIE_LENGTH - 1)

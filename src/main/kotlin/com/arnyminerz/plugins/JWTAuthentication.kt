@@ -34,9 +34,9 @@ fun Application.configureJwt() {
             )
             validate { credential ->
                 println("Validating request. Payload: ${credential.payload}")
-                if (credential.payload.getClaim("nif").asString().isNotBlank())
+                if (credential.payload.getClaim("nif").asString().isNotBlank()) {
                     JWTPrincipal(credential.payload)
-                else {
+                } else {
                     System.err.println("Got invalid credential: ${credential.payload}")
                     null
                 }

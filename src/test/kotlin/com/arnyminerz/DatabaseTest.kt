@@ -22,7 +22,7 @@ class DatabaseTest : DatabaseTestProto() {
         }
 
         usersInterface.new(
-            UserType("12345678Z",  Role.DEFAULT,"Testing", "User", "example@mail.com"),
+            UserType("12345678Z", Role.DEFAULT, "Testing", "User", "example@mail.com"),
             "password" to "password"
         )
 

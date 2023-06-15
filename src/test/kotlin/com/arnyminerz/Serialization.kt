@@ -9,7 +9,7 @@ import kotlin.test.assertEquals
 import kotlinx.coroutines.runBlocking
 import org.junit.Test
 
-class Serialization: DatabaseTestProto() {
+class Serialization : DatabaseTestProto() {
     @Test
     fun test_event_json() = runBlocking {
         ServerDatabase.instance.transaction {

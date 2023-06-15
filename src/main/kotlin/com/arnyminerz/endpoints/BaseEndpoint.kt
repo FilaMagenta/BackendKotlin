@@ -6,7 +6,7 @@ import io.ktor.server.application.ApplicationCall
 import io.ktor.server.application.call
 import io.ktor.util.pipeline.PipelineContext
 
-object BaseEndpoint: Endpoint {
+object BaseEndpoint : Endpoint {
     override suspend fun PipelineContext<*, ApplicationCall>.endpoint() {
         call.respondSuccess()
     }

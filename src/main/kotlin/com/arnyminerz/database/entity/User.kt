@@ -8,8 +8,8 @@ import org.jetbrains.exposed.dao.IntEntityClass
 import org.jetbrains.exposed.dao.id.EntityID
 import org.json.JSONObject
 
-class User(id: EntityID<Int>): DataEntity<UserType>(id) {
-    companion object: IntEntityClass<User>(Users)
+class User(id: EntityID<Int>) : DataEntity<UserType>(id) {
+    companion object : IntEntityClass<User>(Users)
 
     var nif by Users.nif
     var role by Users.role

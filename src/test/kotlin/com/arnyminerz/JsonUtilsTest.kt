@@ -5,10 +5,10 @@ import com.arnyminerz.utils.getJSONObjectOrNull
 import com.arnyminerz.utils.getStringOrNull
 import com.arnyminerz.utils.serialization.JsonSerializable
 import com.arnyminerz.utils.toJSONArray
-import org.json.JSONObject
-import org.junit.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNull
+import org.json.JSONObject
+import org.junit.Test
 
 class JsonUtilsTest {
     @Test
@@ -50,7 +50,7 @@ class JsonUtilsTest {
 
     @Test
     fun `test converting list of JsonSerializable to JSONArray`() {
-        class TestObject(val name: String): JsonSerializable {
+        class TestObject(val name: String) : JsonSerializable {
             override fun toJSON(): JSONObject = JSONObject().apply {
                 put("name", name)
             }
@@ -68,5 +68,4 @@ class JsonUtilsTest {
         assertEquals(list[1].toJSON().toString(), json.getJSONObject(1).toString())
         assertEquals(list[2].toJSON().toString(), json.getJSONObject(2).toString())
     }
-
 }

@@ -11,15 +11,16 @@ import io.ktor.server.application.call
 import io.ktor.server.util.getValue
 import io.ktor.util.pipeline.PipelineContext
 
-object NewTableEndpoint: AuthenticatedEndpoint() {
+object NewTableEndpoint : AuthenticatedEndpoint() {
     override suspend fun PipelineContext<*, ApplicationCall>.endpoint(user: User) {
         val eventId: Int by call.parameters
 
         val event = eventsInterface.get(eventId) { it }
             ?: return call.respondFailure(Errors.EventNotFound)
 
-        if (!eventsInterface.createTable(user, event))
+        if (!eventsInterface.createTable(user, event)) {
             return call.respondFailure(Errors.UserAlreadyInTable)
+        }
 
         call.respondSuccess(HttpStatusCode.Created)
     }

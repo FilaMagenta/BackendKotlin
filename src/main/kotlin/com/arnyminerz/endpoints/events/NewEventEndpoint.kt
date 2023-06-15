@@ -9,11 +9,12 @@ import com.arnyminerz.endpoints.arguments.calledOptional
 import com.arnyminerz.endpoints.protos.AuthenticatedEndpoint
 import com.arnyminerz.security.permissions.Permissions
 import com.arnyminerz.utils.respondSuccess
-import io.ktor.http.*
-import io.ktor.server.application.*
-import io.ktor.util.pipeline.*
+import io.ktor.http.HttpStatusCode
+import io.ktor.server.application.ApplicationCall
+import io.ktor.server.application.call
+import io.ktor.util.pipeline.PipelineContext
 
-object NewEventEndpoint: AuthenticatedEndpoint(Permissions.Events.Create) {
+object NewEventEndpoint : AuthenticatedEndpoint(Permissions.Events.Create) {
     override suspend fun PipelineContext<*, ApplicationCall>.endpoint(user: User) {
         val name by called { Arguments.Name }
         val description by called { Arguments.Description }

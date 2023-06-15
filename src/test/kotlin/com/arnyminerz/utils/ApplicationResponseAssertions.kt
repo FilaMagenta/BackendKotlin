@@ -2,7 +2,6 @@ package com.arnyminerz.utils
 
 import com.arnyminerz.errors.Error
 import io.ktor.client.statement.HttpResponse
-import io.ktor.client.statement.bodyAsText
 import io.ktor.http.HttpStatusCode
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
@@ -10,18 +9,33 @@ import kotlin.test.assertTrue
 import org.json.JSONObject
 import org.junit.Assert.assertEquals
 
-suspend fun HttpResponse.assertSuccess(statusCode: HttpStatusCode = HttpStatusCode.OK, assertData: suspend (data: JSONObject?) -> Unit = {}) {
+suspend fun HttpResponse.assertSuccess(
+    statusCode: HttpStatusCode = HttpStatusCode.OK,
+    assertData: suspend (data: JSONObject?) -> Unit = {}
+) {
     assertEquals(
         statusCode,
         status,
         bodyAsJson().let { body ->
-            "Response was not successful. HTTP#${status.value}: ${status.description}.\n" +
-                    "#${body.getIntOrNull("code")}: ${body.getStringOrNull("message")}" +
+            "Response was not successful. HTTP#%d: %s.\n#%d: %s%s"
+                .format(
+                    status.value,
+                    status.description,
+                    body.getIntOrNull("code"),
+                    body.getStringOrNull("message"),
                     if (body.has("error")) {
                         val error = body.getJSONObject("error")
-                        "\nError: ${error.getStringOrNull("message")}. Stacktrace:\n    " +
-                                error.getStringOrNull("stackTrace")?.split(", ")?.joinToString("\n    ")
-                    } else ""
+                        val msg = error.getStringOrNull("message")
+                        val stackTrace = error
+                            .getStringOrNull("stackTrace")
+                            ?.split(", ")
+                            ?.joinToString("\n")
+                            ?.prependIndent("    ")
+                        "\nError: $msg. Stacktrace:\n$stackTrace"
+                    } else {
+                        ""
+                    }
+                )
         }
     )
     val body = bodyAsJson()

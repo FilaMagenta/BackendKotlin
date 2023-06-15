@@ -13,7 +13,7 @@ import org.json.JSONObject
  */
 fun JSONObject.getStringOrNull(key: String, emptyIsNull: Boolean = false): String? = try {
     if (has(key)) getString(key).takeIf { if (!emptyIsNull) true else it.isNotEmpty() } else null
-} catch (e: JSONException) {
+} catch (_: JSONException) {
     null
 }
 
@@ -24,7 +24,7 @@ fun JSONObject.getStringOrNull(key: String, emptyIsNull: Boolean = false): Strin
  */
 fun JSONObject.getIntOrNull(key: String): Int? = try {
     if (has(key)) getInt(key) else null
-} catch (e: JSONException) {
+} catch (_: JSONException) {
     null
 }
 
@@ -35,7 +35,7 @@ fun JSONObject.getIntOrNull(key: String): Int? = try {
  */
 fun JSONObject.getFloatOrNull(key: String): Float? = try {
     if (has(key)) getFloat(key) else null
-} catch (e: JSONException) {
+} catch (_: JSONException) {
     null
 }
 
@@ -46,7 +46,7 @@ fun JSONObject.getFloatOrNull(key: String): Float? = try {
  */
 fun JSONObject.getJSONObjectOrNull(key: String): JSONObject? = try {
     if (has(key)) getJSONObject(key) else null
-} catch (e: JSONException) {
+} catch (_: JSONException) {
     null
 }
 
@@ -59,7 +59,7 @@ fun jsonOf(vararg pairs: Pair<String, Any>) =
 /**
  * Converts the list into a JSON array.
  */
-fun <T: JsonSerializable> Iterable<T>.toJSONArray(): JSONArray = JSONArray().apply {
+fun <T : JsonSerializable> Iterable<T>.toJSONArray(): JSONArray = JSONArray().apply {
     for (item in this@toJSONArray)
         put(item.toJSON())
 }

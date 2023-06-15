@@ -4,13 +4,13 @@ import com.arnyminerz.database.dsl.EventTables
 import com.arnyminerz.database.dsl.Events
 import com.arnyminerz.database.dsl.UserAssistances
 import com.arnyminerz.database.types.EventType
+import java.time.ZonedDateTime
 import org.jetbrains.exposed.dao.IntEntityClass
 import org.jetbrains.exposed.dao.id.EntityID
 import org.json.JSONObject
-import java.time.ZonedDateTime
 
-class Event(id: EntityID<Int>): DataEntity<EventType>(id) {
-    companion object: IntEntityClass<Event>(Events)
+class Event(id: EntityID<Int>) : DataEntity<EventType>(id) {
+    companion object : IntEntityClass<Event>(Events)
 
     var name by Events.name
     var description by Events.description

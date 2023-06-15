@@ -7,7 +7,7 @@ import java.time.ZonedDateTime
 import org.json.JSONObject
 
 object ArgumentTypes {
-    object STRING: ArgumentType<String>() {
+    object STRING : ArgumentType<String>() {
         override fun fromString(value: String): String = value
 
         override fun toString(value: String): String = value
@@ -15,7 +15,7 @@ object ArgumentTypes {
         override fun fromJson(json: JSONObject, key: String): String? = json.getStringOrNull(key)
     }
 
-    object INTEGER: ArgumentType<Int>() {
+    object INTEGER : ArgumentType<Int>() {
         override fun fromString(value: String): Int = value.toInt()
 
         override fun toString(value: Int): String = value.toString()
@@ -23,7 +23,7 @@ object ArgumentTypes {
         override fun fromJson(json: JSONObject, key: String): Int? = json.getIntOrNull(key)
     }
 
-    object FLOAT: ArgumentType<Float>() {
+    object FLOAT : ArgumentType<Float>() {
         override fun fromString(value: String): Float = value.toFloat()
 
         override fun toString(value: Float): String = value.toString()
@@ -31,7 +31,7 @@ object ArgumentTypes {
         override fun fromJson(json: JSONObject, key: String): Float? = json.getFloatOrNull(key)
     }
 
-    object DATETIME: ArgumentType<ZonedDateTime>() {
+    object DATETIME : ArgumentType<ZonedDateTime>() {
         override fun fromString(value: String): ZonedDateTime = ZonedDateTime.parse(value)
 
         override fun toString(value: ZonedDateTime): String = value.toString()

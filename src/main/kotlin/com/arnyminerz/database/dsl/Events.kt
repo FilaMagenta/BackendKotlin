@@ -7,12 +7,15 @@ import org.jetbrains.exposed.dao.id.IntIdTable
 import org.jetbrains.exposed.sql.Column
 import org.json.JSONObject
 
-object Events: IntIdTable(), JsonSerializer<Event?> {
-    val name: Column<String> = varchar("name", 128)
-    val description: Column<String> = varchar("description", 4056)
-    val date: Column<String> = varchar("date", 64)
-    val until: Column<String?> = varchar("until", 64).nullable()
-    val reservations: Column<String?> = varchar("reservations", 64).nullable()
+private const val EVENT_NAME_LENGTH = 128
+private const val EVENT_DESCRIPTION_LENGTH = 1024 * 4
+
+object Events : IntIdTable(), JsonSerializer<Event?> {
+    val name: Column<String> = varchar("name", EVENT_NAME_LENGTH)
+    val description: Column<String> = varchar("description", EVENT_DESCRIPTION_LENGTH)
+    val date: Column<String> = varchar("date", DSLConst.DATE_LENGTH)
+    val until: Column<String?> = varchar("until", DSLConst.DATE_LENGTH).nullable()
+    val reservations: Column<String?> = varchar("reservations", DSLConst.DATE_LENGTH).nullable()
     val maxGuests: Column<Int?> = integer("max_guests").nullable().default(-1)
 
     override suspend fun fromJson(json: JSONObject): Event? =

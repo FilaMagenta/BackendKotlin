@@ -1,15 +1,26 @@
 package com.arnyminerz.database
 
-import com.arnyminerz.database.dsl.*
-import com.arnyminerz.database.`interface`.EventsInterface
-import com.arnyminerz.database.`interface`.InventoryInterface
-import com.arnyminerz.database.`interface`.TransactionsInterface
-import com.arnyminerz.database.`interface`.UsersInterface
+import com.arnyminerz.database.connector.EventsInterface
+import com.arnyminerz.database.connector.InventoryInterface
+import com.arnyminerz.database.connector.TransactionsInterface
+import com.arnyminerz.database.connector.UsersInterface
+import com.arnyminerz.database.dsl.EventTables
+import com.arnyminerz.database.dsl.Events
+import com.arnyminerz.database.dsl.InventoryItems
+import com.arnyminerz.database.dsl.TableGuests
+import com.arnyminerz.database.dsl.TableMembers
+import com.arnyminerz.database.dsl.Transactions
+import com.arnyminerz.database.dsl.UserAssistances
+import com.arnyminerz.database.dsl.Users
+import java.sql.DriverManager
 import kotlinx.coroutines.runBlocking
 import org.jetbrains.exposed.dao.flushCache
-import org.jetbrains.exposed.sql.*
+import org.jetbrains.exposed.sql.Database
+import org.jetbrains.exposed.sql.SchemaUtils
+import org.jetbrains.exposed.sql.StdOutSqlLogger
+import org.jetbrains.exposed.sql.Transaction
+import org.jetbrains.exposed.sql.addLogger
 import org.jetbrains.exposed.sql.transactions.transaction
-import java.sql.DriverManager
 
 abstract class ServerDatabase(
     databaseType: String = "sqlite",
@@ -18,6 +29,17 @@ abstract class ServerDatabase(
     options: Map<String, String> = emptyMap()
 ) {
     companion object {
+        private val entityClasses = arrayOf(
+            Users,
+            Events,
+            UserAssistances,
+            EventTables,
+            TableMembers,
+            TableGuests,
+            InventoryItems,
+            Transactions
+        )
+
         lateinit var instance: ServerDatabase
 
         /**
@@ -25,10 +47,10 @@ abstract class ServerDatabase(
          * @throws ClassCastException If [instance] is not [T]
          */
         @Suppress("UNCHECKED_CAST")
-        fun <T: ServerDatabase> instance() = instance as T
+        fun <T : ServerDatabase> instance() = instance as T
     }
 
-    open class ServerDatabaseCompanion<T: ServerDatabase>(private val database: T) {
+    open class ServerDatabaseCompanion<T : ServerDatabase>(private val database: T) {
         /**
          * Sets the [ServerDatabase.instance] to this one.
          */
@@ -72,20 +94,20 @@ abstract class ServerDatabase(
             addLogger(StdOutSqlLogger)
 
             println("Creating required schema...")
-            SchemaUtils.create(
-                Users, Events, UserAssistances, EventTables, TableMembers, TableGuests, InventoryItems, Transactions
-            )
+            for (entity in entityClasses)
+                SchemaUtils.create(entity)
         }
     }
 
     suspend fun <Result> transaction(statement: suspend Transaction.() -> Result): Result = transaction(database) {
-        runBlocking { statement() }
+        runBlocking {
+            statement()
+        }
     }
 
     suspend fun flushCache() = transaction {
         flushCache()
     }
 
-    open fun dispose() { }
-
+    open fun dispose() {}
 }

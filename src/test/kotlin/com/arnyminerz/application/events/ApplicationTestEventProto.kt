@@ -15,7 +15,7 @@ import kotlin.test.assertNotNull
 import org.json.JSONArray
 import org.json.JSONObject
 
-abstract class ApplicationTestEventProto: ApplicationTestProto() {
+abstract class ApplicationTestEventProto : ApplicationTestProto() {
     protected val eventSampleData = EventType(
         "Testing Event",
         "This is the description of a testing event.",
@@ -34,7 +34,10 @@ abstract class ApplicationTestEventProto: ApplicationTestProto() {
         }
     }
 
-    protected suspend fun ApplicationTestBuilder.getAllEvents(token: String, assertion: suspend (events: JSONArray) -> Unit = {}) {
+    protected suspend fun ApplicationTestBuilder.getAllEvents(
+        token: String,
+        assertion: suspend (events: JSONArray) -> Unit = {}
+    ) {
         client.get("/v1/events") {
             header("Authorization", "Bearer $token")
         }.apply {
@@ -48,7 +51,10 @@ abstract class ApplicationTestEventProto: ApplicationTestProto() {
         }
     }
 
-    protected suspend fun ApplicationTestBuilder.getFirstEvent(token: String, assertion: suspend (event: JSONObject) -> Unit = {}) {
+    protected suspend fun ApplicationTestBuilder.getFirstEvent(
+        token: String,
+        assertion: suspend (event: JSONObject) -> Unit = {}
+    ) {
         getAllEvents(token) {
             assertion(it.getJSONObject(0))
         }

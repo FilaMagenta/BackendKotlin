@@ -6,8 +6,8 @@ import org.jetbrains.exposed.dao.IntEntityClass
 import org.jetbrains.exposed.dao.id.EntityID
 import org.json.JSONObject
 
-class TableGuest(id: EntityID<Int>): DataEntity<TableGuestType>(id) {
-    companion object: IntEntityClass<TableGuest>(TableGuests)
+class TableGuest(id: EntityID<Int>) : DataEntity<TableGuestType>(id) {
+    companion object : IntEntityClass<TableGuest>(TableGuests)
 
     var name by TableGuests.name
     var surname by TableGuests.surname

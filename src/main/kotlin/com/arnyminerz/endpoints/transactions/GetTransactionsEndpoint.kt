@@ -3,12 +3,13 @@ package com.arnyminerz.endpoints.transactions
 import com.arnyminerz.database.entity.User
 import com.arnyminerz.endpoints.protos.AuthenticatedEndpoint
 import com.arnyminerz.utils.respondSuccess
-import io.ktor.server.application.*
-import io.ktor.util.pipeline.*
+import io.ktor.server.application.ApplicationCall
+import io.ktor.server.application.call
+import io.ktor.util.pipeline.PipelineContext
 import org.json.JSONArray
 import org.json.JSONObject
 
-object GetTransactionsEndpoint: AuthenticatedEndpoint() {
+object GetTransactionsEndpoint : AuthenticatedEndpoint() {
     override suspend fun PipelineContext<*, ApplicationCall>.endpoint(user: User) {
         val transactions = JSONArray()
         transactionsInterface.findForUser(user) { list ->

@@ -2,8 +2,8 @@ package com.arnyminerz.database.types
 
 import com.arnyminerz.database.entity.InventoryItem
 import com.arnyminerz.database.entity.User
-import org.json.JSONObject
 import java.time.ZonedDateTime
+import org.json.JSONObject
 
 data class TransactionType(
     val date: ZonedDateTime,
@@ -12,7 +12,7 @@ data class TransactionType(
     val description: String,
     val user: User,
     val item: InventoryItem?
-): DataType {
+) : DataType {
     override fun toJSON(): JSONObject = JSONObject().apply {
         put("date", date.toString())
         put("amount", amount)

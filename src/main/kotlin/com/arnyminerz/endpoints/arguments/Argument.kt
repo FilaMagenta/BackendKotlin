@@ -1,7 +1,6 @@
 package com.arnyminerz.endpoints.arguments
 
 import com.arnyminerz.errors.Error
-import com.arnyminerz.utils.getStringOrNull
 import com.arnyminerz.utils.receiveJson
 import com.arnyminerz.utils.respondFailure
 import io.ktor.server.application.ApplicationCall
@@ -16,13 +15,13 @@ import org.json.JSONObject
  * @param name The key of the property in the body.
  * @param error The error to respond if [name] is not present.
  */
-class Argument<R: Any, Type: ArgumentType<R>>(
+class Argument<R : Any, Type : ArgumentType<R>>(
     name: String,
     type: Type,
     val error: Error
-): ArgumentProto<R, Type>(name, type)
+) : ArgumentProto<R, Type>(name, type)
 
-class CalledArgument<R: Any, Type: ArgumentType<R>>(
+class CalledArgument<R : Any, Type : ArgumentType<R>>(
     private val argument: Argument<R, Type>,
     private val call: ApplicationCall,
     private val body: JSONObject
@@ -35,7 +34,7 @@ class CalledArgument<R: Any, Type: ArgumentType<R>>(
     }
 }
 
-suspend fun <R: Any, Type: ArgumentType<R>> PipelineContext<*, ApplicationCall>.called(
+suspend fun <R : Any, Type : ArgumentType<R>> PipelineContext<*, ApplicationCall>.called(
     block: () -> Argument<R, Type>
 ): CalledArgument<R, Type> {
     val body = call.receiveJson()

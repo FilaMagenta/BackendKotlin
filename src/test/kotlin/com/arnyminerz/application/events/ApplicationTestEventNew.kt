@@ -2,16 +2,16 @@ package com.arnyminerz.application.events
 
 import com.arnyminerz.errors.Errors
 import com.arnyminerz.utils.assertFailure
-import com.arnyminerz.utils.assertSuccess
 import com.arnyminerz.utils.getStringOrNull
-import io.ktor.client.request.*
-import io.ktor.http.*
+import io.ktor.client.request.header
+import io.ktor.client.request.post
+import io.ktor.client.request.setBody
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertNull
 import org.junit.Test
 
-class ApplicationTestEventNew: ApplicationTestEventProto() {
+class ApplicationTestEventNew : ApplicationTestEventProto() {
 
     @Test
     fun `test creating event - admin`() = testLoggedInAdmin { token ->

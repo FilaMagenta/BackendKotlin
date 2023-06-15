@@ -11,4 +11,7 @@ fun Application.getEnvironmentPropertyOrVariable(key: String): String =
     environment.config.propertyOrNull(key)?.getString()
         ?: System.getProperty(key)
         ?: System.getenv(key.asEnvironmentVariable)
-        ?: throw IllegalArgumentException("Could not find a property called \"$key\" in application.yaml, nor an environment variable called \"${key.asEnvironmentVariable}\"")
+        ?: throw IllegalArgumentException(
+            "Could not find a property called \"%s\" in application.yaml, nor an environment variable called \"%s\""
+                .format(key, key.asEnvironmentVariable)
+        )

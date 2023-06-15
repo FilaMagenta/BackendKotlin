@@ -10,11 +10,12 @@ import com.arnyminerz.errors.Errors
 import com.arnyminerz.security.permissions.Permissions
 import com.arnyminerz.utils.respondFailure
 import com.arnyminerz.utils.respondSuccess
-import io.ktor.http.*
-import io.ktor.server.application.*
-import io.ktor.util.pipeline.*
+import io.ktor.http.HttpStatusCode
+import io.ktor.server.application.ApplicationCall
+import io.ktor.server.application.call
+import io.ktor.util.pipeline.PipelineContext
 
-object NewTransactionEndpoint: AuthenticatedEndpoint(Permissions.Transactions.Create) {
+object NewTransactionEndpoint : AuthenticatedEndpoint(Permissions.Transactions.Create) {
     override suspend fun PipelineContext<*, ApplicationCall>.endpoint(user: User) {
         val amount by called { Arguments.Amount }
         val pricePerUnit by called { Arguments.Price }

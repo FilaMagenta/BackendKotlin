@@ -5,6 +5,11 @@ import com.auth0.jwt.algorithms.Algorithm
 import java.time.ZonedDateTime
 
 object Authentication {
+    /**
+     * The amount of days to pass until a token expires.
+     */
+    const val TOKEN_EXPIRATION_DAYS: Long = 15
+
     lateinit var audience: String
 
     lateinit var issuer: String

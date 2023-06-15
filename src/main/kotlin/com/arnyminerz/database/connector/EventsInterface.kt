@@ -1,4 +1,4 @@
-package com.arnyminerz.database.`interface`
+package com.arnyminerz.database.connector
 
 import com.arnyminerz.database.ServerDatabase
 import com.arnyminerz.database.dsl.EventTables
@@ -13,9 +13,10 @@ import com.arnyminerz.database.types.EventType
 import org.jetbrains.exposed.sql.Transaction
 import org.jetbrains.exposed.sql.and
 
-class EventsInterface(database: ServerDatabase) :
-    DataObjectInterface<EventType, Event, Event.Companion>(database, Event.Companion) {
-    override fun Event.processExtras(extras: Map<String, String>) {}
+class EventsInterface(database: ServerDatabase) : DataObjectInterface<EventType, Event, Event.Companion>(
+    database,
+    Event.Companion
+) {
 
     suspend fun <Result> getTable(id: Int, eventId: Int, block: (table: EventTable?) -> Result) = database.transaction {
         EventTable.find {
@@ -23,13 +24,18 @@ class EventsInterface(database: ServerDatabase) :
         }.singleOrNull().let(block)
     }
 
-    suspend fun <Result> getMemberTable(memberId: Int, block: suspend (table: TableMember?) -> Result) = database.transaction {
-        TableMember.find {
-            TableMembers.user eq memberId
-        }.singleOrNull().let { block(it) }
-    }
+    suspend fun <Result> getMemberTable(memberId: Int, block: suspend (table: TableMember?) -> Result) =
+        database.transaction {
+            TableMember.find {
+                TableMembers.user eq memberId
+            }.singleOrNull().let { block(it) }
+        }
 
-    suspend fun <Result> getResponsibleTable(responsibleId: Int, eventId: Int, block: suspend (table: EventTable?) -> Result) = database.transaction {
+    suspend fun <Result> getResponsibleTable(
+        responsibleId: Int,
+        eventId: Int,
+        block: suspend (table: EventTable?) -> Result
+    ) = database.transaction {
         EventTable.find {
             (EventTables.responsible eq responsibleId) and (EventTables.event eq eventId)
         }.singleOrNull().let { block(it) }
@@ -46,8 +52,9 @@ class EventsInterface(database: ServerDatabase) :
                 this.event = event
             }
             true
-        } else
+        } else {
             false
+        }
     }
 
     suspend fun cancelAssistance(user: User, event: Event) = database.transaction {
@@ -59,9 +66,9 @@ class EventsInterface(database: ServerDatabase) :
         val existingTable = EventTable.find {
             (EventTables.event eq event.id) and (EventTables.responsible eq responsible.id)
         }.singleOrNull()
-        if (existingTable != null)
+        if (existingTable != null) {
             false
-        else {
+        } else {
             EventTable.new {
                 this.responsible = responsible
                 this.event = event
@@ -74,9 +81,9 @@ class EventsInterface(database: ServerDatabase) :
         val alreadyInTable = TableMember.find {
             (TableMembers.table eq table.id) and (TableMembers.user eq user.id)
         }.singleOrNull()
-        if (alreadyInTable != null)
+        if (alreadyInTable != null) {
             false
-        else {
+        } else {
             TableMember.new {
                 this.user = user
                 this.table = table
@@ -98,8 +105,9 @@ class EventsInterface(database: ServerDatabase) :
 
             alreadyInTable.delete()
             true
-        } else
+        } else {
             false
+        }
     }
 
     suspend fun leaveTable(user: User, table: TableMember) = database.transaction {
@@ -109,7 +117,8 @@ class EventsInterface(database: ServerDatabase) :
         if (alreadyInTable != null) {
             alreadyInTable.delete()
             true
-        } else
+        } else {
             false
+        }
     }
 }

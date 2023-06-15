@@ -15,7 +15,7 @@ import io.ktor.server.testing.testApplication
 import kotlin.test.assertNotNull
 import org.json.JSONObject
 
-abstract class ApplicationTestProto: DatabaseTestProto() {
+abstract class ApplicationTestProto : DatabaseTestProto() {
     protected fun test(block: suspend ApplicationTestBuilder.() -> Unit) = testApplication {
         application {
             installModules()
@@ -137,7 +137,6 @@ abstract class ApplicationTestProto: DatabaseTestProto() {
             }
             ServerDatabase.instance.flushCache()
 
-            // TODO: Set admin role
             assertion(it)
         }
     }

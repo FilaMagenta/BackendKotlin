@@ -10,7 +10,10 @@ import io.ktor.server.routing.post
 import io.ktor.server.routing.put
 import io.ktor.util.pipeline.PipelineContext
 
-private fun Route.queryAuthenticatedEndpoint(endpoint: AuthenticatedEndpoint, block: Route.(suspend PipelineContext<Unit, ApplicationCall>.(Unit) -> Unit) -> Unit) {
+private fun Route.queryAuthenticatedEndpoint(
+    endpoint: AuthenticatedEndpoint,
+    block: Route.(suspend PipelineContext<Unit, ApplicationCall>.(Unit) -> Unit) -> Unit
+) {
     val function: suspend PipelineContext<Unit, ApplicationCall>.(Unit) -> Unit = {
         requireAuthentication { nif ->
             endpoint.run(this, nif)

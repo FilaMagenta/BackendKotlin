@@ -1,7 +1,6 @@
 package com.arnyminerz.application.profile
 
 import com.arnyminerz.application.ApplicationTestProto
-import com.arnyminerz.database.types.UserType
 import com.arnyminerz.security.permissions.Role
 import com.arnyminerz.utils.assertSuccess
 import com.arnyminerz.utils.getStringOrNull
@@ -11,7 +10,7 @@ import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
 import org.junit.Test
 
-class ApplicationTestGetProfile: ApplicationTestProto() {
+class ApplicationTestGetProfile : ApplicationTestProto() {
     @Test
     fun test_getProfileData() = testLoggedIn { token ->
         client.get("/v1/profile") {

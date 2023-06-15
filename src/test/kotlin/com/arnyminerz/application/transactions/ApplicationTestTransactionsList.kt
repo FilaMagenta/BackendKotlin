@@ -9,9 +9,9 @@ import kotlin.test.assertNotNull
 import kotlin.test.assertTrue
 import org.junit.Test
 
-class ApplicationTestTransactionsList: ApplicationTestProto() {
+class ApplicationTestTransactionsList : ApplicationTestProto() {
     @Test
-    fun `test getting transactions list`() = testLoggedIn {  token ->
+    fun `test getting transactions list`() = testLoggedIn { token ->
         client.get("/v1/transactions") {
             header(HttpHeaders.Authorization, "Bearer $token")
         }.apply {

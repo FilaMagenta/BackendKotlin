@@ -10,7 +10,7 @@ import io.ktor.http.HttpStatusCode
 import kotlin.test.assertEquals
 import org.junit.Test
 
-class ApplicationTestBase: ApplicationTestProto() {
+class ApplicationTestBase : ApplicationTestProto() {
     @Test
     fun test_notFound() = test {
         client.get("/").apply {

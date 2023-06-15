@@ -17,14 +17,16 @@ suspend fun ApplicationCall.respondSuccess(data: JSONObject? = null, status: Htt
     respondJson(response, status)
 }
 
-suspend fun <Data: JsonSerializable> ApplicationCall.respondSuccess(data: Data? = null, status: HttpStatusCode = HttpStatusCode.OK) {
+suspend fun <Data : JsonSerializable> ApplicationCall.respondSuccess(
+    data: Data? = null,
+    status: HttpStatusCode = HttpStatusCode.OK
+) {
     respondSuccess(data?.toJSON(), status)
 }
 
-
 suspend fun ApplicationCall.respondSuccess(status: HttpStatusCode = HttpStatusCode.OK) = respondSuccess(null, status)
 
-suspend fun <Extra: JsonSerializable> ApplicationCall.respondFailure(
+suspend fun <Extra : JsonSerializable> ApplicationCall.respondFailure(
     code: Int,
     message: String,
     httpStatusCode: HttpStatusCode = HttpStatusCode.BadRequest,
@@ -45,7 +47,7 @@ suspend fun <Extra: JsonSerializable> ApplicationCall.respondFailure(
     respondJson(response, httpStatusCode)
 }
 
-suspend fun <Extra: JsonSerializable> ApplicationCall.respondFailure(
+suspend fun <Extra : JsonSerializable> ApplicationCall.respondFailure(
     error: Error,
     exception: Throwable? = null,
     extra: Extra? = null

@@ -1,7 +1,7 @@
 package com.arnyminerz.database.types
 
-import org.json.JSONObject
 import java.time.ZonedDateTime
+import org.json.JSONObject
 
 data class EventType(
     val name: String,
@@ -10,7 +10,7 @@ data class EventType(
     val until: ZonedDateTime?,
     val reservations: ZonedDateTime?,
     val maxGuests: Int? = MAX_GUESTS_DEFAULT
-): DataType {
+) : DataType {
     companion object {
         /**
          * The default value for the maximum allowed amount of guests

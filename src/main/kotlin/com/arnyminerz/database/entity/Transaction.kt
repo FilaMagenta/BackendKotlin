@@ -6,8 +6,8 @@ import org.jetbrains.exposed.dao.IntEntityClass
 import org.jetbrains.exposed.dao.id.EntityID
 import org.json.JSONObject
 
-class Transaction(id: EntityID<Int>): DataEntity<TransactionType>(id) {
-    companion object: IntEntityClass<Transaction>(Transactions)
+class Transaction(id: EntityID<Int>) : DataEntity<TransactionType>(id) {
+    companion object : IntEntityClass<Transaction>(Transactions)
 
     var date by Transactions.date
     var amount by Transactions.amount

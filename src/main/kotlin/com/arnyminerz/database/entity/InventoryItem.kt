@@ -6,8 +6,8 @@ import org.jetbrains.exposed.dao.IntEntityClass
 import org.jetbrains.exposed.dao.id.EntityID
 import org.json.JSONObject
 
-class InventoryItem(id: EntityID<Int>): DataEntity<InventoryItemType>(id) {
-    companion object: IntEntityClass<InventoryItem>(InventoryItems)
+class InventoryItem(id: EntityID<Int>) : DataEntity<InventoryItemType>(id) {
+    companion object : IntEntityClass<InventoryItem>(InventoryItems)
 
     var name by InventoryItems.name
     var unitPrice by InventoryItems.unitPrice

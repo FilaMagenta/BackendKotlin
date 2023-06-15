@@ -9,7 +9,7 @@ suspend fun ApplicationCall.receiveJson(): JSONObject {
     val text = receiveText()
     return try {
         JSONObject(text)
-    } catch (e: JSONException) {
+    } catch (_: JSONException) {
         JSONObject()
     }
 }
