@@ -14,6 +14,7 @@ import io.ktor.client.request.header
 import io.ktor.client.request.put
 import io.ktor.client.statement.bodyAsChannel
 import io.ktor.http.HttpStatusCode
+import java.io.File
 import java.util.Base64
 import javax.imageio.ImageIO
 import kotlin.test.assertEquals
@@ -78,6 +79,12 @@ class ApplicationTestEventData : ApplicationTestEventProto() {
                 val bytes = Base64.getMimeDecoder().decode(text)
                 val decodedEventJsonStr = Encryption.decrypt(event.decodePrivateKey(), bytes).toString(Charsets.UTF_8)
                 val decodedEventJson = JSONObject(decodedEventJsonStr)
+
+                val decodedImage = File.createTempFile("fmb", ".png")
+                decodedImage.outputStream().use {
+                    it.write(qrBytes)
+                }
+                println("Received QR code: ${decodedImage.absolutePath}")
 
                 assertEquals(event.toJSON().toString(), decodedEventJson.toString())
             }
