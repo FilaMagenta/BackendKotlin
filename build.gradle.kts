@@ -1,4 +1,7 @@
-import io.ktor.plugin.features.*
+import io.ktor.plugin.features.DockerImageRegistry
+import io.ktor.plugin.features.DockerPortMapping
+import io.ktor.plugin.features.DockerPortMappingProtocol
+import io.ktor.plugin.features.JreVersion
 
 val ktorVersion: String by project
 val kotlinVersion: String by project
