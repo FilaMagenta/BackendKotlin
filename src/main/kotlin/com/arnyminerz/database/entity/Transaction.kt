@@ -2,6 +2,7 @@ package com.arnyminerz.database.entity
 
 import com.arnyminerz.database.dsl.Transactions
 import com.arnyminerz.database.types.TransactionType
+import com.arnyminerz.utils.jsonOf
 import org.jetbrains.exposed.dao.IntEntityClass
 import org.jetbrains.exposed.dao.id.EntityID
 import org.json.JSONObject
@@ -30,12 +31,12 @@ class Transaction(id: EntityID<Int>) : DataEntity<TransactionType>(id) {
         this.item = type.item
     }
 
-    override fun toJSON(): JSONObject = JSONObject().apply {
-        put("date", date)
-        put("amount", amount)
-        put("price_per_unit", pricePerUnit)
-        put("description", description)
-        put("user_id", user.id.value)
-        put("item_id", item?.id?.value)
-    }
+    override fun toJSON(): JSONObject = jsonOf(
+        "date" to date,
+        "amount" to amount,
+        "price_per_unit" to pricePerUnit,
+        "description" to description,
+        "user_id" to user.id.value,
+        "item_id" to item?.id?.value
+    )
 }

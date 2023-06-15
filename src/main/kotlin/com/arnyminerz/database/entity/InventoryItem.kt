@@ -2,6 +2,7 @@ package com.arnyminerz.database.entity
 
 import com.arnyminerz.database.dsl.InventoryItems
 import com.arnyminerz.database.types.InventoryItemType
+import com.arnyminerz.utils.jsonOf
 import org.jetbrains.exposed.dao.IntEntityClass
 import org.jetbrains.exposed.dao.id.EntityID
 import org.json.JSONObject
@@ -17,8 +18,8 @@ class InventoryItem(id: EntityID<Int>) : DataEntity<InventoryItemType>(id) {
         this.unitPrice = type.unitPrice
     }
 
-    override fun toJSON(): JSONObject = JSONObject().apply {
-        put("name", name)
-        put("unit_price", unitPrice)
-    }
+    override fun toJSON(): JSONObject = jsonOf(
+        "name" to name,
+        "unit_price" to unitPrice
+    )
 }

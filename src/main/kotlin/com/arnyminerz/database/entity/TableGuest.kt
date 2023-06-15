@@ -2,6 +2,7 @@ package com.arnyminerz.database.entity
 
 import com.arnyminerz.database.dsl.TableGuests
 import com.arnyminerz.database.types.TableGuestType
+import com.arnyminerz.utils.jsonOf
 import org.jetbrains.exposed.dao.IntEntityClass
 import org.jetbrains.exposed.dao.id.EntityID
 import org.json.JSONObject
@@ -24,11 +25,11 @@ class TableGuest(id: EntityID<Int>) : DataEntity<TableGuestType>(id) {
         table = type.table
     }
 
-    override fun toJSON(): JSONObject = JSONObject().apply {
-        put("name", name)
-        put("surname", surname)
-        put("nif", nif)
-        put("responsible", responsible.id)
-        put("table", table.id)
-    }
+    override fun toJSON(): JSONObject = jsonOf(
+        "name" to name,
+        "surname" to surname,
+        "nif" to nif,
+        "responsible" to responsible.id,
+        "table" to table.id
+    )
 }
