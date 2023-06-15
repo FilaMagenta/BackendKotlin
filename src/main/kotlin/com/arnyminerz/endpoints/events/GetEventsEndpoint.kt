@@ -5,9 +5,9 @@ import com.arnyminerz.database.entity.User
 import com.arnyminerz.endpoints.protos.AuthenticatedEndpoint
 import com.arnyminerz.utils.jsonOf
 import com.arnyminerz.utils.respondSuccess
-import io.ktor.server.application.ApplicationCall
-import io.ktor.server.application.call
-import io.ktor.util.pipeline.PipelineContext
+import com.arnyminerz.utils.toJSONArray
+import io.ktor.server.application.*
+import io.ktor.util.pipeline.*
 import org.json.JSONArray
 import org.json.JSONObject
 
@@ -27,7 +27,8 @@ object GetEventsEndpoint : AuthenticatedEndpoint() {
                                 jsonOf(
                                     "id" to table.id.value,
                                     "responsible_id" to table.responsible.id,
-                                    "members" to table.members.map { it.user.id.value }
+                                    "members" to table.members.map { it.user.id.value },
+                                    "guests" to table.guests.toJSONArray()
                                 )
                             )
                     })

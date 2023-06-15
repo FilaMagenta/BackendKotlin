@@ -1,6 +1,7 @@
 package com.arnyminerz.database.entity
 
 import com.arnyminerz.database.dsl.EventTables
+import com.arnyminerz.database.dsl.TableGuests
 import com.arnyminerz.database.dsl.TableMembers
 import org.jetbrains.exposed.dao.IntEntity
 import org.jetbrains.exposed.dao.IntEntityClass
@@ -13,4 +14,5 @@ class EventTable(id: EntityID<Int>): IntEntity(id) {
     var event by Event referencedOn EventTables.event
 
     val members by TableMember referrersOn TableMembers.table
+    val guests by TableGuest referrersOn TableGuests.table
 }

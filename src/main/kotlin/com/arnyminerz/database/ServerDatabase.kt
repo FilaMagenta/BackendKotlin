@@ -5,15 +5,11 @@ import com.arnyminerz.database.`interface`.EventsInterface
 import com.arnyminerz.database.`interface`.InventoryInterface
 import com.arnyminerz.database.`interface`.TransactionsInterface
 import com.arnyminerz.database.`interface`.UsersInterface
-import java.sql.DriverManager
 import kotlinx.coroutines.runBlocking
 import org.jetbrains.exposed.dao.flushCache
-import org.jetbrains.exposed.sql.Database
-import org.jetbrains.exposed.sql.SchemaUtils
-import org.jetbrains.exposed.sql.StdOutSqlLogger
-import org.jetbrains.exposed.sql.Transaction
-import org.jetbrains.exposed.sql.addLogger
+import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.transactions.transaction
+import java.sql.DriverManager
 
 abstract class ServerDatabase(
     databaseType: String = "sqlite",
@@ -76,7 +72,9 @@ abstract class ServerDatabase(
             addLogger(StdOutSqlLogger)
 
             println("Creating required schema...")
-            SchemaUtils.create(Users, Events, UserAssistances, EventTables, TableMembers, InventoryItems, Transactions)
+            SchemaUtils.create(
+                Users, Events, UserAssistances, EventTables, TableMembers, TableGuests, InventoryItems, Transactions
+            )
         }
     }
 
