@@ -1,5 +1,8 @@
 package com.arnyminerz.database.types
 
+import com.arnyminerz.security.RSAKeyPairGenerator
+import com.arnyminerz.utils.toJSON
+import java.security.KeyPair
 import java.time.ZonedDateTime
 import org.json.JSONObject
 
@@ -9,7 +12,8 @@ data class EventType(
     val date: ZonedDateTime,
     val until: ZonedDateTime?,
     val reservations: ZonedDateTime?,
-    val maxGuests: Int? = MAX_GUESTS_DEFAULT
+    val maxGuests: Int? = MAX_GUESTS_DEFAULT,
+    val keyPair: KeyPair = RSAKeyPairGenerator.newKey()
 ) : DataType {
     companion object {
         /**
@@ -27,5 +31,12 @@ data class EventType(
         put("until", until?.toString())
         put("reservations", reservations?.toString())
         put("max_guests", maxGuests)
+        put(
+            "key_pair",
+            JSONObject().apply {
+                put("public", keyPair.public.toJSON())
+                put("private", keyPair.private.toJSON())
+            }
+        )
     }
 }

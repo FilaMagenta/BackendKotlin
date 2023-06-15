@@ -34,4 +34,5 @@ object Errors {
     val AssistanceAlreadyConfirmed = Error(50, "Assistance already confirmed.", HttpStatusCode.BadRequest)
     val UserAlreadyInTable = Error(51, "You are already in a table.", HttpStatusCode.BadRequest)
     val UserNotInTable = Error(52, "The user is not in the table.", HttpStatusCode.BadRequest)
+    val UserNotAssistingEvent = Error(53, "The user has still not confirmed assistance to event.", HttpStatusCode.BadRequest)
 }

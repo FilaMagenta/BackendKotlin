@@ -8,6 +8,7 @@ import io.ktor.client.request.post
 import io.ktor.client.request.setBody
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
+import kotlin.test.assertNotNull
 import kotlin.test.assertNull
 import org.junit.Test
 
@@ -21,6 +22,7 @@ class ApplicationTestEventNew : ApplicationTestEventProto() {
             assertEquals(1, events.length())
 
             val event = events.getJSONObject(0)
+            assertNotNull(event.getInt("id"))
             assertEquals(eventSampleData.name, event.getString("name"))
             assertEquals(eventSampleData.description, event.getString("description"))
             assertEquals(eventSampleData.date.toString(), event.getString("date"))
