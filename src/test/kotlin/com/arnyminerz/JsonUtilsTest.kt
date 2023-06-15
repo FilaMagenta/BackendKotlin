@@ -3,10 +3,12 @@ package com.arnyminerz
 import com.arnyminerz.utils.getIntOrNull
 import com.arnyminerz.utils.getJSONObjectOrNull
 import com.arnyminerz.utils.getStringOrNull
-import kotlin.test.assertEquals
-import kotlin.test.assertNull
+import com.arnyminerz.utils.serialization.JsonSerializable
+import com.arnyminerz.utils.toJSONArray
 import org.json.JSONObject
 import org.junit.Test
+import kotlin.test.assertEquals
+import kotlin.test.assertNull
 
 class JsonUtilsTest {
     @Test
@@ -44,6 +46,27 @@ class JsonUtilsTest {
         assertNull(json.getJSONObjectOrNull("not-found"))
         val obj = json.getJSONObject("key")
         assertEquals("value", obj.getString("inner"))
+    }
+
+    @Test
+    fun `test converting list of JsonSerializable to JSONArray`() {
+        class TestObject(val name: String): JsonSerializable {
+            override fun toJSON(): JSONObject = JSONObject().apply {
+                put("name", name)
+            }
+        }
+
+        val list = listOf(
+            TestObject("obj1"),
+            TestObject("obj2"),
+            TestObject("obj3")
+        )
+        val json = list.toJSONArray()
+
+        assertEquals(3, json.length())
+        assertEquals(list[0].toJSON().toString(), json.getJSONObject(0).toString())
+        assertEquals(list[1].toJSON().toString(), json.getJSONObject(1).toString())
+        assertEquals(list[2].toJSON().toString(), json.getJSONObject(2).toString())
     }
 
 }

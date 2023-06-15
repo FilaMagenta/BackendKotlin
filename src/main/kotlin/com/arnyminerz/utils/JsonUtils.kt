@@ -1,5 +1,7 @@
 package com.arnyminerz.utils
 
+import com.arnyminerz.utils.serialization.JsonSerializable
+import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
 
@@ -53,3 +55,11 @@ fun jsonOf(vararg pairs: Pair<String, Any>) =
         for ((key, value) in pairs)
             put(key, value)
     }
+
+/**
+ * Converts the list into a JSON array.
+ */
+fun <T: JsonSerializable> Iterable<T>.toJSONArray(): JSONArray = JSONArray().apply {
+    for (item in this@toJSONArray)
+        put(item.toJSON())
+}
