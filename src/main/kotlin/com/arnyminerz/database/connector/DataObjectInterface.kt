@@ -10,12 +10,12 @@ abstract class DataObjectInterface<T : DataType, E : DataEntity<T>, EClass : Int
     protected val database: ServerDatabase,
     private val entityClass: EClass
 ) {
-    suspend fun <Result> getAll(block: (list: SizedIterable<E>) -> Result) = database.transaction {
-        entityClass.all().let(block)
+    suspend fun <Result> getAll(block: suspend (list: SizedIterable<E>) -> Result) = database.transaction {
+        block(entityClass.all())
     }
 
-    suspend fun <Result> get(id: Int, block: (list: E?) -> Result) = database.transaction {
-        entityClass.findById(id).let(block)
+    suspend fun <Result> get(id: Int, block: suspend (list: E?) -> Result) = database.transaction {
+        block(entityClass.findById(id))
     }
 
     protected open fun E.processExtras(extras: Map<String, String>) {

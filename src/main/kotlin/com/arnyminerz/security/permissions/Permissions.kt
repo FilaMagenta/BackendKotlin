@@ -17,5 +17,7 @@ object Permissions : PermissionsList() {
         object ChangeCategory : Permission()
 
         object UpdateCategoryInfo : Permission()
+
+        object List : Permission()
     }
 }
