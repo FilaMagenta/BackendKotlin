@@ -7,10 +7,11 @@ val String.asEnvironmentVariable: String
         .map { if (it.isUpperCase()) "_${it.uppercase()}" else it.uppercase() }
         .joinToString("")
 
-fun Application.getEnvironmentPropertyOrVariable(key: String): String =
+fun Application.getEnvironmentPropertyOrVariable(key: String, default: String? = null): String =
     environment.config.propertyOrNull(key)?.getString()
         ?: System.getProperty(key)
         ?: System.getenv(key.asEnvironmentVariable)
+        ?: default
         ?: throw IllegalArgumentException(
             "Could not find a property called \"%s\" in application.yaml, nor an environment variable called \"%s\""
                 .format(key, key.asEnvironmentVariable)

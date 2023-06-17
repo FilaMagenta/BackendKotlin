@@ -9,4 +9,4 @@ certs:
     custom: "$CUSTOM_CERT:false"
 
 config:
-    production: "$PRODUCTION:false"
+    production: "$CONFIG_PRODUCTION:false"

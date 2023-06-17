@@ -20,7 +20,7 @@ fun main() {
 }
 
 fun Application.installModules() {
-    val isProduction = getEnvironmentPropertyOrVariable("config.production").toBoolean()
+    val isProduction = getEnvironmentPropertyOrVariable("config.production", "false").toBoolean()
 
     val databaseInstance = if (isProduction) {
         ProductionDatabase.Instance
