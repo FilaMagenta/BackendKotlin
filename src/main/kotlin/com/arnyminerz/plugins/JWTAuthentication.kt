@@ -9,14 +9,18 @@ import io.ktor.server.application.Application
 import io.ktor.server.auth.authentication
 import io.ktor.server.auth.jwt.JWTPrincipal
 import io.ktor.server.auth.jwt.jwt
+import io.ktor.server.http.content.staticFiles
 import io.ktor.server.http.content.staticResources
 import io.ktor.server.routing.routing
+import java.io.File
 
 fun Application.configureJwt() {
     val secret = getEnvironmentPropertyOrVariable("jwt.secret")
     val issuer = getEnvironmentPropertyOrVariable("jwt.issuer")
     val audience = getEnvironmentPropertyOrVariable("jwt.audience")
     val myRealm = getEnvironmentPropertyOrVariable("jwt.realm")
+
+    val useCustomCerts = getEnvironmentPropertyOrVariable("certs.custom_cert").toBoolean()
 
     Authentication.secret = secret
     Authentication.issuer = issuer
@@ -48,6 +52,9 @@ fun Application.configureJwt() {
         }
     }
     routing {
-        staticResources("/certs", "certs")
+        if (useCustomCerts)
+            staticFiles("/certs", File("/certs"))
+        else
+            staticResources("/certs", "certs")
     }
 }
