@@ -82,7 +82,7 @@ abstract class ServerDatabase(
             when (mode) {
                 DatabaseMode.MEMORY -> sb.append(":memory:")
                 DatabaseMode.FILE -> sb.append(host)
-                DatabaseMode.REMOTE -> sb.append("://$host")
+                DatabaseMode.REMOTE -> sb.append("//$host")
             }
             queryArguments?.let { sb.append("?$it") }
             databaseOptions?.let { sb.append(";$it") }
