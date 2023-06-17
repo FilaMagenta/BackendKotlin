@@ -2,6 +2,14 @@ package com.arnyminerz.utils
 
 import io.ktor.server.application.Application
 
+/**
+ * Used by [getEnvironmentPropertyOrVariable] for converting a property name into an environment variable. To do so,
+ * three steps are followed:
+ * 1. All `.` are replaced by `_`.
+ * 2. All capital letters are replaced by `_<letter>`.
+ * 3. The text is turned all into capital letters.
+ * This way, for example, the value `config.testProperty` is converted into `CONFIG_TEST_PROPERTY`.
+ */
 val String.asEnvironmentVariable: String
     get() = replace(".", "_")
         .map { if (it.isUpperCase()) "_${it.uppercase()}" else it.uppercase() }
