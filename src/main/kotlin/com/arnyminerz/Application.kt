@@ -22,10 +22,12 @@ fun main() {
 fun Application.installModules() {
     val isProduction = getEnvironmentPropertyOrVariable("config.production").toBoolean()
 
-    if (isProduction)
-        ProductionDatabase.Instance.set()
-    else
-        DevelopmentDatabase.Instance.set()
+    val databaseInstance = if (isProduction) {
+        ProductionDatabase.Instance
+    } else {
+        DevelopmentDatabase.Instance
+    }
+    databaseInstance.set()
 
     install(DoubleReceive)
     configureStatusPages()

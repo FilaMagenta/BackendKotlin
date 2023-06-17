@@ -52,9 +52,10 @@ fun Application.configureJwt() {
         }
     }
     routing {
-        if (useCustomCerts)
+        if (useCustomCerts) {
             staticFiles("/certs", File("/certs"))
-        else
+        } else {
             staticResources("/certs", "certs")
+        }
     }
 }
