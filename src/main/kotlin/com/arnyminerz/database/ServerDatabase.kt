@@ -26,7 +26,8 @@ import org.jetbrains.exposed.sql.addLogger
 import org.jetbrains.exposed.sql.transactions.transaction
 
 abstract class ServerDatabase(
-    databaseType: String = "sqlite",
+    private val databaseType: String = "sqlite",
+    private val mode: DatabaseMode = DatabaseMode.MEMORY,
     protected val host: String = ":memory:",
     driver: String? = null,
     arguments: Map<String, String> = emptyMap(),
@@ -56,6 +57,8 @@ abstract class ServerDatabase(
         fun <T : ServerDatabase> instance() = instance as T
     }
 
+    enum class DatabaseMode { MEMORY, FILE, REMOTE }
+
     open class ServerDatabaseCompanion<T : ServerDatabase>(private val database: T) {
         /**
          * Sets the [ServerDatabase.instance] to this one.
@@ -73,9 +76,18 @@ abstract class ServerDatabase(
         ?.map { (k, v) -> URLEncoder.encode(k, Charsets.UTF_8) to URLEncoder.encode(v, Charsets.UTF_8) }
         ?.joinToString("&") { (k, v) -> "$k=${URLEncoder.encode(v, Charsets.UTF_8)}" }
 
-    private val databaseUrl = "jdbc:$databaseType://$host" +
-            (queryArguments?.let { "?$it" } ?: "") +
-            (databaseOptions?.let { ";$it" } ?: "")
+    private val databaseUrl: String
+        get() {
+            val sb = StringBuilder("jdbc:$databaseType:")
+            when (mode) {
+                DatabaseMode.MEMORY -> sb.append(":memory:")
+                DatabaseMode.FILE -> sb.append(host)
+                DatabaseMode.REMOTE -> sb.append("://$host")
+            }
+            queryArguments?.let { sb.append("?$it") }
+            databaseOptions?.let { sb.append(";$it") }
+            return sb.toString()
+        }
 
     private val databaseDriver = driver ?: DriverManager.getDriver(databaseUrl)::class.java.name
 
