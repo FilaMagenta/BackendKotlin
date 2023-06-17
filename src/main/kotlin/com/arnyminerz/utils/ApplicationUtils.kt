@@ -31,5 +31,6 @@ fun Application.getEnvironmentPropertyOrVariable(key: String, default: String? =
         ?: default
         ?: throw IllegalArgumentException(
             "Could not find a property called \"%s\" in application.yaml, nor an environment variable called \"%s\""
-                .format(key, key.asEnvironmentVariable)
+                .format(key, key.asEnvironmentVariable) +
+            "\nENV: ${System.getenv().toList().joinToString(", ") { (k, v) -> "$k = $v" }}"
         )
