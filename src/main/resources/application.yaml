@@ -6,7 +6,7 @@ jwt:
     realm: "$JWT_REALM:Access"
 
 certs:
-    custom_cert: "$CUSTOM_CERT:false"
+    custom: "$CUSTOM_CERT:false"
 
 config:
     production: "$PRODUCTION:false"

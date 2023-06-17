@@ -20,7 +20,7 @@ fun Application.configureJwt() {
     val audience = getEnvironmentPropertyOrVariable("jwt.audience")
     val myRealm = getEnvironmentPropertyOrVariable("jwt.realm")
 
-    val useCustomCerts = getEnvironmentPropertyOrVariable("certs.custom_cert").toBoolean()
+    val useCustomCerts = getEnvironmentPropertyOrVariable("certs.custom").toBoolean()
 
     Authentication.secret = secret
     Authentication.issuer = issuer
