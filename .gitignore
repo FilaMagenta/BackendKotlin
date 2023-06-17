@@ -38,3 +38,6 @@ out/
 ### Testing databases ###
 testing.db
 database.db
+
+### Demo Docker ###
+docker
