@@ -13,6 +13,7 @@ val sqliteVersion: String by project
 val detektVersion: String by project
 val qrCodeKotlinVersion: String by project
 val zxingVersion: String by project
+val postgresqlVersion: String by project
 
 plugins {
     kotlin("jvm") version "1.8.22"
@@ -88,6 +89,7 @@ dependencies {
     implementation("org.jetbrains.exposed:exposed-jdbc:$exposedVersion")
 
     implementation("org.xerial:sqlite-jdbc:$sqliteVersion")
+    implementation("org.postgresql:postgresql:$postgresqlVersion")
     implementation("ch.qos.logback:logback-classic:$logbackVersion")
     implementation("org.json:json:$jsonVersion")
     implementation("io.github.g0dkar:qrcode-kotlin-jvm:$qrCodeKotlinVersion")

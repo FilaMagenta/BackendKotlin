@@ -14,6 +14,7 @@ import com.arnyminerz.database.dsl.Transactions
 import com.arnyminerz.database.dsl.UserAssistances
 import com.arnyminerz.database.dsl.UserCategories
 import com.arnyminerz.database.dsl.Users
+import java.net.URLEncoder
 import java.sql.DriverManager
 import kotlinx.coroutines.runBlocking
 import org.jetbrains.exposed.dao.flushCache
@@ -26,8 +27,9 @@ import org.jetbrains.exposed.sql.transactions.transaction
 
 abstract class ServerDatabase(
     databaseType: String = "sqlite",
-    protected val path: String = ":memory:",
+    protected val host: String = ":memory:",
     driver: String? = null,
+    arguments: Map<String, String> = emptyMap(),
     options: Map<String, String> = emptyMap()
 ) {
     companion object {
@@ -67,7 +69,13 @@ abstract class ServerDatabase(
         ?.map { (k, v) -> "$k=$v" }
         ?.joinToString(";")
 
-    private val databaseUrl = "jdbc:$databaseType:$path" + (databaseOptions?.let { ";$it" } ?: "")
+    private val queryArguments = arguments.takeIf { it.isNotEmpty() }
+        ?.map { (k, v) -> URLEncoder.encode(k, Charsets.UTF_8) to URLEncoder.encode(v, Charsets.UTF_8) }
+        ?.joinToString("&") { (k, v) -> "$k=${URLEncoder.encode(v, Charsets.UTF_8)}" }
+
+    private val databaseUrl = "jdbc:$databaseType://$host" +
+            (queryArguments?.let { "?$it" } ?: "") +
+            (databaseOptions?.let { ";$it" } ?: "")
 
     private val databaseDriver = driver ?: DriverManager.getDriver(databaseUrl)::class.java.name
 
@@ -86,6 +94,7 @@ abstract class ServerDatabase(
     }
 
     protected suspend fun init() {
+        println("Target database: $databaseUrl")
         println("Initializing interfaces...")
         usersInterface = UsersInterface(this)
         eventsInterface = EventsInterface(this)

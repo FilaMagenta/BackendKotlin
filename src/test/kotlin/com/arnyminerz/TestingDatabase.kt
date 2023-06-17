@@ -5,7 +5,7 @@ import java.io.File
 
 object TestingDatabase : ServerDatabase(
     // databaseType = "h2",
-    path = "testing.db",
+    host = "testing.db",
     // options = mapOf("DB_CLOSE_DELAY" to "-1")
 ) {
     object Instance : ServerDatabaseCompanion<TestingDatabase>(TestingDatabase)
@@ -15,6 +15,6 @@ object TestingDatabase : ServerDatabase(
     override fun dispose() {
         super.dispose()
 
-        if (!File(path).delete()) System.err.println("Could not delete database")
+        if (!File(host).delete()) System.err.println("Could not delete database")
     }
 }
