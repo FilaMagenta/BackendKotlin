@@ -56,4 +56,12 @@ object ArgumentTypes {
 
         override fun fromJson(json: JSONObject, key: String): Boolean? = json.getBooleanOrNull(key)
     }
+
+    class ENUM<T : Enum<T>>(private val values: () -> Array<T>) : ArgumentType<T>() {
+        override fun fromString(value: String): T = values().find { it.name == value }!!
+
+        override fun toString(value: T): String = value.name
+
+        override fun fromJson(json: JSONObject, key: String): T? = json.getStringOrNull(key)?.let { fromString(it) }
+    }
 }

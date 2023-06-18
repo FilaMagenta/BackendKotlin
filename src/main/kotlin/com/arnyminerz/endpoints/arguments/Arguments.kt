@@ -1,6 +1,7 @@
 package com.arnyminerz.endpoints.arguments
 
 import com.arnyminerz.errors.Errors
+import com.arnyminerz.security.permissions.Role
 
 @Suppress("MaximumLineLength", "MaxLineLength", "ArgumentListWrapping", "PropertyWrapping")
 object Arguments {
@@ -39,4 +40,5 @@ object Arguments {
     val PaysDinarSantJordi = Argument("pays_dinar_sant_jordi", ArgumentTypes.SHORT, Errors.MissingPaysDinarSantJordiBody)
     val PaysSoparSantJordi = Argument("pays_sopar_sant_jordi", ArgumentTypes.SHORT, Errors.MissingPaysSoparSantJordiBody)
     val PaysDinarTrons = Argument("pays_dinar_trons", ArgumentTypes.SHORT, Errors.MissingPaysDinarTronsBody)
+    val Role = Argument("role", ArgumentTypes.ENUM<Role>(Role::values), Errors.MissingRoleBody)
 }

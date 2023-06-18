@@ -15,6 +15,7 @@ import com.arnyminerz.endpoints.inventory.GetInventoryItemsEndpoint
 import com.arnyminerz.endpoints.inventory.NewInventoryItemEndpoint
 import com.arnyminerz.endpoints.profile.GetAllProfilesEndpoint
 import com.arnyminerz.endpoints.profile.GetProfileEndpoint
+import com.arnyminerz.endpoints.profile.SetRoleEndpoint
 import com.arnyminerz.endpoints.profile.UpdateCategoryDataEndpoint
 import com.arnyminerz.endpoints.profile.UpdateUserCategoryEndpoint
 import com.arnyminerz.endpoints.routing.delete
@@ -41,6 +42,7 @@ fun Application.configureRouting() {
             get("/v1/profile", GetProfileEndpoint)
             get("/v1/profile/all", GetAllProfilesEndpoint)
             post("/v1/profile/{userId}/category", UpdateUserCategoryEndpoint)
+            post("/v1/profile/{userId}/role", SetRoleEndpoint)
             post("/v1/profile/category/{categoryName}", UpdateCategoryDataEndpoint)
 
             get("/v1/events", GetEventsEndpoint)

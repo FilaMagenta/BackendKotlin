@@ -40,6 +40,7 @@ object Errors {
     val MissingPaysDinarSantJordiBody = Error(37, "Request doesn't contain the required 'pays_dinar_sant_jordi' argument.", HttpStatusCode.BadRequest)
     val MissingPaysSoparSantJordiBody = Error(38, "Request doesn't contain the required 'pays_sopar_sant_jordi' argument.", HttpStatusCode.BadRequest)
     val MissingPaysDinarTronsBody = Error(39, "Request doesn't contain the required 'pays_dinar_trons' argument.", HttpStatusCode.BadRequest)
+    val MissingRoleBody = Error(40, "Request doesn't contain the required 'role' argument.", HttpStatusCode.BadRequest)
 
     val NifAlreadyRegistered = Error(100, "The given NIF is already registered in the database.", HttpStatusCode.BadRequest)
 

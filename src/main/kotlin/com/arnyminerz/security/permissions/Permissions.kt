@@ -18,6 +18,8 @@ object Permissions : PermissionsList() {
     object Users : PermissionsList() {
         object ChangeCategory : Permission()
 
+        object ChangeRole : Permission()
+
         object UpdateCategoryInfo : Permission()
 
         object List : Permission()

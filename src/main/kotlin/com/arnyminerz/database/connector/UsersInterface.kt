@@ -9,6 +9,7 @@ import com.arnyminerz.database.entity.User
 import com.arnyminerz.database.entity.UserCategory
 import com.arnyminerz.database.types.UserType
 import com.arnyminerz.security.Passwords
+import com.arnyminerz.security.permissions.Role
 import java.util.Base64
 
 class UsersInterface(database: ServerDatabase) : DataObjectInterface<UserType, User, User.Companion>(
@@ -53,6 +54,10 @@ class UsersInterface(database: ServerDatabase) : DataObjectInterface<UserType, U
                     .filter { it.category == category.name }
                     .maxByOrNull { it.timestamp }
             }
+
+    suspend fun setRole(user: User, role: Role) = database.transaction {
+        user.role = role.name
+    }
 
     suspend fun updateCategoryInformation(
         category: Category,
