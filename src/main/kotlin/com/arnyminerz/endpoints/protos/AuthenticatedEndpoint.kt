@@ -9,6 +9,7 @@ import com.arnyminerz.database.entity.User
 import com.arnyminerz.endpoints.arguments.MissingArgumentException
 import com.arnyminerz.errors.Errors
 import com.arnyminerz.security.permissions.Permission
+import com.arnyminerz.security.permissions.Permissions
 import com.arnyminerz.utils.respondFailure
 import io.ktor.server.application.ApplicationCall
 import io.ktor.server.application.call
@@ -45,6 +46,10 @@ abstract class AuthenticatedEndpoint(
         try {
             val user = usersInterface.findWithNif(nif) { it }
                 ?: return context.call.respondFailure(Errors.NifNotFound)
+
+            if (!user.userRole.hasPermission(Permissions.Usage)) {
+                return context.call.respondFailure(Errors.MissingUsagePermission)
+            }
 
             println(
                 "Endpoint required permissions (%d): %s"

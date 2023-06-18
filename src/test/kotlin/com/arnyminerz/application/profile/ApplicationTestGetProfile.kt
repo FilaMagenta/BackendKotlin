@@ -21,7 +21,7 @@ class ApplicationTestGetProfile : ApplicationTestProto() {
                 assertNotNull(it)
                 println("Response: $it")
                 assertEquals(registerSampleData["nif"], it.getStringOrNull("nif"))
-                assertEquals(Role.DEFAULT.name, it.getStringOrNull("role"))
+                assertEquals(Role.MEMBER.name, it.getStringOrNull("role"))
                 assertEquals(registerSampleData["name"], it.getStringOrNull("name"))
                 assertEquals(registerSampleData["surname"], it.getStringOrNull("surname"))
                 assertEquals(registerSampleData["email"], it.getStringOrNull("email"))

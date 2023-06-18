@@ -47,6 +47,7 @@ object Errors {
     val NifNotFound = Error(111, "The given NIF was not found in the database.", HttpStatusCode.BadRequest)
     val WrongPassword = Error(112, "Wrong NIF or password.", HttpStatusCode.BadRequest)
     val MissingPermission = Error(113, "You are not authorized to perform this operation", HttpStatusCode.Forbidden)
+    val MissingUsagePermission = Error(114, "The user doesn't have the usage permission: Not confirmed", HttpStatusCode.Forbidden)
 
     val AssistanceAlreadyConfirmed = Error(120, "Assistance already confirmed.", HttpStatusCode.BadRequest)
     val UserAlreadyInTable = Error(121, "You are already in a table.", HttpStatusCode.BadRequest)
