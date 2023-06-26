@@ -14,6 +14,7 @@ val detektVersion: String by project
 val qrCodeKotlinVersion: String by project
 val zxingVersion: String by project
 val postgresqlVersion: String by project
+val sentryVersion: String by project
 
 plugins {
     kotlin("jvm") version "1.8.22"
@@ -95,6 +96,9 @@ dependencies {
     implementation("io.github.g0dkar:qrcode-kotlin-jvm:$qrCodeKotlinVersion")
 
     detektPlugins("io.gitlab.arturbosch.detekt:detekt-formatting:$detektVersion")
+
+    implementation("io.sentry:sentry:$sentryVersion")
+    implementation("io.sentry:sentry-jdbc:$sentryVersion")
 
     testImplementation("io.ktor:ktor-server-tests-jvm:$ktorVersion")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit:$kotlinVersion")

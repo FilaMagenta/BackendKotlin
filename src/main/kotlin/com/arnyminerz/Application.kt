@@ -13,8 +13,21 @@ import io.ktor.server.application.install
 import io.ktor.server.engine.embeddedServer
 import io.ktor.server.netty.Netty
 import io.ktor.server.plugins.doublereceive.DoubleReceive
+import io.sentry.Sentry
 
 fun main() {
+    val sentryDsn: String? = System.getenv("SENTRY_DSN")
+    if (sentryDsn != null) {
+        Sentry.init { options ->
+            options.dsn = sentryDsn
+            // Set tracesSampleRate to 1.0 to capture 100% of transactions for performance monitoring.
+            // We recommend adjusting this value in production.
+            options.tracesSampleRate = 1.0
+            // When first trying Sentry it's good to see what the SDK is doing:
+            options.isDebug = true
+        }
+    }
+
     embeddedServer(
         Netty,
         port = 8080,
