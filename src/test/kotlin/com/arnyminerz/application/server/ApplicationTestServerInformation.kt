@@ -8,7 +8,7 @@ import io.ktor.client.request.get
 import kotlin.test.assertEquals
 import org.junit.Test
 
-class ApplicationTestServerInformation: ApplicationTestProto() {
+class ApplicationTestServerInformation : ApplicationTestProto() {
     @Test
     fun `check there is valid version`() {
         val version = Information.version
