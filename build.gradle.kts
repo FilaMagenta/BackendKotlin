@@ -2,6 +2,7 @@ import io.ktor.plugin.features.DockerImageRegistry
 import io.ktor.plugin.features.DockerPortMapping
 import io.ktor.plugin.features.DockerPortMappingProtocol
 import io.ktor.plugin.features.JreVersion
+import org.jetbrains.kotlin.konan.properties.Properties
 
 val ktorVersion: String by project
 val kotlinVersion: String by project
@@ -36,6 +37,14 @@ application {
 
 kotlin {
     jvmToolchain(17)
+}
+
+val generatedVersionDir = File(buildDir, "generated-version")
+
+sourceSets {
+    main {
+        output.dir(generatedVersionDir)
+    }
 }
 
 ktor {
@@ -105,4 +114,18 @@ dependencies {
     testImplementation("com.h2database:h2:$h2Version")
     testImplementation("com.google.zxing:core:$zxingVersion")
     testImplementation("com.google.zxing:javase:$zxingVersion")
+}
+
+tasks.register("generateVersionProperties") {
+    doLast {
+        val propertiesFile = File(generatedVersionDir, "version.properties")
+        generatedVersionDir.mkdirs()
+        val properties = Properties()
+        properties.setProperty("version", version.toString())
+        propertiesFile.writer().use { properties.store(it, null) }
+    }
+}
+
+tasks.getByName("processResources") {
+    dependsOn += "generateVersionProperties"
 }
