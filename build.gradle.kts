@@ -22,7 +22,7 @@ plugins {
     id("io.ktor.plugin") version "2.3.1"
     id("org.jetbrains.kotlin.plugin.serialization") version "1.8.22"
     id("io.gitlab.arturbosch.detekt") version "1.23.0"
-    id("org.jetbrains.kotlinx.kover") version "0.7.1"
+    id("org.jetbrains.kotlinx.kover") version "0.7.2"
 }
 
 group = "com.arnyminerz.filamagenta"
