@@ -39,7 +39,7 @@ jobs:
       - name: Validate Gradle wrapper
         uses: gradle/wrapper-validation-action@ccb4328a959376b642e027874838f60f8e596de3
       - name: Run tests
-        uses: gradle/gradle-build-action@749f47bda3e44aa060e82d7b3ef7e40d953bd629
+        uses: gradle/gradle-build-action@40b6781dcdec2762ad36556682ac74e31030cfe2
         with:
           arguments: check
       - name: Publish Test Results
@@ -63,7 +63,7 @@ jobs:
       - name: Validate Gradle wrapper
         uses: gradle/wrapper-validation-action@ccb4328a959376b642e027874838f60f8e596de3
       - name: Run Kover
-        uses: gradle/gradle-build-action@749f47bda3e44aa060e82d7b3ef7e40d953bd629
+        uses: gradle/gradle-build-action@40b6781dcdec2762ad36556682ac74e31030cfe2
         with:
           arguments: koverXmlReport
       - name: Add coverage report to PR
