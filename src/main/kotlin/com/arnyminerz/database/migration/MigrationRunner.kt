@@ -37,7 +37,7 @@ object MigrationRunner {
         var newVersion: Int = currentVersion
         val migrations = migrations.sortedBy { it.fromVersion }
         for (migration in migrations) {
-            if (newVersion >= migration.fromVersion) continue
+            if (newVersion > migration.fromVersion) continue
             println("!!! RUNNING DATABASE MIGRATION (${migration.fromVersion} -> ${migration.toVersion}) !!!")
             migration.migrate()
             newVersion = migration.toVersion
