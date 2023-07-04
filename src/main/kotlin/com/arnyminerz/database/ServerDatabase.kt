@@ -14,12 +14,12 @@ import com.arnyminerz.database.dsl.Transactions
 import com.arnyminerz.database.dsl.UserAssistances
 import com.arnyminerz.database.dsl.UserCategories
 import com.arnyminerz.database.dsl.Users
+import com.arnyminerz.database.migration.MigrationRunner.runMigrations
 import java.net.URLEncoder
 import java.sql.DriverManager
 import kotlinx.coroutines.runBlocking
 import org.jetbrains.exposed.dao.flushCache
 import org.jetbrains.exposed.sql.Database
-import org.jetbrains.exposed.sql.SchemaUtils
 import org.jetbrains.exposed.sql.StdOutSqlLogger
 import org.jetbrains.exposed.sql.Transaction
 import org.jetbrains.exposed.sql.addLogger
@@ -34,7 +34,7 @@ abstract class ServerDatabase(
     options: Map<String, String> = emptyMap()
 ) {
     companion object {
-        private val entityClasses = arrayOf(
+        val entityClasses = arrayOf(
             CategoryInformations,
             Events,
             EventTables,
@@ -118,9 +118,7 @@ abstract class ServerDatabase(
             println("Adding logger...")
             addLogger(StdOutSqlLogger)
 
-            println("Creating required schema...")
-            for (entity in entityClasses)
-                SchemaUtils.create(entity)
+            runMigrations()
         }
     }
 

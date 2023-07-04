@@ -7,6 +7,7 @@ import org.jetbrains.exposed.sql.Column
 private const val TRANSACTION_DESCRIPTION_LENGTH = 256
 
 object Transactions : IntIdTable() {
+    val timestamp: Column<String> = varchar("timestamp", DATE_LENGTH)
     val date: Column<String> = varchar("date", DATE_LENGTH)
     val pricePerUnit: Column<Float> = float("unit_price")
     val amount: Column<Int> = integer("amount")

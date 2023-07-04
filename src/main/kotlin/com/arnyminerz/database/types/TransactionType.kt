@@ -6,6 +6,7 @@ import java.time.ZonedDateTime
 import org.json.JSONObject
 
 data class TransactionType(
+    val timestamp: ZonedDateTime,
     val date: ZonedDateTime,
     val amount: Int,
     val pricePerUnit: Float,
@@ -14,6 +15,7 @@ data class TransactionType(
     val item: InventoryItem?
 ) : DataType {
     override fun toJSON(): JSONObject = JSONObject().apply {
+        put("timestamp", timestamp.toString())
         put("date", date.toString())
         put("amount", amount)
         put("price_per_unit", pricePerUnit)
