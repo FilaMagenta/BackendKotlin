@@ -4,6 +4,7 @@ import com.arnyminerz.application.ApplicationTestProto
 import com.arnyminerz.errors.Errors
 import com.arnyminerz.utils.assertFailure
 import com.arnyminerz.utils.assertSuccess
+import com.arnyminerz.utils.getIntOrNull
 import io.ktor.client.request.get
 import io.ktor.client.request.header
 import io.ktor.client.request.post
@@ -44,6 +45,8 @@ class ApplicationTestTransactionsNew : ApplicationTestProto() {
                 assertNotNull(data)
                 val transactions = data.getJSONArray("transactions")
                 assertEquals(1, transactions.count())
+                val transaction = transactions.getJSONObject(0)
+                assertNotNull(transaction.getIntOrNull("id"))
             }
         }
     }

@@ -39,6 +39,7 @@ class Transaction(id: EntityID<Int>) : DataEntity<TransactionType>(id) {
     }
 
     override fun toJSON(): JSONObject = jsonOf(
+        "id" to id.value,
         "timestamp" to _timestamp,
         "date" to date,
         "amount" to amount,
