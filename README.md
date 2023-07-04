@@ -15,10 +15,14 @@ There are some environment variables that can be used for configuring the instal
 | `JWT_AUDIENCE`    | The JWT audience. Really not used, but it's good to set.                                           |                                                                                  |
 | `JWT_REALM`       | The realm of the JWT token. Usually not overwritten.                                               |
 | `CUSTOM_CERT`     | Set to `true` for specifying custom certs. A volume must be configured before.                     |
+| `SENTRY_DSN`      | An optional variable to configure a Sentry installation.                                           |
 
 ## Volumes
+
 ### Certificates
-If you want to set your own certificates for production, make sure to set the environment variable `CUSTOM_CERT` to true,
+
+If you want to set your own certificates for production, make sure to set the environment variable `CUSTOM_CERT` to
+true,
 and create a volume linking to `/config`, which is a folder that contains a file called `jwks.json`. See the
 [development file](./src/main/resources/certs/jwks.json).
 

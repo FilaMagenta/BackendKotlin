@@ -15,12 +15,14 @@ import com.arnyminerz.endpoints.inventory.GetInventoryItemsEndpoint
 import com.arnyminerz.endpoints.inventory.NewInventoryItemEndpoint
 import com.arnyminerz.endpoints.profile.GetAllProfilesEndpoint
 import com.arnyminerz.endpoints.profile.GetProfileEndpoint
+import com.arnyminerz.endpoints.profile.SetRoleEndpoint
 import com.arnyminerz.endpoints.profile.UpdateCategoryDataEndpoint
 import com.arnyminerz.endpoints.profile.UpdateUserCategoryEndpoint
 import com.arnyminerz.endpoints.routing.delete
 import com.arnyminerz.endpoints.routing.get
 import com.arnyminerz.endpoints.routing.post
 import com.arnyminerz.endpoints.routing.put
+import com.arnyminerz.endpoints.server.ServerInformationEndpoint
 import com.arnyminerz.endpoints.transactions.GetTransactionsEndpoint
 import com.arnyminerz.endpoints.transactions.NewTransactionEndpoint
 import io.ktor.server.application.Application
@@ -37,10 +39,13 @@ fun Application.configureRouting() {
         post("/v1/auth/register", RegisterEndpoint)
         post("/v1/auth/login", LoginEndpoint)
 
+        get("/v1/info", ServerInformationEndpoint)
+
         authenticate("auth-jwt") {
             get("/v1/profile", GetProfileEndpoint)
             get("/v1/profile/all", GetAllProfilesEndpoint)
             post("/v1/profile/{userId}/category", UpdateUserCategoryEndpoint)
+            post("/v1/profile/{userId}/role", SetRoleEndpoint)
             post("/v1/profile/category/{categoryName}", UpdateCategoryDataEndpoint)
 
             get("/v1/events", GetEventsEndpoint)

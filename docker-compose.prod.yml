@@ -20,6 +20,8 @@ services:
       DATABASE_USER: "postgres"
       DATABASE_PASS: "AbfEwudQ8AqhhVVqTiRURpbMmQTW46"
       DATABASE_SSL: false
+      # Configure Sentry for crash reporting
+      SENTRY_DSN: "..."
     networks:
       - filamagenta_backend
     depends_on:

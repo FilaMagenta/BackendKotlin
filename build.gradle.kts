@@ -2,6 +2,7 @@ import io.ktor.plugin.features.DockerImageRegistry
 import io.ktor.plugin.features.DockerPortMapping
 import io.ktor.plugin.features.DockerPortMappingProtocol
 import io.ktor.plugin.features.JreVersion
+import org.jetbrains.kotlin.konan.properties.Properties
 
 val ktorVersion: String by project
 val kotlinVersion: String by project
@@ -14,17 +15,18 @@ val detektVersion: String by project
 val qrCodeKotlinVersion: String by project
 val zxingVersion: String by project
 val postgresqlVersion: String by project
+val sentryVersion: String by project
 
 plugins {
     kotlin("jvm") version "1.8.22"
-    id("io.ktor.plugin") version "2.3.1"
+    id("io.ktor.plugin") version "2.3.2"
     id("org.jetbrains.kotlin.plugin.serialization") version "1.8.22"
     id("io.gitlab.arturbosch.detekt") version "1.23.0"
-    id("org.jetbrains.kotlinx.kover") version "0.7.1"
+    id("org.jetbrains.kotlinx.kover") version "0.7.2"
 }
 
 group = "com.arnyminerz.filamagenta"
-version = "0.1.0"
+version = "0.1.1"
 
 application {
     mainClass.set("com.arnyminerz.ApplicationKt")
@@ -35,6 +37,14 @@ application {
 
 kotlin {
     jvmToolchain(17)
+}
+
+val generatedVersionDir = File(buildDir, "generated-version")
+
+sourceSets {
+    main {
+        output.dir(generatedVersionDir)
+    }
 }
 
 ktor {
@@ -96,9 +106,26 @@ dependencies {
 
     detektPlugins("io.gitlab.arturbosch.detekt:detekt-formatting:$detektVersion")
 
+    implementation("io.sentry:sentry:$sentryVersion")
+    implementation("io.sentry:sentry-jdbc:$sentryVersion")
+
     testImplementation("io.ktor:ktor-server-tests-jvm:$ktorVersion")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit:$kotlinVersion")
     testImplementation("com.h2database:h2:$h2Version")
     testImplementation("com.google.zxing:core:$zxingVersion")
     testImplementation("com.google.zxing:javase:$zxingVersion")
+}
+
+tasks.register("generateVersionProperties") {
+    doLast {
+        val propertiesFile = File(generatedVersionDir, "version.properties")
+        generatedVersionDir.mkdirs()
+        val properties = Properties()
+        properties.setProperty("version", version.toString())
+        propertiesFile.writer().use { properties.store(it, null) }
+    }
+}
+
+tasks.getByName("processResources") {
+    dependsOn += "generateVersionProperties"
 }

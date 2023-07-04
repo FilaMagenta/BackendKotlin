@@ -27,8 +27,13 @@ class CalledArgument<R : Any, Type : ArgumentType<R>>(
     private val body: JSONObject
 ) {
     operator fun getValue(thisRef: Any?, property: KProperty<*>): R {
-        return argument.type.fromJson(body, argument.name) ?: runBlocking {
-            call.respondFailure(argument.error)
+        return try {
+            argument.type.fromJson(body, argument.name) ?: runBlocking {
+                call.respondFailure(argument.error)
+                throw MissingArgumentException(argument)
+            }
+        } catch (_: IllegalArgumentException) {
+            runBlocking { call.respondFailure(argument.error) }
             throw MissingArgumentException(argument)
         }
     }

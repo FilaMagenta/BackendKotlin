@@ -31,6 +31,14 @@ abstract class ApplicationTestProto : DatabaseTestProto() {
         }
     }
 
+    protected fun testLoggedInDefault(assertion: suspend ApplicationTestBuilder.(token: String) -> Unit) = test {
+        provideSampleUser {
+            loginWithDefault {
+                assertion(this@test, it)
+            }
+        }
+    }
+
     protected fun testLoggedInAdmin(assertion: suspend ApplicationTestBuilder.(token: String) -> Unit) = test {
         provideSampleUser {
             loginWithAdminUser {
@@ -96,6 +104,7 @@ abstract class ApplicationTestProto : DatabaseTestProto() {
     protected suspend fun ApplicationTestBuilder.login(
         nif: String,
         password: String,
+        role: Role? = Role.MEMBER,
         block: suspend HttpResponse.(token: String) -> Unit
     ) {
         val bodyData = jsonOf(
@@ -108,6 +117,15 @@ abstract class ApplicationTestProto : DatabaseTestProto() {
             assertSuccess { data ->
                 assertNotNull(data)
                 assertNotNull(data.getStringOrNull("token"))
+
+                role?.let {
+                    usersInterface.findWithNif(nif) { user ->
+                        assertNotNull(user)
+                        user.role = it.name
+                    }
+                    ServerDatabase.instance.flushCache()
+                }
+
                 block(data.getString("token"))
             }
         }
@@ -120,24 +138,24 @@ abstract class ApplicationTestProto : DatabaseTestProto() {
         register(data, assertion)
     }
 
+    private suspend fun ApplicationTestBuilder.loginWithDefault(
+        data: Map<String, String> = registerSampleData,
+        assertion: suspend HttpResponse.(token: String) -> Unit
+    ) {
+        login(data.getValue("nif"), data.getValue("password"), null, assertion)
+    }
+
     private suspend fun ApplicationTestBuilder.loginWithSampleUser(
         data: Map<String, String> = registerSampleData,
         assertion: suspend HttpResponse.(token: String) -> Unit
     ) {
-        login(data.getValue("nif"), data.getValue("password"), assertion)
+        login(data.getValue("nif"), data.getValue("password"), Role.MEMBER, assertion)
     }
 
     private suspend fun ApplicationTestBuilder.loginWithAdminUser(
         data: Map<String, String> = registerSampleData,
         assertion: suspend HttpResponse.(token: String) -> Unit
     ) {
-        login(data.getValue("nif"), data.getValue("password")) {
-            usersInterface.findWithNif(data.getValue("nif")) { user ->
-                user!!.role = Role.ADMIN.name
-            }
-            ServerDatabase.instance.flushCache()
-
-            assertion(it)
-        }
+        login(data.getValue("nif"), data.getValue("password"), Role.ADMIN, assertion)
     }
 }

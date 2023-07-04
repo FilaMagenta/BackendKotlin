@@ -1,6 +1,8 @@
 package com.arnyminerz.security.permissions
 
 object Permissions : PermissionsList() {
+    object Usage : Permission()
+
     object Inventory : PermissionsList() {
         object Create : Permission()
     }
@@ -15,6 +17,8 @@ object Permissions : PermissionsList() {
 
     object Users : PermissionsList() {
         object ChangeCategory : Permission()
+
+        object ChangeRole : Permission()
 
         object UpdateCategoryInfo : Permission()
 
