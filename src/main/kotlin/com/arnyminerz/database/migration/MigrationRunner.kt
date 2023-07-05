@@ -42,17 +42,19 @@ object MigrationRunner {
             migration.migrate()
             newVersion = migration.toVersion
         }
-        try {
-            println("Updating database version to $newVersion (was $currentVersion)")
-            DatabaseInfo[VERSION_ID].value = newVersion.toString()
-        } catch (ignored: ExposedSQLException) {
-            // Table doesn't exist, create it, and add the row now
-            println("DatabaseInfo table doesn't exist, creating...")
-            SchemaUtils.create(DatabaseInfoTable)
+        if (currentVersion != newVersion) {
+            try {
+                println("Updating database version to $newVersion (was $currentVersion)")
+                DatabaseInfo[VERSION_ID].value = newVersion.toString()
+            } catch (ignored: ExposedSQLException) {
+                // Table doesn't exist, create it, and add the row now
+                println("DatabaseInfo table doesn't exist, creating...")
+                SchemaUtils.create(DatabaseInfoTable)
 
-            println("Adding version info row to DatabaseInfo...")
-            DatabaseInfo.new(VERSION_ID) {
-                this.value = newVersion.toString()
+                println("Adding version info row to DatabaseInfo...")
+                DatabaseInfo.new(VERSION_ID) {
+                    this.value = newVersion.toString()
+                }
             }
         }
     }
