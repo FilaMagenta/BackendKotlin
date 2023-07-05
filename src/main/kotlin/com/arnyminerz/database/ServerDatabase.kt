@@ -20,6 +20,7 @@ import java.sql.DriverManager
 import kotlinx.coroutines.runBlocking
 import org.jetbrains.exposed.dao.flushCache
 import org.jetbrains.exposed.sql.Database
+import org.jetbrains.exposed.sql.SchemaUtils
 import org.jetbrains.exposed.sql.StdOutSqlLogger
 import org.jetbrains.exposed.sql.Transaction
 import org.jetbrains.exposed.sql.addLogger
@@ -119,6 +120,11 @@ abstract class ServerDatabase(
             addLogger(StdOutSqlLogger)
 
             runMigrations()
+
+            println("Recreating database schema just in case something was dropped...")
+            for (entity in entityClasses) {
+                SchemaUtils.create(entity)
+            }
         }
     }
 
