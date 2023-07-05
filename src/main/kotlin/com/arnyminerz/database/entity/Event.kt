@@ -19,6 +19,7 @@ import org.json.JSONObject
 class Event(id: EntityID<Int>) : DataEntity<EventType>(id) {
     companion object : IntEntityClass<Event>(Events)
 
+    var timestamp by Events.timestamp
     var name by Events.name
     var description by Events.description
     var date by Events.date
@@ -69,6 +70,7 @@ class Event(id: EntityID<Int>) : DataEntity<EventType>(id) {
 
     override fun toJSON(): JSONObject = jsonOf(
         "id" to id.value,
+        "timestamp" to timestamp,
         "name" to name,
         "description" to description,
         "date" to date,
