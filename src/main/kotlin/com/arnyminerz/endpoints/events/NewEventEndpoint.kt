@@ -23,6 +23,9 @@ object NewEventEndpoint : AuthenticatedEndpoint(Permissions.Events.Create) {
         val reservations by calledOptional { Arguments.Reservations }
         val maxGuests by calledOptional { Arguments.MaxGuests }
 
+        // TODO: Check "until" is before "date"
+        // TODO: Check "reservations" is before "date"
+
         val event = EventType(name, description, date, until, reservations, maxGuests)
 
         ServerDatabase.instance.eventsInterface.new(event)
