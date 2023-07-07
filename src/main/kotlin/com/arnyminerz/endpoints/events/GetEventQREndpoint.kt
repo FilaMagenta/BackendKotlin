@@ -39,7 +39,10 @@ object GetEventQREndpoint : AuthenticatedEndpoint() {
         }
 
         val publicKey = event.decodePublicKey()
-        val eventJson = event.toJSON()
+        val eventJson = event.toJSON().apply {
+            // Do not include the public key of the event in the QR code
+            remove("public_key")
+        }
 
         val encryptedData = jsonOf(
             "event" to eventJson,
@@ -63,7 +66,13 @@ object GetEventQREndpoint : AuthenticatedEndpoint() {
             .joinToString("\n") { Base64.getEncoder().encodeToString(it) }
 
         // If the user is assisting to the event, generate the QR code
-        val qrCodeRenderer = QRCode(encryptedData).render(cellSize = size ?: QR_CELL_SIZE_DEFAULT)
+        val qrCodeRenderer = try {
+            QRCode(encryptedData).render(cellSize = size ?: QR_CELL_SIZE_DEFAULT)
+        } catch (ignored: IllegalArgumentException) {
+            System.err.println("Could not fit data inside QR code (size=${encryptedData.length})")
+            call.respondFailure(Errors.QrCodeTooLarge)
+            return
+        }
         val qrBytes = ByteArrayOutputStream()
             .also { qrCodeRenderer.writeImage(it) }
             .toByteArray()

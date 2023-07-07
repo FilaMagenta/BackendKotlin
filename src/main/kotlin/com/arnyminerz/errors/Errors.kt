@@ -9,6 +9,7 @@ object Errors {
     val EventNotFound = Error(3, "Could not find event.", HttpStatusCode.BadRequest)
     val TableNotFound = Error(4, "Could not find table.", HttpStatusCode.BadRequest)
     val UserNotFound = Error(5, "Could not find user.", HttpStatusCode.BadRequest)
+    val QrCodeTooLarge = Error(6, "QR Code too large.", HttpStatusCode.InternalServerError)
 
     val MissingNifBody = Error(10, "Request doesn't contain the required 'nif' argument.", HttpStatusCode.BadRequest)
     val MissingNameBody = Error(11, "Request doesn't contain the required 'name' argument.", HttpStatusCode.BadRequest)
