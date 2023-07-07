@@ -6,6 +6,7 @@ import com.arnyminerz.endpoints.arguments.calledOptional
 import com.arnyminerz.endpoints.protos.AuthenticatedEndpoint
 import com.arnyminerz.errors.Errors
 import com.arnyminerz.security.Encryption
+import com.arnyminerz.security.Encryption.MAX_CHUNK_SIZE
 import com.arnyminerz.utils.jsonOf
 import com.arnyminerz.utils.respondFailure
 import io.github.g0dkar.qrcode.QRCode
@@ -39,7 +40,8 @@ object GetEventQREndpoint : AuthenticatedEndpoint() {
 
         val publicKey = event.decodePublicKey()
         val eventJson = event.toJSON()
-        val dataJson = jsonOf(
+
+        val encryptedData = jsonOf(
             "event" to eventJson,
             // User information is simplified
             "user" to jsonOf(
@@ -49,14 +51,19 @@ object GetEventQREndpoint : AuthenticatedEndpoint() {
                 "email" to user.email
             )
         )
+            // Convert the JSON data into String for encryption
             .toString()
-            .toByteArray(Charsets.UTF_8)
-
-        val encryptedData = Encryption.encrypt(publicKey, dataJson)
+            // Each character uses 16 bits, so divide MAX_CHUNK_SIZE between 2, since it's bytes
+            .chunked(MAX_CHUNK_SIZE / 2)
+            // Convert String to Bytes
+            .map { it.toByteArray(Charsets.UTF_8) }
+            // Encrypt each chunk of bytes
+            .map { Encryption.encrypt(publicKey, it) }
+            // And put every chunk in a line of a String, encoded in Base64
+            .joinToString("\n") { Base64.getEncoder().encodeToString(it) }
 
         // If the user is assisting to the event, generate the QR code
-        val data = Base64.getMimeEncoder().encodeToString(encryptedData)
-        val qrCodeRenderer = QRCode(data).render(cellSize = size ?: QR_CELL_SIZE_DEFAULT)
+        val qrCodeRenderer = QRCode(encryptedData).render(cellSize = size ?: QR_CELL_SIZE_DEFAULT)
         val qrBytes = ByteArrayOutputStream()
             .also { qrCodeRenderer.writeImage(it) }
             .toByteArray()

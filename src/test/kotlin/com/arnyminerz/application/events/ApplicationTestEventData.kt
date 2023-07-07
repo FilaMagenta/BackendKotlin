@@ -78,8 +78,17 @@ class ApplicationTestEventData : ApplicationTestEventProto() {
                 )
                 val result = MultiFormatReader().decode(binaryBitmap)
                 val text = result.text
-                val bytes = Base64.getMimeDecoder().decode(text)
-                val jsonStr = Encryption.decrypt(event.decodePrivateKey(), bytes).toString(Charsets.UTF_8)
+                val privateKey = event.decodePrivateKey()
+                println("Text result: $text")
+                val jsonStr = text
+                    // Text is split in chunks of 256 bytes, separated with line breaks
+                    .split("\n")
+                    // Decode each chunk in Base64
+                    .map { Base64.getDecoder().decode(it) }
+                    // Decrypt each chunk, and join without any characters in between
+                    .joinToString("") {
+                        Encryption.decrypt(privateKey, it).toString(Charsets.UTF_8)
+                    }
                 val json = JSONObject(jsonStr)
 
                 val decodedImage = File.createTempFile("fmb", ".png")

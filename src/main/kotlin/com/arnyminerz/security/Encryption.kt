@@ -8,6 +8,11 @@ object Encryption {
     private const val CIPHER_TRANSFORMATION = "RSA/ECB/OAEPWithSHA-1AndMGF1Padding"
 
     /**
+     * The maximum size of a chunk for encryption.
+     */
+    const val MAX_CHUNK_SIZE = 214
+
+    /**
      * Encrypts the given data using the passed public key.
      */
     fun encrypt(publicKey: PublicKey, data: ByteArray): ByteArray {
