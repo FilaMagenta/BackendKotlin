@@ -1,15 +1,15 @@
 package com.arnyminerz.database.connector
 
-import com.arnyminerz.data.Category
 import com.arnyminerz.database.ServerDatabase
 import com.arnyminerz.database.dsl.CategoryInformations
 import com.arnyminerz.database.dsl.Users
 import com.arnyminerz.database.entity.CategoryInformation
 import com.arnyminerz.database.entity.User
 import com.arnyminerz.database.entity.UserCategory
-import com.arnyminerz.database.types.UserType
-import com.arnyminerz.security.Passwords
-import com.arnyminerz.security.permissions.Role
+import com.arnyminerz.filamagenta.commons.data.Category
+import com.arnyminerz.filamagenta.commons.data.security.Passwords
+import com.arnyminerz.filamagenta.commons.data.security.permissions.Role
+import com.arnyminerz.filamagenta.commons.data.types.UserType
 import java.util.Base64
 
 class UsersInterface(database: ServerDatabase) : DataObjectInterface<UserType, User, User.Companion>(
@@ -36,7 +36,7 @@ class UsersInterface(database: ServerDatabase) : DataObjectInterface<UserType, U
                     .filter { it.user.id == user.id }
                     .maxByOrNull { it.timestamp }
             }
-            ?.let { cat -> Category.values().find { it.name == cat.category } }
+            ?.let { cat -> Category.entries.find { it.name == cat.category } }
             ?: Category.UNKNOWN
 
     suspend fun setCategory(user: User, category: Category) = database.transaction {

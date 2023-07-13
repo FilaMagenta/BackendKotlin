@@ -1,8 +1,8 @@
 package com.arnyminerz.database.entity
 
 import com.arnyminerz.database.dsl.CategoryInformations
-import com.arnyminerz.utils.jsonOf
-import com.arnyminerz.utils.serialization.JsonSerializable
+import com.arnyminerz.filamagenta.commons.utils.jsonOf
+import com.arnyminerz.filamagenta.commons.utils.serialization.JsonSerializable
 import org.jetbrains.exposed.dao.EntityClass
 import org.jetbrains.exposed.dao.IntEntity
 import org.jetbrains.exposed.dao.id.EntityID

@@ -1,10 +1,10 @@
 package com.arnyminerz.application.profile
 
 import com.arnyminerz.application.ApplicationTestProto
-import com.arnyminerz.data.Category
-import com.arnyminerz.security.permissions.Role
+import com.arnyminerz.filamagenta.commons.data.Category
+import com.arnyminerz.filamagenta.commons.data.security.permissions.Role
+import com.arnyminerz.filamagenta.commons.utils.getStringOrNull
 import com.arnyminerz.utils.assertSuccess
-import com.arnyminerz.utils.getStringOrNull
 import io.ktor.client.request.get
 import io.ktor.client.request.header
 import kotlin.test.assertEquals

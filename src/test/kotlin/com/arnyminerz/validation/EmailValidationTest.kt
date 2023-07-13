@@ -1,6 +1,6 @@
 package com.arnyminerz.validation
 
-import com.arnyminerz.utils.validation.isValidEmail
+import com.arnyminerz.filamagenta.commons.utils.validation.isValidEmail
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 import org.junit.Test

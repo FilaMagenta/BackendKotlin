@@ -1,10 +1,10 @@
 package com.arnyminerz.application.transactions
 
 import com.arnyminerz.application.ApplicationTestProto
-import com.arnyminerz.errors.Errors
+import com.arnyminerz.filamagenta.commons.errors.Errors
+import com.arnyminerz.filamagenta.commons.utils.getIntOrNull
 import com.arnyminerz.utils.assertFailure
 import com.arnyminerz.utils.assertSuccess
-import com.arnyminerz.utils.getIntOrNull
 import io.ktor.client.request.get
 import io.ktor.client.request.header
 import io.ktor.client.request.post

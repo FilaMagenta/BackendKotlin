@@ -1,6 +1,6 @@
 package com.arnyminerz.endpoints.arguments
 
-import com.arnyminerz.errors.Error
+import com.arnyminerz.filamagenta.commons.errors.Error
 import com.arnyminerz.utils.receiveJson
 import com.arnyminerz.utils.respondFailure
 import io.ktor.server.application.ApplicationCall

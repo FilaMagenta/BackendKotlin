@@ -2,7 +2,7 @@ package com.arnyminerz.database.connector
 
 import com.arnyminerz.database.ServerDatabase
 import com.arnyminerz.database.entity.DataEntity
-import com.arnyminerz.database.types.DataType
+import com.arnyminerz.filamagenta.commons.data.types.DataType
 import org.jetbrains.exposed.dao.IntEntityClass
 import org.jetbrains.exposed.sql.SizedIterable
 

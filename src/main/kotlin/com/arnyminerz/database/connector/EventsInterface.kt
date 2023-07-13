@@ -9,7 +9,7 @@ import com.arnyminerz.database.entity.EventTable
 import com.arnyminerz.database.entity.TableMember
 import com.arnyminerz.database.entity.User
 import com.arnyminerz.database.entity.UserAssistance
-import com.arnyminerz.database.types.EventType
+import com.arnyminerz.filamagenta.commons.data.types.EventType
 import org.jetbrains.exposed.sql.Transaction
 import org.jetbrains.exposed.sql.and
 

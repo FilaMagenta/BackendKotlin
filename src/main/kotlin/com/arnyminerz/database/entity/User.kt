@@ -1,9 +1,9 @@
 package com.arnyminerz.database.entity
 
 import com.arnyminerz.database.dsl.Users
-import com.arnyminerz.database.types.UserType
-import com.arnyminerz.security.permissions.Role
-import com.arnyminerz.utils.jsonOf
+import com.arnyminerz.filamagenta.commons.data.security.permissions.Role
+import com.arnyminerz.filamagenta.commons.data.types.UserType
+import com.arnyminerz.filamagenta.commons.utils.jsonOf
 import java.util.Base64
 import org.jetbrains.exposed.dao.IntEntityClass
 import org.jetbrains.exposed.dao.id.EntityID

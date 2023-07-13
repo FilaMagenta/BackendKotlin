@@ -1,11 +1,11 @@
 package com.arnyminerz.database.dsl
 
-import com.arnyminerz.data.Category
 import com.arnyminerz.database.dsl.CategoryInformations.PAYS_FULL
 import com.arnyminerz.database.dsl.CategoryInformations.PAYS_INCLUDED
 import com.arnyminerz.database.dsl.CategoryInformations.PAYS_NO
 import com.arnyminerz.database.dsl.CategoryInformations.PAYS_PACK
 import com.arnyminerz.database.dsl.CategoryInformations.PAYS_SPECIAL
+import com.arnyminerz.filamagenta.commons.data.Category
 import org.jetbrains.exposed.dao.id.IntIdTable
 import org.jetbrains.exposed.sql.Column
 

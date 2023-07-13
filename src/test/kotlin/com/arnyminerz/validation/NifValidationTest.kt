@@ -1,9 +1,9 @@
 package com.arnyminerz.validation
 
-import com.arnyminerz.utils.validation.isValidDni
-import com.arnyminerz.utils.validation.isValidNie
-import org.junit.Assert.assertTrue
+import com.arnyminerz.filamagenta.commons.utils.validation.isValidDni
+import com.arnyminerz.filamagenta.commons.utils.validation.isValidNie
 import org.junit.Assert.assertFalse
+import org.junit.Assert.assertTrue
 import org.junit.Test
 
 class NifValidationTest {

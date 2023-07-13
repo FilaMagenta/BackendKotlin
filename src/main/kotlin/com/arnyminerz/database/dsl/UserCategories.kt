@@ -1,6 +1,6 @@
 package com.arnyminerz.database.dsl
 
-import com.arnyminerz.data.Category
+import com.arnyminerz.filamagenta.commons.data.Category
 import org.jetbrains.exposed.dao.id.IntIdTable
 import org.jetbrains.exposed.sql.Column
 

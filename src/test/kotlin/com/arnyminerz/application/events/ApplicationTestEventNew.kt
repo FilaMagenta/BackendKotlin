@@ -1,8 +1,8 @@
 package com.arnyminerz.application.events
 
-import com.arnyminerz.errors.Errors
+import com.arnyminerz.filamagenta.commons.errors.Errors
+import com.arnyminerz.filamagenta.commons.utils.getStringOrNull
 import com.arnyminerz.utils.assertFailure
-import com.arnyminerz.utils.getStringOrNull
 import io.ktor.client.request.header
 import io.ktor.client.request.post
 import io.ktor.client.request.setBody

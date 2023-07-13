@@ -2,8 +2,8 @@ package com.arnyminerz.application.server
 
 import com.arnyminerz.Information
 import com.arnyminerz.application.ApplicationTestProto
+import com.arnyminerz.filamagenta.commons.utils.getStringOrNull
 import com.arnyminerz.utils.assertSuccess
-import com.arnyminerz.utils.getStringOrNull
 import io.ktor.client.request.get
 import kotlin.test.assertEquals
 import org.junit.Test

@@ -1,19 +1,19 @@
 package com.arnyminerz.endpoints.auth
 
 import com.arnyminerz.database.ServerDatabase
-import com.arnyminerz.database.types.UserType
 import com.arnyminerz.endpoints.arguments.Arguments
 import com.arnyminerz.endpoints.arguments.called
 import com.arnyminerz.endpoints.protos.Endpoint
-import com.arnyminerz.errors.Errors.EmailInvalid
-import com.arnyminerz.errors.Errors.NifAlreadyRegistered
-import com.arnyminerz.errors.Errors.NifInvalid
-import com.arnyminerz.security.permissions.Role
+import com.arnyminerz.filamagenta.commons.data.security.permissions.Role
+import com.arnyminerz.filamagenta.commons.data.types.UserType
+import com.arnyminerz.filamagenta.commons.errors.Errors.EmailInvalid
+import com.arnyminerz.filamagenta.commons.errors.Errors.NifAlreadyRegistered
+import com.arnyminerz.filamagenta.commons.errors.Errors.NifInvalid
+import com.arnyminerz.filamagenta.commons.utils.validation.isValidDni
+import com.arnyminerz.filamagenta.commons.utils.validation.isValidEmail
+import com.arnyminerz.filamagenta.commons.utils.validation.isValidNie
 import com.arnyminerz.utils.respondFailure
 import com.arnyminerz.utils.respondSuccess
-import com.arnyminerz.utils.validation.isValidDni
-import com.arnyminerz.utils.validation.isValidEmail
-import com.arnyminerz.utils.validation.isValidNie
 import io.ktor.http.HttpStatusCode
 import io.ktor.server.application.ApplicationCall
 import io.ktor.server.application.call

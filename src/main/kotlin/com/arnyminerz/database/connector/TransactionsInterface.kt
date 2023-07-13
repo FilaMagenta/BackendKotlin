@@ -4,7 +4,7 @@ import com.arnyminerz.database.ServerDatabase
 import com.arnyminerz.database.dsl.Transactions
 import com.arnyminerz.database.entity.Transaction
 import com.arnyminerz.database.entity.User
-import com.arnyminerz.database.types.TransactionType
+import com.arnyminerz.filamagenta.commons.data.types.TransactionType
 import org.jetbrains.exposed.sql.SizedIterable
 
 class TransactionsInterface(

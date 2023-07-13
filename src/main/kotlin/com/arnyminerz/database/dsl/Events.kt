@@ -2,7 +2,7 @@ package com.arnyminerz.database.dsl
 
 import com.arnyminerz.database.ServerDatabase
 import com.arnyminerz.database.entity.Event
-import com.arnyminerz.utils.serialization.JsonSerializer
+import com.arnyminerz.filamagenta.commons.utils.serialization.JsonSerializer
 import java.time.ZonedDateTime
 import org.jetbrains.exposed.dao.id.IntIdTable
 import org.jetbrains.exposed.sql.Column

@@ -2,7 +2,7 @@ package com.arnyminerz.application.auth
 
 import com.arnyminerz.application.ApplicationTestProto
 import com.arnyminerz.database.ServerDatabase
-import com.arnyminerz.errors.Errors
+import com.arnyminerz.filamagenta.commons.errors.Errors
 import com.arnyminerz.utils.assertFailure
 import com.arnyminerz.utils.assertSuccess
 import com.arnyminerz.utils.change

@@ -5,7 +5,7 @@ import com.arnyminerz.database.dsl.DSLConst.EMAIL_LENGTH
 import com.arnyminerz.database.dsl.DSLConst.NIF_LENGTH
 import com.arnyminerz.database.dsl.DSLConst.PERSON_NAME_LENGTH
 import com.arnyminerz.database.dsl.DSLConst.PERSON_SURNAME_LENGTH
-import com.arnyminerz.security.permissions.Role
+import com.arnyminerz.filamagenta.commons.data.security.permissions.Role
 import org.jetbrains.exposed.dao.id.IntIdTable
 import org.jetbrains.exposed.sql.Column
 

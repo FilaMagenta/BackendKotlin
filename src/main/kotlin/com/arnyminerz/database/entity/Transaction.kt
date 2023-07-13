@@ -1,8 +1,8 @@
 package com.arnyminerz.database.entity
 
 import com.arnyminerz.database.dsl.Transactions
-import com.arnyminerz.database.types.TransactionType
-import com.arnyminerz.utils.jsonOf
+import com.arnyminerz.filamagenta.commons.data.types.TransactionType
+import com.arnyminerz.filamagenta.commons.utils.jsonOf
 import java.time.ZonedDateTime
 import org.jetbrains.exposed.dao.IntEntityClass
 import org.jetbrains.exposed.dao.id.EntityID
@@ -27,6 +27,9 @@ class Transaction(id: EntityID<Int>) : DataEntity<TransactionType>(id) {
     val total: Float
         get() = amount * pricePerUnit
 
+    /**
+     * Fills the instance with the data provided in [type]. **Requires to be in a transaction.**
+     */
     override fun fill(type: TransactionType) {
         this.timestamp = type.timestamp
         this.date = type.date.toString()
@@ -34,8 +37,8 @@ class Transaction(id: EntityID<Int>) : DataEntity<TransactionType>(id) {
         this.pricePerUnit = type.pricePerUnit
         this.description = type.description
 
-        this.user = type.user
-        this.item = type.item
+        this.user = User[type.userId]
+        this.item = type.itemId?.let { InventoryItem[it] }
     }
 
     override fun toJSON(): JSONObject = jsonOf(

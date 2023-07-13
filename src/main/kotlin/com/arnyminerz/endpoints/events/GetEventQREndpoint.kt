@@ -4,10 +4,10 @@ import com.arnyminerz.database.entity.User
 import com.arnyminerz.endpoints.arguments.Arguments
 import com.arnyminerz.endpoints.arguments.calledOptional
 import com.arnyminerz.endpoints.protos.AuthenticatedEndpoint
-import com.arnyminerz.errors.Errors
-import com.arnyminerz.security.Encryption
-import com.arnyminerz.security.Encryption.MAX_CHUNK_SIZE
-import com.arnyminerz.utils.jsonOf
+import com.arnyminerz.filamagenta.commons.data.security.Encryption
+import com.arnyminerz.filamagenta.commons.data.security.Encryption.MAX_CHUNK_SIZE
+import com.arnyminerz.filamagenta.commons.errors.Errors
+import com.arnyminerz.filamagenta.commons.utils.jsonOf
 import com.arnyminerz.utils.respondFailure
 import io.github.g0dkar.qrcode.QRCode
 import io.ktor.http.ContentType

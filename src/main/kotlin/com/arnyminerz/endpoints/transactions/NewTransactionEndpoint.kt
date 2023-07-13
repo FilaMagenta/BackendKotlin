@@ -1,13 +1,13 @@
 package com.arnyminerz.endpoints.transactions
 
 import com.arnyminerz.database.entity.User
-import com.arnyminerz.database.types.TransactionType
 import com.arnyminerz.endpoints.arguments.Arguments
 import com.arnyminerz.endpoints.arguments.called
 import com.arnyminerz.endpoints.arguments.calledOptional
 import com.arnyminerz.endpoints.protos.AuthenticatedEndpoint
-import com.arnyminerz.errors.Errors
-import com.arnyminerz.security.permissions.Permissions
+import com.arnyminerz.filamagenta.commons.data.security.permissions.Permissions
+import com.arnyminerz.filamagenta.commons.data.types.TransactionType
+import com.arnyminerz.filamagenta.commons.errors.Errors
 import com.arnyminerz.utils.respondFailure
 import com.arnyminerz.utils.respondSuccess
 import io.ktor.http.HttpStatusCode
@@ -32,7 +32,15 @@ object NewTransactionEndpoint : AuthenticatedEndpoint(Permissions.Transactions.C
         }
 
         val timestamp = ZonedDateTime.now()
-        val transaction = TransactionType(timestamp, date, amount, pricePerUnit, description, transactionUser, item)
+        val transaction = TransactionType(
+            timestamp,
+            date,
+            amount,
+            pricePerUnit,
+            description,
+            transactionUser.id.value,
+            item?.id?.value
+        )
         transactionsInterface.new(transaction)
 
         call.respondSuccess(HttpStatusCode.Created)

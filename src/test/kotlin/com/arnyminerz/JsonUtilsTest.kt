@@ -1,12 +1,12 @@
 package com.arnyminerz
 
-import com.arnyminerz.utils.getBooleanOrNull
-import com.arnyminerz.utils.getFloatOrNull
-import com.arnyminerz.utils.getIntOrNull
-import com.arnyminerz.utils.getJSONObjectOrNull
-import com.arnyminerz.utils.getStringOrNull
-import com.arnyminerz.utils.serialization.JsonSerializable
-import com.arnyminerz.utils.toJSONArray
+import com.arnyminerz.filamagenta.commons.utils.getBooleanOrNull
+import com.arnyminerz.filamagenta.commons.utils.getFloatOrNull
+import com.arnyminerz.filamagenta.commons.utils.getIntOrNull
+import com.arnyminerz.filamagenta.commons.utils.getJSONObjectOrNull
+import com.arnyminerz.filamagenta.commons.utils.getStringOrNull
+import com.arnyminerz.filamagenta.commons.utils.serialization.JsonSerializable
+import com.arnyminerz.filamagenta.commons.utils.toJSONArray
 import kotlin.test.assertEquals
 import kotlin.test.assertNull
 import org.json.JSONObject

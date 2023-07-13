@@ -1,6 +1,6 @@
 package com.arnyminerz.plugins
 
-import com.arnyminerz.errors.Errors
+import com.arnyminerz.filamagenta.commons.errors.Errors
 import com.arnyminerz.utils.respondFailure
 import io.ktor.http.HttpStatusCode
 import io.ktor.server.application.Application

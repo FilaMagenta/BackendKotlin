@@ -1,8 +1,8 @@
 package com.arnyminerz.database.entity
 
 import com.arnyminerz.database.dsl.InventoryItems
-import com.arnyminerz.database.types.InventoryItemType
-import com.arnyminerz.utils.jsonOf
+import com.arnyminerz.filamagenta.commons.data.types.InventoryItemType
+import com.arnyminerz.filamagenta.commons.utils.jsonOf
 import org.jetbrains.exposed.dao.IntEntityClass
 import org.jetbrains.exposed.dao.id.EntityID
 import org.json.JSONObject

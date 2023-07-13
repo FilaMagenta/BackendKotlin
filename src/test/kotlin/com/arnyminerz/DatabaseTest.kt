@@ -1,9 +1,9 @@
 package com.arnyminerz
 
-import com.arnyminerz.database.types.EventType
-import com.arnyminerz.database.types.UserType
-import com.arnyminerz.security.Passwords
-import com.arnyminerz.security.permissions.Role
+import com.arnyminerz.filamagenta.commons.data.security.Passwords
+import com.arnyminerz.filamagenta.commons.data.security.permissions.Role
+import com.arnyminerz.filamagenta.commons.data.types.EventType
+import com.arnyminerz.filamagenta.commons.data.types.UserType
 import java.time.ZoneOffset
 import java.time.ZonedDateTime
 import java.util.Base64

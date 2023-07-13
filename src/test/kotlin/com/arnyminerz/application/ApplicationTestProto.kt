@@ -2,11 +2,11 @@ package com.arnyminerz.application
 
 import com.arnyminerz.DatabaseTestProto
 import com.arnyminerz.database.ServerDatabase
+import com.arnyminerz.filamagenta.commons.data.security.permissions.Role
+import com.arnyminerz.filamagenta.commons.utils.getStringOrNull
+import com.arnyminerz.filamagenta.commons.utils.jsonOf
 import com.arnyminerz.installModules
-import com.arnyminerz.security.permissions.Role
 import com.arnyminerz.utils.assertSuccess
-import com.arnyminerz.utils.getStringOrNull
-import com.arnyminerz.utils.jsonOf
 import io.ktor.client.request.post
 import io.ktor.client.request.setBody
 import io.ktor.client.statement.HttpResponse

@@ -1,8 +1,8 @@
 package com.arnyminerz.database.entity
 
 import com.arnyminerz.database.dsl.TableGuests
-import com.arnyminerz.database.types.TableGuestType
-import com.arnyminerz.utils.jsonOf
+import com.arnyminerz.filamagenta.commons.data.types.TableGuestType
+import com.arnyminerz.filamagenta.commons.utils.jsonOf
 import org.jetbrains.exposed.dao.IntEntityClass
 import org.jetbrains.exposed.dao.id.EntityID
 import org.json.JSONObject
@@ -17,12 +17,15 @@ class TableGuest(id: EntityID<Int>) : DataEntity<TableGuestType>(id) {
     var responsible by User referencedOn TableGuests.responsible
     var table by EventTable referencedOn TableGuests.table
 
+    /**
+     * Fills the instance with the data provided in [type]. **Requires to be in a transaction.**
+     */
     override fun fill(type: TableGuestType) {
         name = type.name
         surname = type.surname
         nif = type.nif
-        responsible = type.responsible
-        table = type.table
+        responsible = User[type.responsibleId]
+        table = EventTable[type.tableId]
     }
 
     override fun toJSON(): JSONObject = jsonOf(

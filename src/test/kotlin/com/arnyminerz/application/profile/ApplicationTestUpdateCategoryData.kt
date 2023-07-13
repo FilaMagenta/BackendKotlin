@@ -1,15 +1,15 @@
 package com.arnyminerz.application.profile
 
 import com.arnyminerz.application.ApplicationTestProto
-import com.arnyminerz.data.Category
 import com.arnyminerz.database.dsl.CategoryInformations
-import com.arnyminerz.errors.Errors
+import com.arnyminerz.filamagenta.commons.data.Category
+import com.arnyminerz.filamagenta.commons.errors.Errors
+import com.arnyminerz.filamagenta.commons.utils.getJSONObjectOrNull
+import com.arnyminerz.filamagenta.commons.utils.getStringOrNull
+import com.arnyminerz.filamagenta.commons.utils.jsonOf
 import com.arnyminerz.utils.assertEqualsJson
 import com.arnyminerz.utils.assertFailure
 import com.arnyminerz.utils.assertSuccess
-import com.arnyminerz.utils.getJSONObjectOrNull
-import com.arnyminerz.utils.getStringOrNull
-import com.arnyminerz.utils.jsonOf
 import io.ktor.client.request.get
 import io.ktor.client.request.header
 import io.ktor.client.request.post

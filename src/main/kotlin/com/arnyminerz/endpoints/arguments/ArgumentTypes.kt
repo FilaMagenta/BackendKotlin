@@ -1,9 +1,9 @@
 package com.arnyminerz.endpoints.arguments
 
-import com.arnyminerz.utils.getBooleanOrNull
-import com.arnyminerz.utils.getFloatOrNull
-import com.arnyminerz.utils.getIntOrNull
-import com.arnyminerz.utils.getStringOrNull
+import com.arnyminerz.filamagenta.commons.utils.getBooleanOrNull
+import com.arnyminerz.filamagenta.commons.utils.getFloatOrNull
+import com.arnyminerz.filamagenta.commons.utils.getIntOrNull
+import com.arnyminerz.filamagenta.commons.utils.getStringOrNull
 import java.time.ZonedDateTime
 import org.json.JSONObject
 

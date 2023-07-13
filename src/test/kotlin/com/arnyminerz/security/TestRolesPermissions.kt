@@ -1,7 +1,7 @@
 package com.arnyminerz.security
 
-import com.arnyminerz.security.permissions.Permissions
-import com.arnyminerz.security.permissions.Role
+import com.arnyminerz.filamagenta.commons.data.security.permissions.Permissions
+import com.arnyminerz.filamagenta.commons.data.security.permissions.Role
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 import org.junit.Test

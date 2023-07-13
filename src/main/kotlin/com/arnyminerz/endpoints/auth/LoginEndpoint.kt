@@ -4,11 +4,11 @@ import com.arnyminerz.database.ServerDatabase
 import com.arnyminerz.endpoints.arguments.Arguments
 import com.arnyminerz.endpoints.arguments.called
 import com.arnyminerz.endpoints.protos.Endpoint
-import com.arnyminerz.errors.Errors
+import com.arnyminerz.filamagenta.commons.data.security.Passwords
+import com.arnyminerz.filamagenta.commons.errors.Errors
+import com.arnyminerz.filamagenta.commons.utils.jsonOf
 import com.arnyminerz.security.Authentication
 import com.arnyminerz.security.Authentication.TOKEN_EXPIRATION_DAYS
-import com.arnyminerz.security.Passwords
-import com.arnyminerz.utils.jsonOf
 import com.arnyminerz.utils.respondFailure
 import com.arnyminerz.utils.respondSuccess
 import io.ktor.server.application.ApplicationCall

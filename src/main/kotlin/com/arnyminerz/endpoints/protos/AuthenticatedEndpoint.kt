@@ -7,9 +7,9 @@ import com.arnyminerz.database.connector.TransactionsInterface
 import com.arnyminerz.database.connector.UsersInterface
 import com.arnyminerz.database.entity.User
 import com.arnyminerz.endpoints.arguments.MissingArgumentException
-import com.arnyminerz.errors.Errors
-import com.arnyminerz.security.permissions.Permission
-import com.arnyminerz.security.permissions.Permissions
+import com.arnyminerz.filamagenta.commons.data.security.permissions.Permission
+import com.arnyminerz.filamagenta.commons.data.security.permissions.Permissions
+import com.arnyminerz.filamagenta.commons.errors.Errors
 import com.arnyminerz.utils.respondFailure
 import io.ktor.server.application.ApplicationCall
 import io.ktor.server.application.call

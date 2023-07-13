@@ -1,8 +1,9 @@
 package com.arnyminerz.security
 
-import com.arnyminerz.utils.getRSAPrivateKey
-import com.arnyminerz.utils.getRSAPublicKey
-import com.arnyminerz.utils.toJSON
+import com.arnyminerz.filamagenta.commons.data.security.RSAKeyPairGenerator
+import com.arnyminerz.filamagenta.commons.utils.getRSAPrivateKey
+import com.arnyminerz.filamagenta.commons.utils.getRSAPublicKey
+import com.arnyminerz.filamagenta.commons.utils.toJSON
 import kotlin.test.assertEquals
 import org.json.JSONObject
 import org.junit.Test

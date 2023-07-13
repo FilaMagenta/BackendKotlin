@@ -1,5 +1,7 @@
 package com.arnyminerz.security
 
+import com.arnyminerz.filamagenta.commons.data.security.Encryption
+import com.arnyminerz.filamagenta.commons.data.security.RSAKeyPairGenerator
 import kotlin.test.Test
 import kotlin.test.assertEquals
 

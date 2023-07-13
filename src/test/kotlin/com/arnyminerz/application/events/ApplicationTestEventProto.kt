@@ -1,7 +1,7 @@
 package com.arnyminerz.application.events
 
 import com.arnyminerz.application.ApplicationTestProto
-import com.arnyminerz.database.types.EventType
+import com.arnyminerz.filamagenta.commons.data.types.EventType
 import com.arnyminerz.utils.assertSuccess
 import io.ktor.client.request.get
 import io.ktor.client.request.header

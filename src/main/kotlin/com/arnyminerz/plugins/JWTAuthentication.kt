@@ -1,6 +1,6 @@
 package com.arnyminerz.plugins
 
-import com.arnyminerz.errors.Errors
+import com.arnyminerz.filamagenta.commons.errors.Errors
 import com.arnyminerz.security.Authentication
 import com.arnyminerz.utils.getEnvironmentPropertyOrVariable
 import com.arnyminerz.utils.respondFailure

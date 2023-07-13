@@ -3,7 +3,7 @@ package com.arnyminerz.endpoints.events
 import com.arnyminerz.database.ServerDatabase
 import com.arnyminerz.database.entity.User
 import com.arnyminerz.endpoints.protos.AuthenticatedEndpoint
-import com.arnyminerz.errors.Errors
+import com.arnyminerz.filamagenta.commons.errors.Errors
 import com.arnyminerz.utils.respondFailure
 import com.arnyminerz.utils.respondSuccess
 import io.ktor.http.HttpStatusCode

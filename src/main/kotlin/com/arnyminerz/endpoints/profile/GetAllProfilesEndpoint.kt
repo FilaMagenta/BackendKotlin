@@ -2,7 +2,7 @@ package com.arnyminerz.endpoints.profile
 
 import com.arnyminerz.database.entity.User
 import com.arnyminerz.endpoints.protos.AuthenticatedEndpoint
-import com.arnyminerz.security.permissions.Permissions
+import com.arnyminerz.filamagenta.commons.data.security.permissions.Permissions
 import com.arnyminerz.utils.respondSuccess
 import io.ktor.server.application.ApplicationCall
 import io.ktor.server.application.call

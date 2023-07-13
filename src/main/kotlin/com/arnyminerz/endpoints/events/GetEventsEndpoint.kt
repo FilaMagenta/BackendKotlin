@@ -3,9 +3,9 @@ package com.arnyminerz.endpoints.events
 import com.arnyminerz.database.ServerDatabase
 import com.arnyminerz.database.entity.User
 import com.arnyminerz.endpoints.protos.AuthenticatedEndpoint
-import com.arnyminerz.utils.jsonOf
+import com.arnyminerz.filamagenta.commons.utils.jsonOf
+import com.arnyminerz.filamagenta.commons.utils.toJSONArray
 import com.arnyminerz.utils.respondSuccess
-import com.arnyminerz.utils.toJSONArray
 import io.ktor.server.application.ApplicationCall
 import io.ktor.server.application.call
 import io.ktor.util.pipeline.PipelineContext

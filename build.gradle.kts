@@ -9,7 +9,6 @@ val kotlinVersion: String by project
 val logbackVersion: String by project
 val exposedVersion: String by project
 val h2Version: String by project
-val jsonVersion: String by project
 val sqliteVersion: String by project
 val detektVersion: String by project
 val qrCodeKotlinVersion: String by project
@@ -79,6 +78,8 @@ repositories {
 }
 
 dependencies {
+    implementation(project(":commons"))
+
     implementation("io.ktor:ktor-server-core-jvm:$ktorVersion")
     implementation("io.ktor:ktor-server-auth-jvm:$ktorVersion")
     implementation("io.ktor:ktor-server-auth-jwt-jvm:$ktorVersion")
@@ -101,7 +102,6 @@ dependencies {
     implementation("org.xerial:sqlite-jdbc:$sqliteVersion")
     implementation("org.postgresql:postgresql:$postgresqlVersion")
     implementation("ch.qos.logback:logback-classic:$logbackVersion")
-    implementation("org.json:json:$jsonVersion")
     implementation("io.github.g0dkar:qrcode-kotlin-jvm:$qrCodeKotlinVersion")
 
     detektPlugins("io.gitlab.arturbosch.detekt:detekt-formatting:$detektVersion")

@@ -1,7 +1,7 @@
 package com.arnyminerz.database.entity
 
-import com.arnyminerz.database.types.DataType
-import com.arnyminerz.utils.serialization.JsonSerializable
+import com.arnyminerz.filamagenta.commons.data.types.DataType
+import com.arnyminerz.filamagenta.commons.utils.serialization.JsonSerializable
 import org.jetbrains.exposed.dao.IntEntity
 import org.jetbrains.exposed.dao.id.EntityID
 

@@ -1,6 +1,10 @@
 package com.arnyminerz.utils
 
-import com.arnyminerz.errors.Error
+import com.arnyminerz.filamagenta.commons.errors.Error
+import com.arnyminerz.filamagenta.commons.utils.getBooleanOrNull
+import com.arnyminerz.filamagenta.commons.utils.getIntOrNull
+import com.arnyminerz.filamagenta.commons.utils.getJSONObjectOrNull
+import com.arnyminerz.filamagenta.commons.utils.getStringOrNull
 import io.ktor.client.statement.HttpResponse
 import io.ktor.http.HttpStatusCode
 import kotlin.test.assertEquals

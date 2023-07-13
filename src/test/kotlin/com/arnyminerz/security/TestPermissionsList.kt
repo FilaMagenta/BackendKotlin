@@ -1,6 +1,6 @@
 package com.arnyminerz.security
 
-import com.arnyminerz.security.permissions.TestPermissions
+import com.arnyminerz.filamagenta.commons.data.security.permissions.TestPermissions
 import kotlin.test.assertContentEquals
 import org.junit.Test
 

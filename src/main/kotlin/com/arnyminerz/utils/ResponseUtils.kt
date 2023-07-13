@@ -1,7 +1,7 @@
 package com.arnyminerz.utils
 
-import com.arnyminerz.errors.Error
-import com.arnyminerz.utils.serialization.JsonSerializable
+import com.arnyminerz.filamagenta.commons.errors.Error
+import com.arnyminerz.filamagenta.commons.utils.serialization.JsonSerializable
 import io.ktor.client.statement.HttpResponse
 import io.ktor.client.statement.bodyAsText
 import io.ktor.http.ContentType

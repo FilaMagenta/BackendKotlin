@@ -1,8 +1,8 @@
 package com.arnyminerz.application.events
 
 import com.arnyminerz.endpoints.events.GetEventQREndpoint.HEADER_QR_SIZE
-import com.arnyminerz.errors.Errors
-import com.arnyminerz.security.Encryption
+import com.arnyminerz.filamagenta.commons.data.security.Encryption
+import com.arnyminerz.filamagenta.commons.errors.Errors
 import com.arnyminerz.utils.assertEqualsJson
 import com.arnyminerz.utils.assertFailure
 import com.arnyminerz.utils.assertSuccess

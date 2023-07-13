@@ -1,11 +1,11 @@
 package com.arnyminerz.endpoints.inventory
 
 import com.arnyminerz.database.entity.User
-import com.arnyminerz.database.types.InventoryItemType
 import com.arnyminerz.endpoints.arguments.Arguments
 import com.arnyminerz.endpoints.arguments.called
 import com.arnyminerz.endpoints.protos.AuthenticatedEndpoint
-import com.arnyminerz.security.permissions.Permissions
+import com.arnyminerz.filamagenta.commons.data.security.permissions.Permissions
+import com.arnyminerz.filamagenta.commons.data.types.InventoryItemType
 import com.arnyminerz.utils.respondSuccess
 import io.ktor.http.HttpStatusCode
 import io.ktor.server.application.ApplicationCall
