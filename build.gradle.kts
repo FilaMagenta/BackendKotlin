@@ -4,17 +4,17 @@ import io.ktor.plugin.features.DockerPortMappingProtocol
 import io.ktor.plugin.features.JreVersion
 import org.jetbrains.kotlin.konan.properties.Properties
 
-val ktorVersion: String by project
-val kotlinVersion: String by project
-val logbackVersion: String by project
-val exposedVersion: String by project
-val h2Version: String by project
-val sqliteVersion: String by project
-val detektVersion: String by project
-val qrCodeKotlinVersion: String by project
-val zxingVersion: String by project
-val postgresqlVersion: String by project
-val sentryVersion: String by project
+val ktorVersion: String = project.properties["ktor.version"] as String
+val kotlinVersion: String = project.properties["kotlin.version"] as String
+val logbackVersion: String = project.properties["logback.version"] as String
+val exposedVersion: String = project.properties["exposed.version"] as String
+val h2Version: String = project.properties["h2.version"] as String
+val sqliteVersion: String = project.properties["sqlite.version"] as String
+val detektVersion: String = project.properties["detekt.version"] as String
+val qrCodeKotlinVersion: String = project.properties["qrCodeKotlin.version"] as String
+val zxingVersion: String = project.properties["zxing.version"] as String
+val postgresqlVersion: String = project.properties["postgresql.version"] as String
+val sentryVersion: String = project.properties["sentry.version"] as String
 
 plugins {
     kotlin("jvm") version "1.9.0"
