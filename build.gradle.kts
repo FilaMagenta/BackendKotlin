@@ -78,7 +78,7 @@ repositories {
 }
 
 dependencies {
-    implementation(project(":commons"))
+    implementation("com.github.FilaMagenta:Commons:a699eb367e")
 
     implementation("io.ktor:ktor-server-core-jvm:$ktorVersion")
     implementation("io.ktor:ktor-server-auth-jvm:$ktorVersion")
