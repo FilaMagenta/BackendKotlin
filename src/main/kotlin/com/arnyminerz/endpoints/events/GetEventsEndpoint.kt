@@ -18,6 +18,10 @@ object GetEventsEndpoint : AuthenticatedEndpoint() {
         ServerDatabase.instance.eventsInterface.getAll { events ->
             for (event in events) {
                 val json = event.toJSON().apply {
+                    // Remove private key, should not be shared
+                    val keyPair = getJSONObject("key_pair")
+                    put("key_pair", jsonOf("public" to keyPair.getJSONObject("public")))
+
                     val assistance = event.assistants.find { it.user.id == user.id }
                     put("assists", assistance != null)
 

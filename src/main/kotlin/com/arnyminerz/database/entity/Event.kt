@@ -77,7 +77,10 @@ class Event(id: EntityID<Int>) : DataEntity<EventType>(id) {
         "until" to until,
         "reservations" to reservations,
         "max_guests" to maxGuests,
-        "public_key" to JSONObject(publicKey)
+        "key_pair" to jsonOf(
+            "public" to JSONObject(publicKey),
+            "private" to JSONObject(privateKey),
+        )
     )
 
     override fun fill(type: EventType) {
