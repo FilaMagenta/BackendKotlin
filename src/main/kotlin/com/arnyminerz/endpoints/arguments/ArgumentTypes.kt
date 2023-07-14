@@ -1,7 +1,7 @@
 package com.arnyminerz.endpoints.arguments
 
 import com.arnyminerz.filamagenta.commons.utils.getBooleanOrNull
-import com.arnyminerz.filamagenta.commons.utils.getFloatOrNull
+import com.arnyminerz.filamagenta.commons.utils.getDoubleOrNull
 import com.arnyminerz.filamagenta.commons.utils.getIntOrNull
 import com.arnyminerz.filamagenta.commons.utils.getStringOrNull
 import java.time.ZonedDateTime
@@ -32,12 +32,12 @@ object ArgumentTypes {
         override fun fromJson(json: JSONObject, key: String): Short? = json.getIntOrNull(key)?.toShort()
     }
 
-    object FLOAT : ArgumentType<Float>() {
-        override fun fromString(value: String): Float = value.toFloat()
+    object DOUBLE : ArgumentType<Double>() {
+        override fun fromString(value: String): Double = value.toDouble()
 
-        override fun toString(value: Float): String = value.toString()
+        override fun toString(value: Double): String = value.toString()
 
-        override fun fromJson(json: JSONObject, key: String): Float? = json.getFloatOrNull(key)
+        override fun fromJson(json: JSONObject, key: String): Double? = json.getDoubleOrNull(key)
     }
 
     object DATETIME : ArgumentType<ZonedDateTime>() {

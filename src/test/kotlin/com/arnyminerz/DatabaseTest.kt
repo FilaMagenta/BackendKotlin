@@ -1,9 +1,12 @@
 package com.arnyminerz
 
+import com.arnyminerz.filamagenta.commons.data.Category
 import com.arnyminerz.filamagenta.commons.data.security.Passwords
+import com.arnyminerz.filamagenta.commons.data.security.RSAKeyPairGenerator
 import com.arnyminerz.filamagenta.commons.data.security.permissions.Role
 import com.arnyminerz.filamagenta.commons.data.types.EventType
 import com.arnyminerz.filamagenta.commons.data.types.UserType
+import java.time.ZoneId
 import java.time.ZoneOffset
 import java.time.ZonedDateTime
 import java.util.Base64
@@ -22,7 +25,7 @@ class DatabaseTest : DatabaseTestProto() {
         }
 
         usersInterface.new(
-            UserType("12345678Z", Role.DEFAULT, "Testing", "User", "example@mail.com"),
+            UserType(0, "12345678Z", Category.FESTER, Role.DEFAULT, "Testing", "User", "example@mail.com"),
             "password" to "password"
         )
 
@@ -47,12 +50,18 @@ class DatabaseTest : DatabaseTestProto() {
             assertTrue(it.empty())
         }
 
+        val keyPair = RSAKeyPairGenerator.newKey()
         val create = EventType(
+            0,
+            ZonedDateTime.of(2023, 10, 13, 15, 10, 0, 0, ZoneId.of("UTC")),
             "Test Event",
             "Test event Description",
             ZonedDateTime.of(2023, 5, 10, 12, 5, 0, 0, ZoneOffset.UTC),
             null,
-            null
+            null,
+            -1,
+            keyPair.public,
+            keyPair.private
         )
 
         eventsInterface.new(create)

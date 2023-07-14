@@ -33,6 +33,7 @@ object NewTransactionEndpoint : AuthenticatedEndpoint(Permissions.Transactions.C
 
         val timestamp = ZonedDateTime.now()
         val transaction = TransactionType(
+            0,
             timestamp,
             date,
             amount,

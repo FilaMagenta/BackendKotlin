@@ -75,10 +75,11 @@ detekt {
 
 repositories {
     mavenCentral()
+    maven("https://jitpack.io")
 }
 
 dependencies {
-    implementation("com.github.FilaMagenta:Commons:a699eb367e")
+    implementation("com.github.FilaMagenta:Commons:0c3cafcb73")
 
     implementation("io.ktor:ktor-server-core-jvm:$ktorVersion")
     implementation("io.ktor:ktor-server-auth-jvm:$ktorVersion")

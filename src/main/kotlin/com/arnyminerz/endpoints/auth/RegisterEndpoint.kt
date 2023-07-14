@@ -4,6 +4,7 @@ import com.arnyminerz.database.ServerDatabase
 import com.arnyminerz.endpoints.arguments.Arguments
 import com.arnyminerz.endpoints.arguments.called
 import com.arnyminerz.endpoints.protos.Endpoint
+import com.arnyminerz.filamagenta.commons.data.Category
 import com.arnyminerz.filamagenta.commons.data.security.permissions.Role
 import com.arnyminerz.filamagenta.commons.data.types.UserType
 import com.arnyminerz.filamagenta.commons.errors.Errors.EmailInvalid
@@ -45,7 +46,7 @@ object RegisterEndpoint : Endpoint {
         }
 
         ServerDatabase.instance.usersInterface.new(
-            UserType(nif, Role.DEFAULT, name, surname, email, null),
+            UserType(0, nif, Category.UNKNOWN, Role.DEFAULT, name, surname, email, null),
             "password" to password
         )
 

@@ -14,7 +14,7 @@ object Arguments {
     val Date = Argument("date", ArgumentTypes.DATETIME, Errors.MissingDateBody)
     val Until = OptionalArgument("until", ArgumentTypes.DATETIME)
     val Reservations = OptionalArgument("reservations", ArgumentTypes.DATETIME)
-    val Price = Argument("price", ArgumentTypes.FLOAT, Errors.MissingPriceBody)
+    val Price = Argument("price", ArgumentTypes.DOUBLE, Errors.MissingPriceBody)
     val Item = OptionalArgument("item", ArgumentTypes.INTEGER)
     val Amount = Argument("amount", ArgumentTypes.INTEGER, Errors.MissingAmountBody)
     val User = Argument("user_id", ArgumentTypes.INTEGER, Errors.MissingUserIdBody)

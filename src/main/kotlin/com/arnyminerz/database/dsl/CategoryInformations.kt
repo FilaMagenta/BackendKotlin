@@ -61,7 +61,7 @@ object CategoryInformations : IntIdTable() {
     val ageMin: Column<Int> = integer("age_min")
     val ageMax: Column<Int> = integer("age_max")
 
-    val price: Column<Float> = float("price")
+    val price: Column<Double> = double("price")
 
     val votesMeeting: Column<Boolean> = bool("votes_meeting")
 

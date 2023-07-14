@@ -6,6 +6,7 @@ import com.arnyminerz.endpoints.arguments.Arguments
 import com.arnyminerz.endpoints.arguments.called
 import com.arnyminerz.endpoints.arguments.calledOptional
 import com.arnyminerz.endpoints.protos.AuthenticatedEndpoint
+import com.arnyminerz.filamagenta.commons.data.security.RSAKeyPairGenerator
 import com.arnyminerz.filamagenta.commons.data.security.permissions.Permissions
 import com.arnyminerz.filamagenta.commons.data.types.EventType
 import com.arnyminerz.utils.respondSuccess
@@ -13,6 +14,7 @@ import io.ktor.http.HttpStatusCode
 import io.ktor.server.application.ApplicationCall
 import io.ktor.server.application.call
 import io.ktor.util.pipeline.PipelineContext
+import java.time.ZonedDateTime
 
 object NewEventEndpoint : AuthenticatedEndpoint(Permissions.Events.Create) {
     override suspend fun PipelineContext<*, ApplicationCall>.endpoint(user: User) {
@@ -26,7 +28,19 @@ object NewEventEndpoint : AuthenticatedEndpoint(Permissions.Events.Create) {
         // TODO: Check "until" is before "date"
         // TODO: Check "reservations" is before "date"
 
-        val event = EventType(name, description, date, until, reservations, maxGuests)
+        val keyPair = RSAKeyPairGenerator.newKey()
+        val event = EventType(
+            0,
+            ZonedDateTime.now(),
+            name,
+            description,
+            date,
+            until,
+            reservations,
+            maxGuests,
+            keyPair.public,
+            keyPair.private
+        )
 
         ServerDatabase.instance.eventsInterface.new(event)
 

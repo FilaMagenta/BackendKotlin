@@ -24,7 +24,7 @@ class Transaction(id: EntityID<Int>) : DataEntity<TransactionType>(id) {
         get() = ZonedDateTime.parse(_timestamp)
         set(value) { _timestamp = value.toString() }
 
-    val total: Float
+    val total: Double
         get() = amount * pricePerUnit
 
     /**

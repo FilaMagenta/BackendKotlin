@@ -1,6 +1,7 @@
 package com.arnyminerz.application.events
 
 import com.arnyminerz.application.ApplicationTestProto
+import com.arnyminerz.filamagenta.commons.data.security.RSAKeyPairGenerator
 import com.arnyminerz.filamagenta.commons.data.types.EventType
 import com.arnyminerz.utils.assertSuccess
 import io.ktor.client.request.get
@@ -16,13 +17,20 @@ import org.json.JSONArray
 import org.json.JSONObject
 
 abstract class ApplicationTestEventProto : ApplicationTestProto() {
-    protected val eventSampleData = EventType(
-        "Testing Event",
-        "This is the description of a testing event.",
-        ZonedDateTime.of(2023, 10, 5, 23, 30, 0, 0, ZoneOffset.UTC),
-        null,
-        null
-    )
+    protected val eventSampleData = RSAKeyPairGenerator.newKey().let { keyPair ->
+        EventType(
+            0,
+            ZonedDateTime.now(),
+            "Testing Event",
+            "This is the description of a testing event.",
+            ZonedDateTime.of(2023, 10, 5, 23, 30, 0, 0, ZoneOffset.UTC),
+            null,
+            null,
+            0,
+            keyPair.public,
+            keyPair.private
+        )
+    }
 
     protected suspend fun ApplicationTestBuilder.provideSampleEvent(token: String) {
         client.post("/v1/events") {

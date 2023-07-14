@@ -87,7 +87,7 @@ class Event(id: EntityID<Int>) : DataEntity<EventType>(id) {
         until = type.until?.toString()
         reservations = type.reservations?.toString()
         maxGuests = type.maxGuests
-        publicKey = type.keyPair.public.toJSON().toString()
-        privateKey = type.keyPair.private.toJSON().toString()
+        publicKey = type.publicKey.toJSON().toString()
+        privateKey = type.privateKey!!.toJSON().toString()
     }
 }

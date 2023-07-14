@@ -6,5 +6,5 @@ private const val INVENTORY_ITEM_NAME_LENGTH = 64
 
 object InventoryItems : IntIdTable() {
     val name = varchar("name", INVENTORY_ITEM_NAME_LENGTH)
-    var unitPrice = float("unit_price")
+    var unitPrice = double("unit_price")
 }

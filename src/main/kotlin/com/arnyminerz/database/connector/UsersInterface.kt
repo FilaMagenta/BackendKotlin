@@ -62,7 +62,7 @@ class UsersInterface(database: ServerDatabase) : DataObjectInterface<UserType, U
     suspend fun updateCategoryInformation(
         category: Category,
         ageRange: IntRange,
-        price: Float,
+        price: Double,
         rightsData: CategoryInformations.RightsData,
         paysData: CategoryInformations.PaysData
     ) = database.transaction {
