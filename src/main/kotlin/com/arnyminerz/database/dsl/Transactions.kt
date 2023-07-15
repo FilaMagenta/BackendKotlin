@@ -1,12 +1,12 @@
 package com.arnyminerz.database.dsl
 
 import com.arnyminerz.database.dsl.DSLConst.DATE_LENGTH
-import org.jetbrains.exposed.dao.id.IntIdTable
+import org.jetbrains.exposed.dao.id.LongIdTable
 import org.jetbrains.exposed.sql.Column
 
 private const val TRANSACTION_DESCRIPTION_LENGTH = 256
 
-object Transactions : IntIdTable() {
+object Transactions : LongIdTable() {
     val timestamp: Column<String> = varchar("timestamp", DATE_LENGTH)
     val date: Column<String> = varchar("date", DATE_LENGTH)
     val pricePerUnit: Column<Double> = double("unit_price")

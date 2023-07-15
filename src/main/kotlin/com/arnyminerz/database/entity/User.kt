@@ -5,12 +5,12 @@ import com.arnyminerz.filamagenta.commons.data.security.permissions.Role
 import com.arnyminerz.filamagenta.commons.data.types.UserType
 import com.arnyminerz.filamagenta.commons.utils.jsonOf
 import java.util.Base64
-import org.jetbrains.exposed.dao.IntEntityClass
+import org.jetbrains.exposed.dao.LongEntityClass
 import org.jetbrains.exposed.dao.id.EntityID
 import org.json.JSONObject
 
-class User(id: EntityID<Int>) : DataEntity<UserType>(id) {
-    companion object : IntEntityClass<User>(Users)
+class User(id: EntityID<Long>) : DataEntity<UserType>(id) {
+    companion object : LongEntityClass<User>(Users)
 
     var nif by Users.nif
     var role by Users.role

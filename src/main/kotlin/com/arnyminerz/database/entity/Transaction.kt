@@ -4,12 +4,12 @@ import com.arnyminerz.database.dsl.Transactions
 import com.arnyminerz.filamagenta.commons.data.types.TransactionType
 import com.arnyminerz.filamagenta.commons.utils.jsonOf
 import java.time.ZonedDateTime
-import org.jetbrains.exposed.dao.IntEntityClass
+import org.jetbrains.exposed.dao.LongEntityClass
 import org.jetbrains.exposed.dao.id.EntityID
 import org.json.JSONObject
 
-class Transaction(id: EntityID<Int>) : DataEntity<TransactionType>(id) {
-    companion object : IntEntityClass<Transaction>(Transactions)
+class Transaction(id: EntityID<Long>) : DataEntity<TransactionType>(id) {
+    companion object : LongEntityClass<Transaction>(Transactions)
 
     private var _timestamp by Transactions.timestamp
     var date by Transactions.date

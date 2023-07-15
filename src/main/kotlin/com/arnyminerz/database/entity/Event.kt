@@ -12,12 +12,12 @@ import com.arnyminerz.filamagenta.commons.utils.toRSAPublicKey
 import java.security.PrivateKey
 import java.security.PublicKey
 import java.time.ZonedDateTime
-import org.jetbrains.exposed.dao.IntEntityClass
+import org.jetbrains.exposed.dao.LongEntityClass
 import org.jetbrains.exposed.dao.id.EntityID
 import org.json.JSONObject
 
-class Event(id: EntityID<Int>) : DataEntity<EventType>(id) {
-    companion object : IntEntityClass<Event>(Events)
+class Event(id: EntityID<Long>) : DataEntity<EventType>(id) {
+    companion object : LongEntityClass<Event>(Events)
 
     var timestamp by Events.timestamp
     var name by Events.name

@@ -3,12 +3,12 @@ package com.arnyminerz.database.entity
 import com.arnyminerz.database.dsl.TableGuests
 import com.arnyminerz.filamagenta.commons.data.types.TableGuestType
 import com.arnyminerz.filamagenta.commons.utils.jsonOf
-import org.jetbrains.exposed.dao.IntEntityClass
+import org.jetbrains.exposed.dao.LongEntityClass
 import org.jetbrains.exposed.dao.id.EntityID
 import org.json.JSONObject
 
-class TableGuest(id: EntityID<Int>) : DataEntity<TableGuestType>(id) {
-    companion object : IntEntityClass<TableGuest>(TableGuests)
+class TableGuest(id: EntityID<Long>) : DataEntity<TableGuestType>(id) {
+    companion object : LongEntityClass<TableGuest>(TableGuests)
 
     var name by TableGuests.name
     var surname by TableGuests.surname
