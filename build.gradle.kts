@@ -105,6 +105,9 @@ dependencies {
     implementation("ch.qos.logback:logback-classic:$logbackVersion")
     implementation("io.github.g0dkar:qrcode-kotlin-jvm:$qrCodeKotlinVersion")
 
+    implementation(files("libs/sis-rest-api.jar"))
+    implementation("javax.xml.ws:jaxws-api:2.3.1")
+
     detektPlugins("io.gitlab.arturbosch.detekt:detekt-formatting:$detektVersion")
 
     implementation("io.sentry:sentry:$sentryVersion")
