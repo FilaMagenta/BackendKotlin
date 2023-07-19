@@ -1,15 +1,20 @@
 package com.arnyminerz.database.connector
 
 import com.arnyminerz.database.ServerDatabase
+import com.arnyminerz.database.dsl.EventPricesTable
 import com.arnyminerz.database.dsl.EventTables
 import com.arnyminerz.database.dsl.TableMembers
 import com.arnyminerz.database.dsl.UserAssistances
 import com.arnyminerz.database.entity.Event
+import com.arnyminerz.database.entity.EventPrice
 import com.arnyminerz.database.entity.EventTable
 import com.arnyminerz.database.entity.TableMember
 import com.arnyminerz.database.entity.User
 import com.arnyminerz.database.entity.UserAssistance
+import com.arnyminerz.filamagenta.commons.data.Category
+import com.arnyminerz.filamagenta.commons.data.types.EventPriceType
 import com.arnyminerz.filamagenta.commons.data.types.EventType
+import java.time.ZonedDateTime
 import org.jetbrains.exposed.sql.Transaction
 import org.jetbrains.exposed.sql.and
 
@@ -18,13 +23,14 @@ class EventsInterface(database: ServerDatabase) : DataObjectInterface<EventType,
     Event.Companion
 ) {
 
-    suspend fun <Result> getTable(id: Int, eventId: Int, block: (table: EventTable?) -> Result) = database.transaction {
-        EventTable.find {
-            (EventTables.id eq id) and (EventTables.event eq eventId)
-        }.singleOrNull().let(block)
-    }
+    suspend fun <Result> getTable(id: Long, eventId: Long, block: (table: EventTable?) -> Result) =
+        database.transaction {
+            EventTable.find {
+                (EventTables.id eq id) and (EventTables.event eq eventId)
+            }.singleOrNull().let(block)
+        }
 
-    suspend fun <Result> getMemberTable(memberId: Int, block: suspend (table: TableMember?) -> Result) =
+    suspend fun <Result> getMemberTable(memberId: Long, block: suspend (table: TableMember?) -> Result) =
         database.transaction {
             TableMember.find {
                 TableMembers.user eq memberId
@@ -32,8 +38,8 @@ class EventsInterface(database: ServerDatabase) : DataObjectInterface<EventType,
         }
 
     suspend fun <Result> getResponsibleTable(
-        responsibleId: Int,
-        eventId: Int,
+        responsibleId: Long,
+        eventId: Long,
         block: suspend (table: EventTable?) -> Result
     ) = database.transaction {
         EventTable.find {
@@ -123,6 +129,38 @@ class EventsInterface(database: ServerDatabase) : DataObjectInterface<EventType,
             true
         } else {
             false
+        }
+    }
+
+    /**
+     * Sets the price for a specific event and category.
+     *
+     * @param event The event for which the price will be set.
+     * @param category The category for which the price will be set.
+     * @param price The price to set for the event and category.
+     *
+     * @throws IllegalStateException if the event already has a price assigned for the given category.
+     * @throws NullPointerException if the [event] could not be found.
+     */
+    suspend fun setEventPrice(event: Event, category: Category, price: Double) {
+        database.transaction {
+            // First check if the combination is already present
+            val alreadyPriced = EventPrice.find {
+                (EventPricesTable.category eq category.name) and (EventPricesTable.event eq event.id)
+            }
+            check(alreadyPriced.empty()) { "The event ${event.id} already has a price assigned for $category" }
+
+            // Otherwise, add the new price
+            EventPrice.new {
+                val eventPrice = EventPriceType(
+                    0,
+                    ZonedDateTime.now(),
+                    price,
+                    category,
+                    event.id.value,
+                )
+                fill(eventPrice)
+            }
         }
     }
 }

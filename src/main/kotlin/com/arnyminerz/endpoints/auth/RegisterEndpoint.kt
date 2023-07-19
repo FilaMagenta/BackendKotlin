@@ -19,6 +19,7 @@ import io.ktor.http.HttpStatusCode
 import io.ktor.server.application.ApplicationCall
 import io.ktor.server.application.call
 import io.ktor.util.pipeline.PipelineContext
+import java.time.ZonedDateTime
 
 object RegisterEndpoint : Endpoint {
     override suspend fun PipelineContext<*, ApplicationCall>.endpoint() {
@@ -46,7 +47,7 @@ object RegisterEndpoint : Endpoint {
         }
 
         ServerDatabase.instance.usersInterface.new(
-            UserType(0, nif, Category.UNKNOWN, Role.DEFAULT, name, surname, email, null),
+            UserType(0, ZonedDateTime.now(), nif, Category.UNKNOWN, Role.DEFAULT, name, surname, email, null),
             "password" to password
         )
 

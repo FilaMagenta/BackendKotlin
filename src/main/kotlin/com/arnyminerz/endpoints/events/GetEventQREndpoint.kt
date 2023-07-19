@@ -23,12 +23,12 @@ import java.util.Base64
 object GetEventQREndpoint : AuthenticatedEndpoint() {
     const val HEADER_QR_SIZE = "QR-Size"
 
-    private const val QR_CELL_SIZE_DEFAULT = 25
+    private const val QR_CELL_SIZE_DEFAULT = 25L
 
     override suspend fun PipelineContext<*, ApplicationCall>.endpoint(user: User) {
         val size by calledOptional { Arguments.Size }
 
-        val eventId: Int by call.parameters
+        val eventId: Long by call.parameters
 
         val event = eventsInterface.get(eventId) { it }
             ?: return call.respondFailure(Errors.EventNotFound)
@@ -41,7 +41,7 @@ object GetEventQREndpoint : AuthenticatedEndpoint() {
         val publicKey = event.decodePublicKey()
         val eventJson = event.toJSON().apply {
             // Do not include the public key of the event in the QR code
-            remove("public_key")
+            remove("key_pair")
         }
 
         val encryptedData = jsonOf(
@@ -67,7 +67,7 @@ object GetEventQREndpoint : AuthenticatedEndpoint() {
 
         // If the user is assisting to the event, generate the QR code
         val qrCodeRenderer = try {
-            QRCode(encryptedData).render(cellSize = size ?: QR_CELL_SIZE_DEFAULT)
+            QRCode(encryptedData).render(cellSize = (size ?: QR_CELL_SIZE_DEFAULT).toInt())
         } catch (ignored: IllegalArgumentException) {
             System.err.println("Could not fit data inside QR code (size=${encryptedData.length})")
             call.respondFailure(Errors.QrCodeTooLarge)

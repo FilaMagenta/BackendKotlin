@@ -17,7 +17,7 @@ import org.junit.Test
 class ApplicationTestEventAssistance : ApplicationTestEventProto() {
     private suspend fun ApplicationTestBuilder.confirmAssistance(
         token: String,
-        eventId: Int,
+        eventId: Long,
         assertion: suspend HttpResponse.() -> Unit = { assertSuccess(HttpStatusCode.Accepted) }
     ) = client.put("/v1/events/$eventId/assistance") {
         header("Authorization", "Bearer $token")

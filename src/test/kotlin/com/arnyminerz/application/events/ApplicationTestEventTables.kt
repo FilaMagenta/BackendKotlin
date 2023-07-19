@@ -41,7 +41,7 @@ class ApplicationTestEventTables : ApplicationTestEventProto() {
 
             val table = tables.getJSONObject(0)
             assertNotNull(table.getInt("id"))
-            assertEquals(user.id.value, table.getInt("responsible_id"))
+            assertEquals(user.id.value, table.getLong("responsible_id"))
             assertTrue(table.getJSONArray("members").isEmpty)
         }
     }
@@ -112,7 +112,7 @@ class ApplicationTestEventTables : ApplicationTestEventProto() {
             val table = tables.getJSONObject(0)
             val members = table.getJSONArray("members")
             assertEquals(1, members.count())
-            assertEquals(secondUser.id.value, members.getInt(0))
+            assertEquals(secondUser.id.value, members.getLong(0))
         }
     }
 

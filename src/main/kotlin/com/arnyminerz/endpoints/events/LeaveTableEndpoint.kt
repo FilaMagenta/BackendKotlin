@@ -13,7 +13,7 @@ import io.ktor.util.pipeline.PipelineContext
 
 object LeaveTableEndpoint : AuthenticatedEndpoint() {
     override suspend fun PipelineContext<*, ApplicationCall>.endpoint(user: User) {
-        val eventId: Int by call.parameters
+        val eventId: Long by call.parameters
 
         var leftTable = false
 

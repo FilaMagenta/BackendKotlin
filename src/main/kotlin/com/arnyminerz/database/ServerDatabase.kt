@@ -5,6 +5,7 @@ import com.arnyminerz.database.connector.InventoryInterface
 import com.arnyminerz.database.connector.TransactionsInterface
 import com.arnyminerz.database.connector.UsersInterface
 import com.arnyminerz.database.dsl.CategoryInformations
+import com.arnyminerz.database.dsl.EventPricesTable
 import com.arnyminerz.database.dsl.EventTables
 import com.arnyminerz.database.dsl.Events
 import com.arnyminerz.database.dsl.InventoryItems
@@ -39,6 +40,7 @@ abstract class ServerDatabase(
             CategoryInformations,
             Events,
             EventTables,
+            EventPricesTable,
             InventoryItems,
             TableGuests,
             TableMembers,

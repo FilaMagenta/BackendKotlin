@@ -61,7 +61,7 @@ class UsersInterface(database: ServerDatabase) : DataObjectInterface<UserType, U
 
     suspend fun updateCategoryInformation(
         category: Category,
-        ageRange: IntRange,
+        ageRange: LongRange,
         price: Double,
         rightsData: CategoryInformations.RightsData,
         paysData: CategoryInformations.PaysData

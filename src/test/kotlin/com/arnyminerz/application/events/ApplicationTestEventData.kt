@@ -35,7 +35,7 @@ class ApplicationTestEventData : ApplicationTestEventProto() {
         getAllEvents(token) { events ->
             assertEquals(1, events.length())
 
-            val eventId = events.getJSONObject(0).getInt("id")
+            val eventId = events.getJSONObject(0).getLong("id")
 
             // At first the user is not assisting, so an error is thrown
             client.get("/v1/events/$eventId/qrcode") {

@@ -13,8 +13,8 @@ import io.ktor.util.pipeline.PipelineContext
 
 object JoinTableEndpoint : AuthenticatedEndpoint() {
     override suspend fun PipelineContext<*, ApplicationCall>.endpoint(user: User) {
-        val eventId: Int by call.parameters
-        val tableId: Int by call.parameters
+        val eventId: Long by call.parameters
+        val tableId: Long by call.parameters
 
         val table = eventsInterface.getTable(tableId, eventId) { it }
             ?: return call.respondFailure(Errors.TableNotFound)
