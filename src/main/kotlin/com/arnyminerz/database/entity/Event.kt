@@ -1,8 +1,10 @@
 package com.arnyminerz.database.entity
 
+import com.arnyminerz.database.dsl.EventPricesTable
 import com.arnyminerz.database.dsl.EventTables
 import com.arnyminerz.database.dsl.Events
 import com.arnyminerz.database.dsl.UserAssistances
+import com.arnyminerz.filamagenta.commons.data.Category
 import com.arnyminerz.filamagenta.commons.data.security.RSAKeyPairGenerator
 import com.arnyminerz.filamagenta.commons.data.types.EventType
 import com.arnyminerz.filamagenta.commons.utils.jsonOf
@@ -33,6 +35,20 @@ class Event(id: EntityID<Long>) : DataEntity<EventType>(id) {
     val assistants by UserAssistance referrersOn UserAssistances.event
 
     val tables by EventTable referrersOn EventTables.event
+
+    private val _prices by EventPrice referrersOn EventPricesTable.event
+
+    /**
+     * A property representing the prices of different categories.
+     *
+     * This property returns a map where the keys are category objects and the values are the corresponding prices.
+     *
+     * **Make sure to be in a transaction when calling this method**.
+     *
+     * @return The map of category prices.
+     */
+    val prices: Map<Category, Double>
+        get() = _prices.associate { it.category to it.price }
 
     /**
      * Generates a random key pair and assigns it to [publicKey] and [privateKey].

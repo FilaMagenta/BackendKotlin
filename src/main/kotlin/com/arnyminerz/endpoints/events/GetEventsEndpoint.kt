@@ -41,6 +41,12 @@ object GetEventsEndpoint : AuthenticatedEndpoint() {
                             }
                         }
                     )
+
+                    val prices = event.prices
+                    put(
+                        "prices",
+                        prices.takeIf { it.isNotEmpty() }
+                    )
                 }
                 eventsList.put(json)
             }

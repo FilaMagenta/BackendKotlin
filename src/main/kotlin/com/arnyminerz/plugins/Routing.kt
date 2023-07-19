@@ -11,6 +11,7 @@ import com.arnyminerz.endpoints.events.JoinTableEndpoint
 import com.arnyminerz.endpoints.events.LeaveTableEndpoint
 import com.arnyminerz.endpoints.events.NewEventEndpoint
 import com.arnyminerz.endpoints.events.NewTableEndpoint
+import com.arnyminerz.endpoints.events.SetEventPriceEndpoint
 import com.arnyminerz.endpoints.inventory.GetInventoryItemsEndpoint
 import com.arnyminerz.endpoints.inventory.NewInventoryItemEndpoint
 import com.arnyminerz.endpoints.profile.GetAllProfilesEndpoint
@@ -56,6 +57,7 @@ fun Application.configureRouting() {
             post("/v1/events/{eventId}/table", NewTableEndpoint)
             put("/v1/events/{eventId}/table/{tableId}", JoinTableEndpoint)
             delete("/v1/events/{eventId}/table", LeaveTableEndpoint)
+            post("/v1/events/{eventId}/price", SetEventPriceEndpoint)
 
             get("/v1/inventory", GetInventoryItemsEndpoint)
             post("/v1/inventory", NewInventoryItemEndpoint)

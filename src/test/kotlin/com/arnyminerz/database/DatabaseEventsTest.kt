@@ -12,6 +12,7 @@ import kotlin.test.assertFailsWith
 import kotlin.test.assertNull
 import kotlin.test.assertTrue
 import kotlinx.coroutines.runBlocking
+import org.jetbrains.exposed.sql.transactions.transaction
 import org.junit.Test
 
 class DatabaseEventsTest: DatabaseTestProto() {
@@ -74,7 +75,7 @@ class DatabaseEventsTest: DatabaseTestProto() {
             eventsInterface.setEventPrice(event, Category.UNKNOWN, 10.0)
             eventsInterface.setEventPrice(event, Category.FESTER, 20.0)
 
-            val prices = eventsInterface.getEventPrices(event)
+            val prices = transaction(database) { event.prices }
             assertEquals(10.0, prices[Category.UNKNOWN])
             assertEquals(20.0, prices[Category.FESTER])
         }

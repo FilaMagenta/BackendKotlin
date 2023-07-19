@@ -163,13 +163,4 @@ class EventsInterface(database: ServerDatabase) : DataObjectInterface<EventType,
             }
         }
     }
-
-    /**
-     * Fetches all the prices stored for the given event, and for each category.
-     */
-    suspend fun getEventPrices(event: Event): Map<Category, Double> = database.transaction {
-        EventPrice.find { EventPricesTable.event eq event.id }.associate { price ->
-            price.category to price.price
-        }
-    }
 }
