@@ -15,8 +15,8 @@ import kotlinx.coroutines.runBlocking
 import org.jetbrains.exposed.sql.transactions.transaction
 import org.junit.Test
 
-class DatabaseEventsTest: DatabaseTestProto() {
-    val sampleEvent = RSAKeyPairGenerator.newKey().let { keyPair ->
+class DatabaseEventsTest : DatabaseTestProto() {
+    private val sampleEvent = RSAKeyPairGenerator.newKey().let { keyPair ->
         EventType(
             0,
             ZonedDateTime.of(2023, 10, 13, 15, 10, 0, 0, ZoneId.of("UTC")),
