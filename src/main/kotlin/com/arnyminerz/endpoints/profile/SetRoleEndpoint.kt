@@ -15,7 +15,7 @@ import io.ktor.util.pipeline.PipelineContext
 
 object SetRoleEndpoint : AuthenticatedEndpoint(Permissions.Users.ChangeRole) {
     override suspend fun PipelineContext<*, ApplicationCall>.endpoint(user: User) {
-        val userId: Int by call.parameters
+        val userId: Long by call.parameters
 
         val role by called { Arguments.Role }
 

@@ -3,12 +3,13 @@ package com.arnyminerz.endpoints.arguments
 import com.arnyminerz.filamagenta.commons.utils.getBooleanOrNull
 import com.arnyminerz.filamagenta.commons.utils.getDoubleOrNull
 import com.arnyminerz.filamagenta.commons.utils.getIntOrNull
+import com.arnyminerz.filamagenta.commons.utils.getLongOrNull
 import com.arnyminerz.filamagenta.commons.utils.getStringOrNull
 import java.time.ZonedDateTime
 import org.json.JSONObject
 
 object ArgumentTypes {
-    object STRING : ArgumentType<String>() {
+    data object STRING : ArgumentType<String>() {
         override fun fromString(value: String): String = value
 
         override fun toString(value: String): String = value
@@ -16,15 +17,28 @@ object ArgumentTypes {
         override fun fromJson(json: JSONObject, key: String): String? = json.getStringOrNull(key)
     }
 
-    object INTEGER : ArgumentType<Int>() {
+    @Deprecated(
+        "Do not use Integer, use Long",
+        replaceWith = ReplaceWith("LONG")
+    )
+    data object INTEGER : ArgumentType<Int>() {
         override fun fromString(value: String): Int = value.toInt()
 
         override fun toString(value: Int): String = value.toString()
 
+        @Suppress("DEPRECATION")
         override fun fromJson(json: JSONObject, key: String): Int? = json.getIntOrNull(key)
     }
 
-    object SHORT : ArgumentType<Short>() {
+    data object LONG : ArgumentType<Long>() {
+        override fun fromString(value: String): Long = value.toLong()
+
+        override fun toString(value: Long): String = value.toString()
+
+        override fun fromJson(json: JSONObject, key: String): Long? = json.getLongOrNull(key)
+    }
+
+    data object SHORT : ArgumentType<Short>() {
         override fun fromString(value: String): Short = value.toShort()
 
         override fun toString(value: Short): String = value.toString()
@@ -32,7 +46,7 @@ object ArgumentTypes {
         override fun fromJson(json: JSONObject, key: String): Short? = json.getIntOrNull(key)?.toShort()
     }
 
-    object DOUBLE : ArgumentType<Double>() {
+    data object DOUBLE : ArgumentType<Double>() {
         override fun fromString(value: String): Double = value.toDouble()
 
         override fun toString(value: Double): String = value.toString()
@@ -40,7 +54,7 @@ object ArgumentTypes {
         override fun fromJson(json: JSONObject, key: String): Double? = json.getDoubleOrNull(key)
     }
 
-    object DATETIME : ArgumentType<ZonedDateTime>() {
+    data object DATETIME : ArgumentType<ZonedDateTime>() {
         override fun fromString(value: String): ZonedDateTime = ZonedDateTime.parse(value)
 
         override fun toString(value: ZonedDateTime): String = value.toString()
@@ -49,7 +63,7 @@ object ArgumentTypes {
             json.getStringOrNull(key)?.let { ZonedDateTime.parse(it) }
     }
 
-    object BOOLEAN : ArgumentType<Boolean>() {
+    data object BOOLEAN : ArgumentType<Boolean>() {
         override fun fromString(value: String): Boolean = value.toBoolean()
 
         override fun toString(value: Boolean): String = value.toString()

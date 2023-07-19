@@ -1,6 +1,5 @@
 package com.arnyminerz.endpoints.arguments
 
-import com.arnyminerz.filamagenta.commons.data.security.permissions.Role
 import com.arnyminerz.filamagenta.commons.errors.Errors
 
 @Suppress("MaximumLineLength", "MaxLineLength", "ArgumentListWrapping", "PropertyWrapping")
@@ -15,14 +14,14 @@ object Arguments {
     val Until = OptionalArgument("until", ArgumentTypes.DATETIME)
     val Reservations = OptionalArgument("reservations", ArgumentTypes.DATETIME)
     val Price = Argument("price", ArgumentTypes.DOUBLE, Errors.MissingPriceBody)
-    val Item = OptionalArgument("item", ArgumentTypes.INTEGER)
-    val Amount = Argument("amount", ArgumentTypes.INTEGER, Errors.MissingAmountBody)
-    val User = Argument("user_id", ArgumentTypes.INTEGER, Errors.MissingUserIdBody)
-    val MaxGuests = OptionalArgument("max_guests", ArgumentTypes.INTEGER)
-    val Size = OptionalArgument("size", ArgumentTypes.INTEGER)
+    val Item = OptionalArgument("item", ArgumentTypes.LONG)
+    val Amount = Argument("amount", ArgumentTypes.LONG, Errors.MissingAmountBody)
+    val User = Argument("user_id", ArgumentTypes.LONG, Errors.MissingUserIdBody)
+    val MaxGuests = OptionalArgument("max_guests", ArgumentTypes.LONG)
+    val Size = OptionalArgument("size", ArgumentTypes.LONG)
     val Category = Argument("category", ArgumentTypes.STRING, Errors.MissingCategoryBody)
-    val AgeMin = Argument("age_min", ArgumentTypes.INTEGER, Errors.MissingAgeMinBody)
-    val AgeMax = Argument("age_max", ArgumentTypes.INTEGER, Errors.MissingAgeMaxBody)
+    val AgeMin = Argument("age_min", ArgumentTypes.LONG, Errors.MissingAgeMinBody)
+    val AgeMax = Argument("age_max", ArgumentTypes.LONG, Errors.MissingAgeMaxBody)
     val Votes = Argument("votes", ArgumentTypes.BOOLEAN, Errors.MissingVotesBody)
     val Diana = Argument("diana", ArgumentTypes.BOOLEAN, Errors.MissingDianaBody)
     val Diana2 = Argument("diana_2", ArgumentTypes.BOOLEAN, Errors.MissingDiana2Body)
@@ -40,5 +39,5 @@ object Arguments {
     val PaysDinarSantJordi = Argument("pays_dinar_sant_jordi", ArgumentTypes.SHORT, Errors.MissingPaysDinarSantJordiBody)
     val PaysSoparSantJordi = Argument("pays_sopar_sant_jordi", ArgumentTypes.SHORT, Errors.MissingPaysSoparSantJordiBody)
     val PaysDinarTrons = Argument("pays_dinar_trons", ArgumentTypes.SHORT, Errors.MissingPaysDinarTronsBody)
-    val Role = Argument("role", ArgumentTypes.ENUM<Role>(com.arnyminerz.filamagenta.commons.data.security.permissions.Role::values), Errors.MissingRoleBody)
+    val Role = Argument("role", ArgumentTypes.ENUM(com.arnyminerz.filamagenta.commons.data.security.permissions.Role::values), Errors.MissingRoleBody)
 }

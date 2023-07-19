@@ -58,8 +58,8 @@ object CategoryInformations : IntIdTable() {
 
     val category: Column<String> = varchar("category", Category.NAME_MAX_LENGTH)
 
-    val ageMin: Column<Int> = integer("age_min")
-    val ageMax: Column<Int> = integer("age_max")
+    val ageMin: Column<Long> = long("age_min")
+    val ageMax: Column<Long> = long("age_max")
 
     val price: Column<Double> = double("price")
 

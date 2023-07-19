@@ -25,7 +25,16 @@ class DatabaseTest : DatabaseTestProto() {
         }
 
         usersInterface.new(
-            UserType(0, "12345678Z", Category.FESTER, Role.DEFAULT, "Testing", "User", "example@mail.com"),
+            UserType(
+                0,
+                ZonedDateTime.now(),
+                "12345678Z",
+                Category.FESTER,
+                Role.DEFAULT,
+                "Testing",
+                "User",
+                "example@mail.com"
+            ),
             "password" to "password"
         )
 

@@ -13,7 +13,7 @@ import io.ktor.util.pipeline.PipelineContext
 
 object ConfirmAssistanceEndpoint : AuthenticatedEndpoint() {
     override suspend fun PipelineContext<*, ApplicationCall>.endpoint(user: User) {
-        val eventId: Int by call.parameters
+        val eventId: Long by call.parameters
 
         val event = eventsInterface.get(eventId) { it }
             ?: return call.respondFailure(Errors.EventNotFound)

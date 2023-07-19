@@ -16,6 +16,8 @@ private fun fixTypes(expectedValue: Any, actualValue: Any) = if (expectedValue i
     when (actualValue) {
         is Int -> expectedValue.toInt()
         is Float -> expectedValue.toFloat()
+        is Long -> expectedValue.toLong()
+        is Double -> expectedValue.toDouble()
         else -> expectedValue
     }
 } else {
@@ -90,8 +92,16 @@ fun assertEqualsJson(expected: JSONObject, actual: JSONObject, ignoreMissing: Bo
             val expectConverted = fixTypes(expectedValue, actualValue)
 
             assertEquals(
-                expectConverted,
-                actualValue,
+                when (expectConverted) {
+                    is Int -> expectConverted.toLong()
+                    is Float -> expectConverted.toDouble()
+                    else -> expectConverted
+                },
+                when (actualValue) {
+                    is Int -> actualValue.toLong()
+                    is Float -> actualValue.toDouble()
+                    else -> actualValue
+                },
                 "Expected \"%s\" at %s but got \"%s\""
                     .format(expectConverted.toString(), key, actualValue.toString())
             )

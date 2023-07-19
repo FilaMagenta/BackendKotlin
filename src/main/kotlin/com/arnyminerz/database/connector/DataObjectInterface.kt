@@ -3,10 +3,10 @@ package com.arnyminerz.database.connector
 import com.arnyminerz.database.ServerDatabase
 import com.arnyminerz.database.entity.DataEntity
 import com.arnyminerz.filamagenta.commons.data.types.DataType
-import org.jetbrains.exposed.dao.IntEntityClass
+import org.jetbrains.exposed.dao.LongEntityClass
 import org.jetbrains.exposed.sql.SizedIterable
 
-abstract class DataObjectInterface<T : DataType, E : DataEntity<T>, EClass : IntEntityClass<E>>(
+abstract class DataObjectInterface<T : DataType, E : DataEntity<T>, EClass : LongEntityClass<E>>(
     protected val database: ServerDatabase,
     private val entityClass: EClass
 ) {
@@ -14,7 +14,7 @@ abstract class DataObjectInterface<T : DataType, E : DataEntity<T>, EClass : Int
         block(entityClass.all())
     }
 
-    suspend fun <Result> get(id: Int, block: suspend (list: E?) -> Result) = database.transaction {
+    suspend fun <Result> get(id: Long, block: suspend (list: E?) -> Result) = database.transaction {
         block(entityClass.findById(id))
     }
 

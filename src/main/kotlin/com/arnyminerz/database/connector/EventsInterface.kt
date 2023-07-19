@@ -18,13 +18,14 @@ class EventsInterface(database: ServerDatabase) : DataObjectInterface<EventType,
     Event.Companion
 ) {
 
-    suspend fun <Result> getTable(id: Int, eventId: Int, block: (table: EventTable?) -> Result) = database.transaction {
-        EventTable.find {
-            (EventTables.id eq id) and (EventTables.event eq eventId)
-        }.singleOrNull().let(block)
-    }
+    suspend fun <Result> getTable(id: Long, eventId: Long, block: (table: EventTable?) -> Result) =
+        database.transaction {
+            EventTable.find {
+                (EventTables.id eq id) and (EventTables.event eq eventId)
+            }.singleOrNull().let(block)
+        }
 
-    suspend fun <Result> getMemberTable(memberId: Int, block: suspend (table: TableMember?) -> Result) =
+    suspend fun <Result> getMemberTable(memberId: Long, block: suspend (table: TableMember?) -> Result) =
         database.transaction {
             TableMember.find {
                 TableMembers.user eq memberId
@@ -32,8 +33,8 @@ class EventsInterface(database: ServerDatabase) : DataObjectInterface<EventType,
         }
 
     suspend fun <Result> getResponsibleTable(
-        responsibleId: Int,
-        eventId: Int,
+        responsibleId: Long,
+        eventId: Long,
         block: suspend (table: EventTable?) -> Result
     ) = database.transaction {
         EventTable.find {

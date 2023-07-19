@@ -7,7 +7,7 @@ import org.jetbrains.exposed.dao.id.EntityID
 
 class DatabaseInfo(id: EntityID<Long>) : LongEntity(id) {
     companion object : LongEntityClass<DatabaseInfo>(DatabaseInfoTable) {
-        const val VERSION_ID = 1
+        const val VERSION_ID = 1L
     }
 
     var value by DatabaseInfoTable.value
