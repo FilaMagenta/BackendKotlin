@@ -9,4 +9,8 @@ object DSLConst {
     const val PERSON_SURNAME_LENGTH = PERSON_NAME_LENGTH * 2
 
     const val NIF_LENGTH = 9
+
+    const val SIGNATURE_LENGTH = 1024 * 8
+    const val EXTERNAL_REFERENCE_LENGTH = 2048
+    const val UUID_V4_LENGTH = 36
 }

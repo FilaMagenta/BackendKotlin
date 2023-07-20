@@ -1,10 +1,7 @@
 package com.arnyminerz
 
-import com.arnyminerz.filamagenta.commons.data.Category
+import com.arnyminerz.database.DatabaseSamples.sampleUser
 import com.arnyminerz.filamagenta.commons.data.security.Passwords
-import com.arnyminerz.filamagenta.commons.data.security.permissions.Role
-import com.arnyminerz.filamagenta.commons.data.types.UserType
-import java.time.ZonedDateTime
 import java.util.Base64
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
@@ -20,16 +17,7 @@ class DatabaseTest : DatabaseTestProto() {
         }
 
         usersInterface.new(
-            UserType(
-                0,
-                ZonedDateTime.now(),
-                "12345678Z",
-                Category.FESTER,
-                Role.DEFAULT,
-                "Testing",
-                "User",
-                "example@mail.com"
-            ),
+            sampleUser,
             "password" to "password"
         )
 

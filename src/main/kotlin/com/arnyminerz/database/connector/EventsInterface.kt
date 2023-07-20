@@ -6,12 +6,14 @@ import com.arnyminerz.database.dsl.EventTables
 import com.arnyminerz.database.dsl.TableMembers
 import com.arnyminerz.database.dsl.UserAssistances
 import com.arnyminerz.database.entity.Event
+import com.arnyminerz.database.entity.EventPayment
 import com.arnyminerz.database.entity.EventPrice
 import com.arnyminerz.database.entity.EventTable
 import com.arnyminerz.database.entity.TableMember
 import com.arnyminerz.database.entity.User
 import com.arnyminerz.database.entity.UserAssistance
 import com.arnyminerz.filamagenta.commons.data.Category
+import com.arnyminerz.filamagenta.commons.data.types.EventPaymentType
 import com.arnyminerz.filamagenta.commons.data.types.EventPriceType
 import com.arnyminerz.filamagenta.commons.data.types.EventType
 import java.time.ZonedDateTime
@@ -163,4 +165,16 @@ class EventsInterface(database: ServerDatabase) : DataObjectInterface<EventType,
             }
         }
     }
+
+    /**
+     * Creates a new payment for an event.
+     *
+     * @param type The data of the payment.
+     */
+    suspend fun newPayment(type: EventPaymentType) =
+        database.transaction {
+            EventPayment.new {
+                fill(type)
+            }
+        }
 }
