@@ -2,10 +2,11 @@ package com.arnyminerz.endpoints.arguments
 
 import com.arnyminerz.filamagenta.commons.utils.getBooleanOrNull
 import com.arnyminerz.filamagenta.commons.utils.getDoubleOrNull
+import com.arnyminerz.filamagenta.commons.utils.getInstantOrNull
 import com.arnyminerz.filamagenta.commons.utils.getIntOrNull
 import com.arnyminerz.filamagenta.commons.utils.getLongOrNull
 import com.arnyminerz.filamagenta.commons.utils.getStringOrNull
-import java.time.ZonedDateTime
+import java.time.Instant
 import org.json.JSONObject
 
 object ArgumentTypes {
@@ -54,13 +55,12 @@ object ArgumentTypes {
         override fun fromJson(json: JSONObject, key: String): Double? = json.getDoubleOrNull(key)
     }
 
-    data object DATETIME : ArgumentType<ZonedDateTime>() {
-        override fun fromString(value: String): ZonedDateTime = ZonedDateTime.parse(value)
+    data object DATETIME : ArgumentType<Instant>() {
+        override fun fromString(value: String): Instant = Instant.ofEpochMilli(value.toLong())
 
-        override fun toString(value: ZonedDateTime): String = value.toString()
+        override fun toString(value: Instant): String = value.toEpochMilli().toString()
 
-        override fun fromJson(json: JSONObject, key: String): ZonedDateTime? =
-            json.getStringOrNull(key)?.let { ZonedDateTime.parse(it) }
+        override fun fromJson(json: JSONObject, key: String): Instant? = json.getInstantOrNull(key)
     }
 
     data object BOOLEAN : ArgumentType<Boolean>() {

@@ -7,10 +7,10 @@ import org.jetbrains.exposed.dao.LongEntityClass
 import org.jetbrains.exposed.dao.id.EntityID
 import org.json.JSONObject
 
-class EventPayment(id: EntityID<Long>): DataEntity<EventPaymentType>(id) {
+class EventPayment(id: EntityID<Long>) : DataEntity<EventPaymentType>(id) {
     companion object : LongEntityClass<EventPayment>(EventPaymentsTable)
 
-    private var timestamp by EventPaymentsTable.timestamp
+    var timestamp by EventPaymentsTable.timestamp
     var uuid by EventPaymentsTable.uuid
     var amount by EventPaymentsTable.amount
     var signature by EventPaymentsTable.signature
@@ -20,7 +20,7 @@ class EventPayment(id: EntityID<Long>): DataEntity<EventPaymentType>(id) {
     var user by User referencedOn EventPaymentsTable.user
 
     override fun fill(type: EventPaymentType) {
-        timestamp = type.timestamp.toInstant()
+        timestamp = type.timestamp
         uuid = type.uuid
         amount = type.amount
         signature = type.signature

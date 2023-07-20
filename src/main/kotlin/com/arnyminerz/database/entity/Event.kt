@@ -13,7 +13,7 @@ import com.arnyminerz.filamagenta.commons.utils.toRSAPrivateKey
 import com.arnyminerz.filamagenta.commons.utils.toRSAPublicKey
 import java.security.PrivateKey
 import java.security.PublicKey
-import java.time.ZonedDateTime
+import java.time.ZoneId
 import org.jetbrains.exposed.dao.LongEntityClass
 import org.jetbrains.exposed.dao.id.EntityID
 import org.json.JSONObject
@@ -69,21 +69,6 @@ class Event(id: EntityID<Long>) : DataEntity<EventType>(id) {
      */
     fun decodePrivateKey(): PrivateKey = JSONObject(privateKey).toRSAPrivateKey()
 
-    /**
-     * Gets the event start date.
-     */
-    fun getStart(): ZonedDateTime = ZonedDateTime.parse(date)
-
-    /**
-     * Gets the event end date (might be null).
-     */
-    fun getEnd(): ZonedDateTime? = until?.let { ZonedDateTime.parse(it) }
-
-    /**
-     * Gets the last moment when reservations can be made.
-     */
-    fun getReservationsEndDate(): ZonedDateTime? = reservations?.let { ZonedDateTime.parse(it) }
-
     override fun toJSON(): JSONObject = jsonOf(
         "id" to id.value,
         "timestamp" to timestamp,
@@ -102,9 +87,9 @@ class Event(id: EntityID<Long>) : DataEntity<EventType>(id) {
     override fun fill(type: EventType) {
         name = type.name
         description = type.description
-        date = type.date.toString()
-        until = type.until?.toString()
-        reservations = type.reservations?.toString()
+        date = type.date.atZone(ZoneId.systemDefault()).toLocalDateTime()
+        until = type.until?.atZone(ZoneId.systemDefault())?.toLocalDateTime()
+        reservations = type.reservations?.atZone(ZoneId.systemDefault())?.toLocalDateTime()
         maxGuests = type.maxGuests
         publicKey = type.publicKey.toJSON().toString()
         privateKey = type.privateKey!!.toJSON().toString()

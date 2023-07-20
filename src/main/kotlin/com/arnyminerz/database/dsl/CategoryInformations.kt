@@ -6,8 +6,10 @@ import com.arnyminerz.database.dsl.CategoryInformations.PAYS_NO
 import com.arnyminerz.database.dsl.CategoryInformations.PAYS_PACK
 import com.arnyminerz.database.dsl.CategoryInformations.PAYS_SPECIAL
 import com.arnyminerz.filamagenta.commons.data.Category
+import java.time.Instant
 import org.jetbrains.exposed.dao.id.IntIdTable
 import org.jetbrains.exposed.sql.Column
+import org.jetbrains.exposed.sql.javatime.timestamp
 
 /**
  * Provides information about all the capabilities a category has. May be updated over time.
@@ -54,9 +56,9 @@ object CategoryInformations : IntIdTable() {
         val paysDinarTrons: Short
     )
 
-    val timestamp: Column<Long> = long("timestamp")
+    val timestamp: Column<Instant> = timestamp("timestamp").default(Instant.now())
 
-    val category: Column<String> = varchar("category", Category.NAME_MAX_LENGTH)
+    val category: Column<Category> = enumeration<Category>("category")
 
     val ageMin: Column<Long> = long("age_min")
     val ageMax: Column<Long> = long("age_max")

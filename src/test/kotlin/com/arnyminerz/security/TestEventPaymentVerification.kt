@@ -11,7 +11,7 @@ import com.arnyminerz.filamagenta.commons.data.security.RSAKeyPairGenerator
 import com.arnyminerz.filamagenta.commons.data.types.EventPaymentType
 import com.arnyminerz.filamagenta.commons.utils.bytes
 import com.arnyminerz.filamagenta.commons.utils.toUUID
-import java.time.ZonedDateTime
+import java.time.Instant
 import java.util.UUID
 import javax.crypto.BadPaddingException
 import kotlin.test.assertEquals
@@ -43,7 +43,7 @@ class TestEventPaymentVerification : DatabaseTestProto() {
             // Insert the payment
             val paymentData = EventPaymentType(
                 0L,
-                timestamp = ZonedDateTime.now(),
+                timestamp = Instant.now(),
                 uuid = uuid,
                 amount = 10.0,
                 signature = signature,

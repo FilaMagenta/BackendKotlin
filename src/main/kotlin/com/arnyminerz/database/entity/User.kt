@@ -1,7 +1,6 @@
 package com.arnyminerz.database.entity
 
 import com.arnyminerz.database.dsl.Users
-import com.arnyminerz.filamagenta.commons.data.security.permissions.Role
 import com.arnyminerz.filamagenta.commons.data.types.UserType
 import com.arnyminerz.filamagenta.commons.utils.jsonOf
 import java.util.Base64
@@ -21,16 +20,13 @@ class User(id: EntityID<Long>) : DataEntity<UserType>(id) {
     var email by Users.email
     var birthday by Users.birthday
 
-    val userRole: Role
-        get() = Role.valueOf(role)
-
     fun passwordHash(): ByteArray = Base64.getMimeDecoder().decode(passwordHash)
 
     fun passwordSalt(): ByteArray = Base64.getMimeDecoder().decode(passwordSalt)
 
     override fun fill(type: UserType) {
         this.nif = type.nif
-        this.role = type.role.name
+        this.role = type.role
         this.name = type.name
         this.surname = type.surname
         this.email = type.email

@@ -10,6 +10,7 @@ import com.arnyminerz.filamagenta.commons.data.Category
 import com.arnyminerz.filamagenta.commons.data.security.Passwords
 import com.arnyminerz.filamagenta.commons.data.security.permissions.Role
 import com.arnyminerz.filamagenta.commons.data.types.UserType
+import java.time.Instant
 import java.util.Base64
 
 class UsersInterface(database: ServerDatabase) : DataObjectInterface<UserType, User, User.Companion>(
@@ -36,13 +37,13 @@ class UsersInterface(database: ServerDatabase) : DataObjectInterface<UserType, U
                     .filter { it.user.id == user.id }
                     .maxByOrNull { it.timestamp }
             }
-            ?.let { cat -> Category.entries.find { it.name == cat.category } }
+            ?.let { cat -> Category.entries.find { it == cat.category } }
             ?: Category.UNKNOWN
 
     suspend fun setCategory(user: User, category: Category) = database.transaction {
         UserCategory.new {
-            this.timestamp = System.currentTimeMillis()
-            this.category = category.name
+            this.timestamp = Instant.now()
+            this.category = category
             this.user = user
         }
     }
@@ -51,12 +52,12 @@ class UsersInterface(database: ServerDatabase) : DataObjectInterface<UserType, U
         database
             .transaction {
                 CategoryInformation.all()
-                    .filter { it.category == category.name }
+                    .filter { it.category == category }
                     .maxByOrNull { it.timestamp }
             }
 
     suspend fun setRole(user: User, role: Role) = database.transaction {
-        user.role = role.name
+        user.role = role
     }
 
     suspend fun updateCategoryInformation(
@@ -67,8 +68,8 @@ class UsersInterface(database: ServerDatabase) : DataObjectInterface<UserType, U
         paysData: CategoryInformations.PaysData
     ) = database.transaction {
         CategoryInformation.new {
-            this.timestamp = System.currentTimeMillis()
-            this.category = category.name
+            this.timestamp = Instant.now()
+            this.category = category
 
             this.ageMin = ageRange.first
             this.ageMax = ageRange.last

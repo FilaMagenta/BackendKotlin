@@ -10,6 +10,7 @@ import io.ktor.client.request.post
 import io.ktor.client.request.setBody
 import io.ktor.http.HttpStatusCode
 import io.ktor.server.testing.ApplicationTestBuilder
+import java.time.Instant
 import java.time.ZoneOffset
 import java.time.ZonedDateTime
 import kotlin.test.assertNotNull
@@ -20,10 +21,11 @@ abstract class ApplicationTestEventProto : ApplicationTestProto() {
     protected val eventSampleData = RSAKeyPairGenerator.newKey().let { keyPair ->
         EventType(
             0,
-            ZonedDateTime.now(),
+            Instant.now(),
             "Testing Event",
             "This is the description of a testing event.",
-            ZonedDateTime.of(2023, 10, 5, 23, 30, 0, 0, ZoneOffset.UTC),
+            ZonedDateTime.of(2023, 10, 5, 23, 30, 0, 0, ZoneOffset.UTC)
+                .toInstant(),
             null,
             null,
             0,

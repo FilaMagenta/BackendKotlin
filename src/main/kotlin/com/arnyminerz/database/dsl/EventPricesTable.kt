@@ -1,16 +1,15 @@
 package com.arnyminerz.database.dsl
 
 import com.arnyminerz.filamagenta.commons.data.Category
-import java.time.ZonedDateTime
+import java.time.Instant
 import org.jetbrains.exposed.dao.id.LongIdTable
 import org.jetbrains.exposed.sql.Column
+import org.jetbrains.exposed.sql.javatime.timestamp
 
 object EventPricesTable : LongIdTable() {
-    val category: Column<String> = varchar("category", Category.NAME_MAX_LENGTH)
-        .default(Category.UNKNOWN.name)
+    val category: Column<Category> = enumeration<Category>("category").default(Category.UNKNOWN)
 
-    val timestamp: Column<String> = varchar("timestamp", DSLConst.DATE_LENGTH)
-        .default(ZonedDateTime.now().toString())
+    val timestamp: Column<Instant> = timestamp("timestamp").default(Instant.now())
     val price: Column<Double> = double("price")
 
     val event = reference("event", Events)

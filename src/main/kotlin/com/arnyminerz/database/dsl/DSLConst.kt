@@ -1,6 +1,7 @@
 package com.arnyminerz.database.dsl
 
 object DSLConst {
+    @Deprecated("Size should not be specified. Use timestamp.")
     const val DATE_LENGTH = 64
 
     const val EMAIL_LENGTH = 256

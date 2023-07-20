@@ -47,7 +47,7 @@ abstract class AuthenticatedEndpoint(
             val user = usersInterface.findWithNif(nif) { it }
                 ?: return context.call.respondFailure(Errors.NifNotFound)
 
-            if (!user.userRole.hasPermission(Permissions.Usage)) {
+            if (!user.role.hasPermission(Permissions.Usage)) {
                 return context.call.respondFailure(Errors.MissingUsagePermission)
             }
 
@@ -62,7 +62,7 @@ abstract class AuthenticatedEndpoint(
                 // Only iterate if there are permissions required
                 .takeIf { it.isNotEmpty() }
                 // Check that all permissions are granted
-                ?.all(user.userRole::hasPermission)
+                ?.all(user.role::hasPermission)
             if (allPermissionsGranted == false) {
                 return context.call.respondFailure(Errors.MissingPermission)
             }

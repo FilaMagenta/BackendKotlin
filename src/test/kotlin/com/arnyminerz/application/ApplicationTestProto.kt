@@ -121,7 +121,7 @@ abstract class ApplicationTestProto : DatabaseTestProto() {
                 role?.let {
                     usersInterface.findWithNif(nif) { user ->
                         assertNotNull(user)
-                        user.role = it.name
+                        user.role = it
                     }
                     ServerDatabase.instance.flushCache()
                 }

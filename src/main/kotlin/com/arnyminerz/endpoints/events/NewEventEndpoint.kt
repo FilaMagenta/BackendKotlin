@@ -14,7 +14,7 @@ import io.ktor.http.HttpStatusCode
 import io.ktor.server.application.ApplicationCall
 import io.ktor.server.application.call
 import io.ktor.util.pipeline.PipelineContext
-import java.time.ZonedDateTime
+import java.time.Instant
 
 object NewEventEndpoint : AuthenticatedEndpoint(Permissions.Events.Create) {
     override suspend fun PipelineContext<*, ApplicationCall>.endpoint(user: User) {
@@ -31,7 +31,7 @@ object NewEventEndpoint : AuthenticatedEndpoint(Permissions.Events.Create) {
         val keyPair = RSAKeyPairGenerator.newKey()
         val event = EventType(
             0,
-            ZonedDateTime.now(),
+            Instant.now(),
             name,
             description,
             date,

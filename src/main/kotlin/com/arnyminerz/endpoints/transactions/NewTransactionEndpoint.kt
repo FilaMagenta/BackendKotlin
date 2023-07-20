@@ -14,7 +14,7 @@ import io.ktor.http.HttpStatusCode
 import io.ktor.server.application.ApplicationCall
 import io.ktor.server.application.call
 import io.ktor.util.pipeline.PipelineContext
-import java.time.ZonedDateTime
+import java.time.Instant
 
 object NewTransactionEndpoint : AuthenticatedEndpoint(Permissions.Transactions.Create) {
     override suspend fun PipelineContext<*, ApplicationCall>.endpoint(user: User) {
@@ -31,10 +31,9 @@ object NewTransactionEndpoint : AuthenticatedEndpoint(Permissions.Transactions.C
             inventoryInterface.get(id) { it }
         }
 
-        val timestamp = ZonedDateTime.now()
         val transaction = TransactionType(
             0,
-            timestamp,
+            Instant.now(),
             date,
             amount,
             pricePerUnit,

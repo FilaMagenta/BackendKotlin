@@ -16,7 +16,7 @@ import com.arnyminerz.filamagenta.commons.data.Category
 import com.arnyminerz.filamagenta.commons.data.types.EventPaymentType
 import com.arnyminerz.filamagenta.commons.data.types.EventPriceType
 import com.arnyminerz.filamagenta.commons.data.types.EventType
-import java.time.ZonedDateTime
+import java.time.Instant
 import org.jetbrains.exposed.sql.Transaction
 import org.jetbrains.exposed.sql.and
 
@@ -148,7 +148,7 @@ class EventsInterface(database: ServerDatabase) : DataObjectInterface<EventType,
         database.transaction {
             // First check if the combination is already present
             val alreadyPriced = EventPrice.find {
-                (EventPricesTable.category eq category.name) and (EventPricesTable.event eq event.id)
+                (EventPricesTable.category eq category) and (EventPricesTable.event eq event.id)
             }
             check(alreadyPriced.empty()) { "The event ${event.id} already has a price assigned for $category" }
 
@@ -156,7 +156,7 @@ class EventsInterface(database: ServerDatabase) : DataObjectInterface<EventType,
             EventPrice.new {
                 val eventPrice = EventPriceType(
                     0,
-                    ZonedDateTime.now(),
+                    Instant.now(),
                     price,
                     category,
                     event.id.value,

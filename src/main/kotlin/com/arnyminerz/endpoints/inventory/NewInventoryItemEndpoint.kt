@@ -11,7 +11,7 @@ import io.ktor.http.HttpStatusCode
 import io.ktor.server.application.ApplicationCall
 import io.ktor.server.application.call
 import io.ktor.util.pipeline.PipelineContext
-import java.time.ZonedDateTime
+import java.time.Instant
 
 object NewInventoryItemEndpoint : AuthenticatedEndpoint(Permissions.Inventory.Create) {
     override suspend fun PipelineContext<*, ApplicationCall>.endpoint(user: User) {
@@ -19,7 +19,7 @@ object NewInventoryItemEndpoint : AuthenticatedEndpoint(Permissions.Inventory.Cr
         val price by called { Arguments.Price }
 
         inventoryInterface.new(
-            InventoryItemType(0, ZonedDateTime.now(), name, price)
+            InventoryItemType(0, Instant.now(), name, price)
         )
 
         call.respondSuccess(HttpStatusCode.Created)
