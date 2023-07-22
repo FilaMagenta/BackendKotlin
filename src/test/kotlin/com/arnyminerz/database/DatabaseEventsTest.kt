@@ -3,7 +3,6 @@ package com.arnyminerz.database
 import com.arnyminerz.DatabaseTestProto
 import com.arnyminerz.database.DatabaseSamples.sampleEvent
 import com.arnyminerz.filamagenta.commons.data.Category
-import java.time.ZoneOffset
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
 import kotlin.test.assertNull
@@ -26,7 +25,7 @@ class DatabaseEventsTest : DatabaseTestProto() {
             val item = it.first()
             assertEquals(sampleEvent.name, item.name)
             assertEquals(sampleEvent.description, item.description)
-            assertEquals(sampleEvent.date, item.date.toInstant(ZoneOffset.UTC))
+            assertEquals(sampleEvent.date, item.date)
             assertNull(item.until)
             assertNull(item.reservations)
         }

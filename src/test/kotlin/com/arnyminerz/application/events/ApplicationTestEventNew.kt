@@ -25,7 +25,7 @@ class ApplicationTestEventNew : ApplicationTestEventProto() {
             assertNotNull(event.getInt("id"))
             assertEquals(eventSampleData.name, event.getString("name"))
             assertEquals(eventSampleData.description, event.getString("description"))
-            assertEquals(eventSampleData.date.toString(), event.getString("date"))
+            assertEquals(eventSampleData.date.toEpochMilli(), event.getLong("date"))
             assertNull(event.getStringOrNull("until"))
             assertNull(event.getStringOrNull("reservations"))
 

@@ -2,7 +2,7 @@ package com.arnyminerz.application.transactions
 
 import com.arnyminerz.application.ApplicationTestProto
 import com.arnyminerz.filamagenta.commons.errors.Errors
-import com.arnyminerz.filamagenta.commons.utils.getIntOrNull
+import com.arnyminerz.filamagenta.commons.utils.getLongOrNull
 import com.arnyminerz.utils.assertFailure
 import com.arnyminerz.utils.assertSuccess
 import io.ktor.client.request.get
@@ -30,7 +30,7 @@ class ApplicationTestTransactionsNew : ApplicationTestProto() {
                     put("amount", 1)
                     put("price", 10)
                     put("description", "Testing transaction")
-                    put("date", ZonedDateTime.of(2023, 3, 12, 12, 0, 0, 0, ZoneOffset.UTC).toString())
+                    put("date", ZonedDateTime.of(2023, 3, 12, 12, 0, 0, 0, ZoneOffset.UTC).toInstant().toEpochMilli())
                     put("user_id", user.id)
                 }.toString()
             )
@@ -46,7 +46,7 @@ class ApplicationTestTransactionsNew : ApplicationTestProto() {
                 val transactions = data.getJSONArray("transactions")
                 assertEquals(1, transactions.count())
                 val transaction = transactions.getJSONObject(0)
-                assertNotNull(transaction.getIntOrNull("id"))
+                assertNotNull(transaction.getLongOrNull("id"))
             }
         }
     }

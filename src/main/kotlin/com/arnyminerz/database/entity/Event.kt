@@ -87,9 +87,9 @@ class Event(id: EntityID<Long>) : DataEntity<EventType>(id) {
     override fun fill(type: EventType) {
         name = type.name
         description = type.description
-        date = type.date.atZone(ZoneId.systemDefault()).toLocalDateTime()
-        until = type.until?.atZone(ZoneId.systemDefault())?.toLocalDateTime()
-        reservations = type.reservations?.atZone(ZoneId.systemDefault())?.toLocalDateTime()
+        date = type.date.atZone(ZoneId.systemDefault()).toInstant()
+        until = type.until?.atZone(ZoneId.systemDefault())?.toInstant()
+        reservations = type.reservations?.atZone(ZoneId.systemDefault())?.toInstant()
         maxGuests = type.maxGuests
         publicKey = type.publicKey.toJSON().toString()
         privateKey = type.privateKey!!.toJSON().toString()
