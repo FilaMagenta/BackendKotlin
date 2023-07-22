@@ -1,6 +1,7 @@
 package com.arnyminerz.application.events
 
 import com.arnyminerz.filamagenta.commons.errors.Errors
+import com.arnyminerz.filamagenta.commons.utils.getJSONObjectOrNull
 import com.arnyminerz.filamagenta.commons.utils.getStringOrNull
 import com.arnyminerz.utils.assertFailure
 import io.ktor.client.request.header
@@ -28,6 +29,7 @@ class ApplicationTestEventNew : ApplicationTestEventProto() {
             assertEquals(eventSampleData.date.toEpochMilli(), event.getLong("date"))
             assertNull(event.getStringOrNull("until"))
             assertNull(event.getStringOrNull("reservations"))
+            assertNull(event.getJSONObject("key_pair").getJSONObjectOrNull("private"))
 
             // At first, assistance is not confirmed
             assertFalse(event.getBoolean("assists"))
