@@ -17,7 +17,7 @@ val postgresqlVersion: String = project.properties["postgresql.version"] as Stri
 val sentryVersion: String = project.properties["sentry.version"] as String
 
 plugins {
-    kotlin("jvm") version "1.9.0"
+    kotlin("jvm") version "1.9.10"
     id("io.ktor.plugin") version "2.3.2"
     id("org.jetbrains.kotlin.plugin.serialization") version "1.9.0"
     id("io.gitlab.arturbosch.detekt") version "1.23.0"
